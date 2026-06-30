@@ -342,3 +342,61 @@ The prior fix still built a **full service object** and passed it to `prisma.ser
 - [src/lib/actions.ts](src/lib/actions.ts)
 - [src/app/admin/(panel)/services/page.tsx](src/app/admin/(panel)/services/page.tsx)
 - [scripts/verify-service-save-3x.ts](scripts/verify-service-save-3x.ts)
+
+## Phase: Auto-assign tire product images (completed)
+
+### 1. Git checkpoint
+- Installed Git for Windows (was not on PATH; `.git` directory was empty)
+- Initialized repository and created backup commit: `Backup before auto product images` (`24917d7`)
+
+### 2. Scope
+- Updated **only** the `imageUrl` field on all 23 `TIRE` category products in Turso
+- No changes to names, slugs, descriptions, category, `active`, price, or any other fields
+- No products deleted or moved
+
+### 3. Image sourcing
+Official brand CDN images were not used (not in `next.config.ts` remote patterns). Assigned category-appropriate Unsplash placeholders instead:
+- **passenger** — premium/street tire close-up
+- **allTerrain** — truck/off-road tread
+- **offRoad** — rugged mud-terrain style
+- **stack** — generic tire inventory stack
+- **used** — worn/used tire
+
+### 4. Product image assignments
+
+| Product | Image |
+|---------|-------|
+| BF Goodrich All-Terrain 265/70R17 | https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80 |
+| BFGoodrich | https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80 |
+| Bridgestone | https://images.unsplash.com/photo-1486262715619-67b85e0774d9?w=1200&q=80 |
+| Continental | https://images.unsplash.com/photo-1486262715619-67b85e0774d9?w=1200&q=80 |
+| Cooper | https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80 |
+| Falken | https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80 |
+| Federal | https://images.unsplash.com/photo-1599305440291-836ca9415b4a?w=1200&q=80 |
+| Firestone | https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80 |
+| GOODYEAR | https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80 |
+| GT Radial | https://images.unsplash.com/photo-1599305440291-836ca9415b4a?w=1200&q=80 |
+| General Tires | https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80 |
+| Hnakook | https://images.unsplash.com/photo-1599305440291-836ca9415b4a?w=1200&q=80 |
+| Kumho | https://images.unsplash.com/photo-1599305440291-836ca9415b4a?w=1200&q=80 |
+| Michelin | https://images.unsplash.com/photo-1486262715619-67b85e0774d9?w=1200&q=80 |
+| Michelin Defender 225/65R17 | https://images.unsplash.com/photo-1486262715619-67b85e0774d9?w=1200&q=80 |
+| Nexen | https://images.unsplash.com/photo-1599305440291-836ca9415b4a?w=1200&q=80 |
+| Nitto | https://images.unsplash.com/photo-1625047509168-a7023f36a8e0?w=1200&q=80 |
+| Pirelli | https://images.unsplash.com/photo-1486262715619-67b85e0774d9?w=1200&q=80 |
+| Sailun | https://images.unsplash.com/photo-1599305440291-836ca9415b4a?w=1200&q=80 |
+| Toyo | https://images.unsplash.com/photo-1486262715619-67b85e0774d9?w=1200&q=80 |
+| Used Tire 215/55R17 | https://images.unsplash.com/photo-1578849278619-e73505e9610f?w=1200&q=80 |
+| Yokohama | https://images.unsplash.com/photo-1486262715619-67b85e0774d9?w=1200&q=80 |
+| maxxis | https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80 |
+
+### 5. Verification
+- `npx tsx scripts/assign-tire-images.ts` — updated 23 products, verified non-image fields unchanged
+- `npx tsx scripts/verify-tire-products.ts` — **PASS**
+  - Total tire products: **23** (unchanged)
+  - Missing images: **0**
+  - Active public tire products: **14** (unchanged; 6 inactive + 3 excluded slugs)
+
+### 6. Files added
+- [scripts/assign-tire-images.ts](scripts/assign-tire-images.ts)
+- [scripts/verify-tire-products.ts](scripts/verify-tire-products.ts)
