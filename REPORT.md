@@ -464,3 +464,59 @@ Official brand CDN images were not used (not in `next.config.ts` remote patterns
   - All files readable with valid dimensions (no broken images)
   - Non-image product fields unchanged
 - Frontend: images served from `public/uploads/` via plain `<img src={product.imageUrl}>` — no remote CDN dependency for tire product cards
+
+## Phase: Fix broken tire image paths (completed)
+
+### 1. Upload folder scan (`public/uploads`)
+
+| Public path | File |
+|-------------|------|
+| `/uploads/general tyre.jpeg` | `general tyre.jpeg` |
+| `/uploads/mk9.jfif` | `mk9.jfif` |
+| `/uploads/Rims Store.jfif` | `Rims Store.jfif` |
+| `/uploads/tires/bfg-at-265-70r17.webp` | `tires/bfg-at-265-70r17.webp` |
+| `/uploads/tires/BFGoodrich.webp` | `tires/BFGoodrich.webp` |
+| `/uploads/tires/bridgestone.webp` | `tires/bridgestone.webp` |
+| `/uploads/tires/Continental.webp` | `tires/Continental.webp` |
+| `/uploads/tires/Cooper.webp` | `tires/Cooper.webp` |
+| `/uploads/tires/Falken.webp` | `tires/Falken.webp` |
+| `/uploads/tires/Federal.webp` | `tires/Federal.webp` |
+| `/uploads/tires/Firestone.webp` | `tires/Firestone.webp` |
+| `/uploads/tires/General-Tires.webp` | `tires/General-Tires.webp` *(unused — user image used instead)* |
+| `/uploads/tires/GOODYEAR.webp` | `tires/GOODYEAR.webp` |
+| `/uploads/tires/GT-Radial.webp` | `tires/GT-Radial.webp` |
+| `/uploads/tires/Hnakook.webp` | `tires/Hnakook.webp` |
+| `/uploads/tires/Kumho.webp` | `tires/Kumho.webp` |
+| `/uploads/tires/maxxis.webp` | `tires/maxxis.webp` |
+| `/uploads/tires/michelin-defender-225-65r17.webp` | `tires/michelin-defender-225-65r17.webp` |
+| `/uploads/tires/michelin.webp` | `tires/michelin.webp` |
+| `/uploads/tires/Nexen.webp` | `tires/Nexen.webp` |
+| `/uploads/tires/Nitto.webp` | `tires/Nitto.webp` |
+| `/uploads/tires/Pirelli.webp` | `tires/Pirelli.webp` |
+| `/uploads/tires/Sailun.webp` | `tires/Sailun.webp` |
+| `/uploads/tires/Toyo.webp` | `tires/Toyo.webp` |
+| `/uploads/tires/used-215-55r17.webp` | `tires/used-215-55r17.webp` |
+| `/uploads/tires/Yokohama.webp` | `tires/Yokohama.webp` |
+
+### 2. Products fixed
+
+| Product | Before | After | Notes |
+|---------|--------|-------|-------|
+| General Tires | `/uploads/tires/General-Tires.webp` | `/uploads/general tyre.jpeg` | Assigned user-provided image only to this product |
+| All other 22 tire products | `/uploads/tires/<filename>.webp` | *(unchanged)* | Paths already matched on-disk filenames |
+
+### 3. Corrected image paths
+- **Only change made:** General Tires `imageUrl` → `/uploads/general tyre.jpeg`
+- All other tire products already used valid public paths: `/uploads/tires/<exact-filename>.webp`
+- No filesystem paths (`D:\...`), no `public/uploads/...`, no bare `uploads/...` prefixes stored in DB
+- Four tire WebP files (`maxxis`, `Sailun`, `GT-Radial`, `used-215-55r17`) were missing on disk but present in git — restored from repo (no new downloads)
+
+### 4. Confirmation
+- **Only `imageUrl` was changed** — names, slugs, descriptions, categories, collections, and all other product fields unchanged
+- No images downloaded, no new uploads folder created, no files moved or renamed
+- `npx tsx scripts/fix-tire-image-paths.ts` — **PASS** (23/23 products verified, 0 broken)
+- Local frontend `/collections/tires` — all 14 public tire card images return HTTP 200
+- General Tires card loads `/uploads/general tyre.jpeg` correctly
+
+### 5. Files added
+- [scripts/fix-tire-image-paths.ts](scripts/fix-tire-image-paths.ts)
