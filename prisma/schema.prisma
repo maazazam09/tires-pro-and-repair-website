@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+}
+
+model SiteSettings {
+  id              Int     @id @default(1)
+  businessName    String  @default("Tire Pro and Repair")
+  phone           String  @default("(530) 717-1765")
+  email           String  @default("info@tireproandrepair.com")
+  address         String  @default("821 Cherry St")
+  city            String  @default("Chico")
+  state           String  @default("CA")
+  zip             String  @default("95928")
+  hoursJson       String  @default("{\"mon\":\"9AM to 6PM\",\"tue\":\"9AM to 6PM\",\"wed\":\"9AM to 6PM\",\"thu\":\"9AM to 6PM\",\"fri\":\"9AM to 6PM\",\"sat\":\"9AM to 6PM\",\"sun\":\"9AM to 6PM\"}")
+  instagramUrl    String  @default("https://instagram.com/tireproandrepair")
+  facebookUrl     String  @default("")
+  whatsappNumber  String  @default("")
+  googleAnalytics String  @default("")
+  tagline         String  @default("Better prices than big chains, better service than anyone.")
+  aboutContent    String  @default("")
+  logoUrl         String  @default("")
+  faviconUrl      String  @default("")
+  averageRating   Float   @default(4.9)
+  reviewCount     Int     @default(127)
+  openSevenDays   Boolean @default(true)
+  financing       Boolean @default(true)
+}
+
+model Hero {
+  id              Int     @id @default(1)
+  headline        String  @default("New Tires • Used Tires • Custom Wheels – Get Back on the Road Today!")
+  subheadline     String  @default("Best Prices in Chico | Financing Available | Same-Day Service")
+  mediaUrl        String  @default("/images/hero-wheel.jpg")
+  mediaType       String  @default("image")
+  ctaCallLabel    String  @default("Call Now (530) 717-1765")
+  ctaQuoteLabel   String  @default("Booking")
+  ctaQuoteLink    String  @default("/contact#booking")
+}
+
+model Product {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  brand     String
+  size      String
+  type      String
+  category  String
+  price     Float
+  imageUrl  String   @default("")
+  description String @default("")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  summary     String
+  content     String
+  imageUrl    String   @default("")
+  sortOrder   Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model CollectionSection {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  title       String
+  imageUrl    String   @default("")
+  itemName    String
+  description String
+  sortOrder   Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid())
+  mediaUrl  String
+  mediaType String   @default("image")
+  caption   String   @default("")
+  featured  Boolean  @default(false)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  author    String
+  rating    Int
+  text      String
+  source    String   @default("Google")
+  date      DateTime @default(now())
+  active    Boolean  @default(true)
+}
+
+model Coupon {
+  id          String    @id @default(cuid())
+  title       String
+  code        String    @default("")
+  description String
+  expiresAt   DateTime?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+}
+
+model PageSEO {
+  id              String @id @default(cuid())
+  path            String @unique
+  metaTitle       String
+  metaDescription String
+}
+
+model FormSubmission {
+  id            String   @id @default(cuid())
+  type          String
+  name          String
+  phone         String
+  email         String   @default("")
+  service       String   @default("")
+  preferredDate String   @default("")
+  preferredTime String   @default("")
+  message       String
+  createdAt     DateTime @default(now())
+}

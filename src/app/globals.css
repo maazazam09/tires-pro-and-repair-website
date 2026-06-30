@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F9F9F9;
+  --foreground: #1A1A1A;
+  --accent: #E50914;
+  --metallic: #4B5563;
+  --card: #FFFFFF;
+  --border: #D6D6D6;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+.admin-light [class~="text-white"] {
+  color: var(--foreground);
+}
+
+.admin-light .bg-accent[class~="text-white"],
+.admin-light .btn-primary,
+.admin-light .btn-primary [class~="text-white"] {
+  color: #F9F9F9;
+}
+
+.font-display {
+  font-family: var(--font-barlow), system-ui, sans-serif;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-accent px-6 py-3 text-sm font-bold uppercase tracking-wide text-white shadow-[0_0_18px_rgba(229,9,20,0.28)] transition hover:bg-[#ff1a24] hover:shadow-[0_0_24px_rgba(229,9,20,0.42)];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-foreground/70 bg-transparent px-6 py-3 text-sm font-bold uppercase tracking-wide text-foreground transition hover:border-foreground hover:bg-black/5;
+  }
+
+  .section-title {
+    @apply font-display text-3xl font-bold uppercase tracking-tight text-foreground md:text-4xl;
+  }
+
+  .card {
+    @apply rounded-lg border border-border bg-card p-6 shadow-[0_16px_40px_rgba(0,0,0,0.08)];
+  }
+}

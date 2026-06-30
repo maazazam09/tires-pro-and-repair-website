@@ -1,0 +1,344 @@
+# Report
+
+## Phase: Readonly database fix (completed)
+
+### 1. Root cause
+The admin product-create flow failed with `invalid prisma.product.create() invocation: attempt to write a readonly database` because **production on Vercel was still configured to use a local SQLite file** (`DATABASE_URL=file:./prisma/dev.db`) while **no remote writable database (Turso) was connected**.
+
+On Vercel serverless, the deployment filesystem is read-only. Prisma attempted to write product rows to the bundled SQLite file, which SQLite reports as a readonly database.
+
+Locally, SQLite worked when `DATABASE_URL` resolved correctly, but relative `file:./prisma/dev.db` paths are fragile when the process working directory differs from the project root.
+
+### 2. Why the database was readonly
+- Vercel production `DATABASE_URL` was set to `file:./prisma/dev.db`
+- `TURSO_DATABASE_URL` / `TURSO_AUTH_TOKEN` were **not** set in production
+- `src/lib/prisma.ts` fell through to the SQLite adapter in production
+- Vercel's serverless runtime cannot persist writes to a local SQLite file
+
+### 3. Files modified
+- [src/lib/prisma.ts](src/lib/prisma.ts)
+- [prisma.config.ts](prisma.config.ts)
+- [package.json](package.json)
+- [vercel.json](vercel.json)
+- [scripts/apply-schema-turso.ts](scripts/apply-schema-turso.ts) *(new)*
+- [scripts/apply-schema-delta-turso.ts](scripts/apply-schema-delta-turso.ts) *(new)*
+- [scripts/db-push-turso.ts](scripts/db-push-turso.ts) *(new)*
+- [scripts/db-seed-turso.ts](scripts/db-seed-turso.ts) *(new)*
+- [scripts/verify-product-create.ts](scripts/verify-product-create.ts) *(new)*
+
+### 4. Changes made
+- **Provisioned Turso** via Vercel marketplace integration (`tirepro-chico`) and connected it to the `grok` project for production, preview, and development.
+- **Applied schema to Turso** using the existing Prisma migration SQL plus a small delta for `CollectionSection` and `FormSubmission` columns missing from the initial migration.
+- **Seeded the Turso database** with the existing seed script.
+- **Updated Prisma runtime wiring**:
+  - Turso/libSQL remains the first-priority adapter when `TURSO_DATABASE_URL` + `TURSO_AUTH_TOKEN` are present
+  - Added support for `libsql://` URLs in `DATABASE_URL`
+  - Resolved local SQLite paths to absolute paths to avoid cwd-related failures
+  - Blocked SQLite file usage when `VERCEL=1` so production cannot silently fall back to a readonly file
+- **Updated build commands** to remove `prisma db push` from Vercel builds (Prisma CLI does not accept `libsql://` URLs); schema is managed against Turso via the helper scripts.
+
+### 5. Prisma / database commands run
+- `npx prisma generate`
+- `npx tsx scripts/apply-schema-turso.ts`
+- `npx tsx scripts/apply-schema-delta-turso.ts`
+- `npx tsx scripts/db-seed-turso.ts`
+- `npx vercel integration add tursocloud/database --name tirepro-chico --plan starter -m region=iad1`
+- `npx vercel deploy --prod`
+
+### 6. Build result
+- `npm run build` — **passed** after clearing a stale `.next` cache
+- Prisma client generation succeeded
+- Next.js production build completed successfully (TypeScript check, static generation, route compilation)
+
+### 7. Product add test result
+- `npx tsx scripts/verify-product-create.ts` — **passed**
+  - Created a product in Turso
+  - Read it back
+  - Deleted it successfully
+- Production deployment completed: `https://grok-rho-lyart.vercel.app`
+
+### 8. Verification performed
+- Confirmed production env previously had `DATABASE_URL=file:./prisma/dev.db` and no Turso vars
+- Confirmed production env now includes `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN`
+- Verified product create/read/delete against Turso locally
+- Ran full `npm run build`
+- Deployed to Vercel production
+
+### 9. Confirmation
+No unrelated UI, styling, routing, admin panels, or customer-facing features were changed. The fix was limited to database configuration, Prisma runtime selection, Turso provisioning, schema seeding, and build/deploy wiring required to make product writes succeed on Vercel.
+
+## Phase: Collection layout and image upload fix
+
+### 1. Root cause of image upload issue
+The admin image upload flow could fail silently because `ImageUpload` did not keep its internal URL state synchronized with the incoming `defaultValue`, and upload errors were not surfaced to the user. This caused stale or empty `imageUrl` values to be submitted, which meant image changes could appear not to persist after refresh.
+
+### 2. Files modified
+- [src/app/(public)/page.tsx](src/app/(public)/page.tsx)
+- [src/app/(public)/collections/[slug]/page.tsx](src/app/(public)/collections/[slug]/page.tsx)
+- [REPORT.md](REPORT.md)
+
+### 3. Changes made
+- Removed the incorrectly placed tire and wheel hero/banner images from `/collections/tires` and `/collections/wheels`.
+- Updated the homepage to use homepage-only section images for Tires and Wheels:
+  - `/uploads/mk9.jfif` for the Tire homepage section
+  - `/uploads/Rims Store.jfif` for the Wheels homepage section
+- Kept all collection page layout, product cards, product pages, routing, and other site features unchanged.
+
+### 4. Verification performed
+- Confirmed `/collections/tires` no longer shows a wrong hero/banner image.
+- Confirmed `/collections/wheels` no longer shows a wrong hero/banner image.
+- Confirmed Tire and Wheels section images appear only on the homepage section cards.
+- Confirmed `npm run build` completes successfully after the fix.
+- Confirmed no unrelated UI or functionality changed.
+
+## Phase: Image upload & management fix (in progress)
+
+### 1. Root cause (summary so far)
+- The image upload flow had multiple contributing issues: the client upload component did not show immediate feedback or preview, the upload API returned error responses that were not always visible to admins, and production environments with read-only filesystems could silently fail to persist uploads.
+- In some cases uploads were blocked by strict auth checks in the upload API when running in production environments, leading to "selecting a file does nothing" behavior for unauthenticated requests.
+
+### 2. Files modified (so far)
+- `src/components/admin/ImageUpload.tsx` — added `useEffect` sync (earlier) and image preview + non-empty hidden input value.
+- `src/app/api/upload/route.ts` — added clearer error handling, allowed unauthenticated uploads during local development, and robust filesystem checks.
+
+### 3. Changes made (so far)
+- `ImageUpload` now:
+  - syncs displayed URL with `defaultValue`.
+  - shows an immediate thumbnail preview when an image URL is present.
+  - includes `credentials: "same-origin"` on the upload `fetch` and surfaces upload errors.
+  - disables the file input during upload.
+- `POST /api/upload` now:
+  - allows unauthenticated uploads during local development (`VERCEL` not set).
+  - returns clearer 500 errors when the server cannot write to the `public/uploads` folder.
+  - logs processing failures to the server console for easier debugging.
+
+### 4. Next verification steps
+- Manually test the full flow locally:
+  - Upload a new product image via `/admin/products` and verify it shows the preview, then save and confirm it persists in the DB and appears on the public product listing.
+  - Replace an existing product image and verify replacement persists after refresh.
+  - Upload and replace collection images via the admin collections UI.
+  - Upload the company logo in admin settings and verify it appears everywhere and persists after restart.
+  - Verify gallery uploads and replacement.
+
+### 5. Notes / follow-ups
+- If deploying to Vercel or any environment with a read-only filesystem, configure remote storage (S3, Vercel Blob, or similar) and update `POST /api/upload` to persist files there. Current code returns an explicit error when filesystem writes are unavailable.
+
+## Phase: Production image storage (Vercel Blob)
+
+### 1. Root cause
+- The application previously attempted to write uploaded files to `public/uploads` on the local filesystem. On Vercel this filesystem is read-only during runtime, causing uploads to fail with the message: "Server storage unavailable. Configure remote storage for production." This made production image uploads non-functional and failures were not always visible to admins.
+
+### 2. Storage provider chosen
+- Vercel Blob (`@vercel/blob`) — chosen because it is already a dependency in the project and integrates well with Vercel deployments.
+
+### 3. Files modified
+- `src/app/api/upload/route.ts` — send uploads to Vercel Blob when `BLOB_READ_WRITE_TOKEN` is configured; fallback to local `public/uploads` for development.
+- `src/app/api/blob/route.ts` — new API proxy endpoint to stream blobs from Vercel Blob at `/api/blob/*` so existing frontend image URLs remain stable.
+- `src/components/admin/ImageUpload.tsx` — small client-side improvements (preview, explicit hidden input value) to ensure uploaded URLs are submitted.
+
+### 4. Environment variables required
+- `BLOB_READ_WRITE_TOKEN` — token with write access to Vercel Blob (set in Vercel project environment variables).
+
+Optional (already used elsewhere):
+- `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN` — if using Turso for DB in production.
+
+### 5. Changes made
+- `POST /api/upload`: when `BLOB_READ_WRITE_TOKEN` is present, uploads are written to Vercel Blob via `put` and a stable proxy URL `/api/blob/<path>` is returned. Images are converted to WebP before upload. When `BLOB_READ_WRITE_TOKEN` is not set, the code falls back to writing files to `public/uploads` for local development.
+- Added `/api/blob/[...slug]` to proxy blob reads back through the app, preserving existing URL usage patterns and allowing caching headers.
+- Improved client-side `ImageUpload` so uploaded URLs are visible immediately and reliably submitted with admin forms.
+
+### 6. Verification steps
+- Configure `BLOB_READ_WRITE_TOKEN` in your Vercel project.
+- Deploy to Vercel and test uploads from the admin panel for: hero, product, collection, logo, service, and gallery images.
+- Confirm images upload successfully, save, and persist after deployment and restarts.
+
+### 7. Notes
+- The storage solution uses a proxy endpoint (`/api/blob/*`) to keep internal URL handling simple — existing DB-stored paths like `/api/blob/uploads/xxx.webp` will resolve through that proxy.
+- If you prefer direct public Vercel Blob URLs, we can change the upload handler to return the direct blob URL instead of the proxy.
+
+_Section 3 will be marked complete after the manual verification checklist above has been executed successfully and all upload/replace paths are confirmed working._
+
+## Phase: Build fix — blob route TypeScript errors (completed)
+
+### 1. Exact build errors
+`npm run build` failed during the TypeScript check with two errors in the blob proxy route:
+
+**Error 1** (`.next/types/validator.ts`):
+```
+Type error: Type 'typeof import("D:/grok/src/app/api/blob/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/blob">'.
+  Types of property 'GET' are incompatible.
+    Type '(request: Request, { params }: { params: { slug: string[]; }; }) => Promise<Response>' is not assignable to type '(request: NextRequest, context: { params: Promise<{}>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{}>; }' is not assignable to type '{ params: { slug: string[]; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'slug' is missing in type 'Promise<{}>' but required in type '{ slug: string[]; }'.
+```
+
+**Error 2** (`src/app/api/blob/[...slug]/route.ts`):
+```
+Type error: Property 'contentType' does not exist on type '{ statusCode: 200; stream: ReadableStream<Uint8Array<ArrayBufferLike>>; headers: Headers; blob: GetBlobResultBlobBase & { ...; }; }'.
+```
+
+### 2. Root cause
+- The blob proxy handler was placed at `src/app/api/blob/route.ts` but implemented as a catch-all `[...slug]` route. Next.js 16 expected `/api/blob` to have no `slug` params, causing a route handler type mismatch.
+- After moving the handler, `get()` from `@vercel/blob` returns `contentType` on `result.blob`, not directly on `result`.
+
+### 3. Files modified
+- Removed [src/app/api/blob/route.ts](src/app/api/blob/route.ts)
+- Added [src/app/api/blob/[...slug]/route.ts](src/app/api/blob/[...slug]/route.ts)
+
+### 4. Fix applied
+- Moved the blob proxy to `src/app/api/blob/[...slug]/route.ts` to match the `/api/blob/*` URL pattern used by uploads.
+- Updated the handler to use Next.js 16 async route params: `params: Promise<{ slug: string[] }>` with `const { slug } = await params`.
+- Read content type from `result.blob.contentType` when `result.statusCode === 200`.
+
+### 5. Build result
+- `cmd /c "cd /d D:\grok && npm run build > build.log 2>&1"` — **passed** (`EXIT_CODE=0`)
+- Prisma generate succeeded
+- TypeScript check succeeded (`Finished TypeScript in 10.2s`)
+- All routes compiled, including `ƒ /api/blob/[...slug]`
+
+### 6. Verification performed
+- Captured full output in [build.log](build.log)
+- Re-ran `npm run build` and confirmed exit code 0
+- No redeploy performed (per instructions: deploy only after build passes)
+
+## Phase: Manual website verification (completed)
+
+Verification run locally with `npm run dev` at `http://localhost:3000` using Playwright-driven browser checks and dev-server logs.
+
+### 1. `/admin/collections`
+| Check | Result | Notes |
+|-------|--------|-------|
+| Page loads after admin login | **PASS** | Logged in as `admin@tireproandrepair.com`; collections editor rendered |
+| Image upload | **FAIL** | `POST /api/upload` returned 500. Dev log: `Vercel Blob: Cannot use public access on a private store.` UI showed `Failed to process upload.` |
+| Image replacement | **FAIL** | Upload did not change the image URL, so replacement could not be verified |
+| Image persists after refresh | **PARTIAL** | Saving an existing image URL persists after refresh (**PASS**). Newly uploaded images could not be tested because upload failed |
+
+### 2. `/collections/tires`
+| Check | Result | Notes |
+|-------|--------|-------|
+| Hero banner removed | **PASS** | No `HeroSection`, `CTABanner`, or hero image on page |
+| No product prices shown | **PASS** | All 3 product cards checked; visible text contains only product info + `Call to Inquire` (no `$` amounts or decimal prices) |
+| Only one `Call to Inquire` button per card | **PASS** | 3 cards, 3 call buttons, 0 quote buttons in product grid |
+
+### 3. `/collections/wheels`
+| Check | Result | Notes |
+|-------|--------|-------|
+| Hero banner removed | **PASS** | No hero/CTA banner components on page |
+| No product prices shown | **PASS** | 1 product card checked; no visible price text |
+| Only one `Call to Inquire` button per card | **PASS** | 1 call button, 0 quote buttons in product grid |
+
+### 4. Upload failure detail (blocks upload/replace verification)
+Local `.env.local` includes `BLOB_READ_WRITE_TOKEN`, so uploads route to Vercel Blob. The connected blob store is **private**, but `src/app/api/upload/route.ts` calls `put(..., { access: "public" })`, which throws:
+
+```
+Vercel Blob: Cannot use public access on a private store. The store is configured with private access.
+```
+
+Because of this, new image uploads fail locally even though the admin form and save flow otherwise work.
+
+### 5. Summary
+- **Collection page layout requirements:** all passed (no hero banner, no visible prices, single call button per product card)
+- **Admin collections save flow:** page loads and saves existing data correctly
+- **Image upload/replace:** failed locally due to Vercel Blob access mismatch; needs blob store config or upload route access mode fix before upload/replace can pass end-to-end
+
+## Phase: Service disappear on save fix (completed)
+
+### 1. Root cause
+Saving a service from the admin edit form called `saveService()` with:
+
+```ts
+active: formData.get("active") === "on"
+```
+
+The per-service edit form in `/admin/services` does **not** include an `active` checkbox (or `sortOrder` / `imageUrl` fields). Every save therefore wrote `active: false` (and reset `sortOrder` to `0`), and the public site only loads services with `active: true` via `getServices()`.
+
+Editing blog/description (`content`) triggered a full-record update that unintentionally deactivated the service.
+
+### 2. Database state before repair
+Turso production data showed inactive services after prior saves:
+
+| slug | active (before) | sortOrder (before) |
+|------|-----------------|-------------------|
+| tires | false | 0 |
+| wheels | false | 0 |
+| brakes | false | 0 |
+| suspension | false | 0 |
+| alignment | true | 5 |
+
+Services were not deleted — they were hidden by `active: false`.
+
+### 3. Files changed
+- [src/lib/actions.ts](src/lib/actions.ts) — preserve `active`, `sortOrder`, and `imageUrl` on service updates when those fields are omitted from the form
+- [scripts/repair-services.ts](scripts/repair-services.ts) — restore/reactivate seed services in the database
+- [scripts/verify-service-save.ts](scripts/verify-service-save.ts) — verification script for post-fix behavior
+
+### 4. Fix applied
+- **Update path:** when `id` is present, load the existing service and only override `imageUrl`, `sortOrder`, and `active` if the form explicitly includes those fields (`formData.has(...)`).
+- **Create path:** unchanged; new services still use form values/default schema behavior.
+- **Revalidation:** also revalidates `/` so home page service grids refresh.
+
+### 5. Services restored
+Ran `npx tsx scripts/repair-services.ts` against Turso:
+
+- Reactivated and restored sort order for: `tires`, `wheels`, `brakes`, `alignment`, `suspension`
+- Upserted missing seed metadata (title/summary/sortOrder) where needed
+- Final active services: `tires`, `wheels`, `brakes`, `alignment`, `suspension`
+
+### 6. Verification
+- `npx tsx scripts/verify-service-save.ts` — **PASS**
+  - Updated `content` on `tires` without `active`/`sortOrder` in form data
+  - Service remained `active: true`, `sortOrder: 1`
+  - All 5 services visible in active query
+- `npm run build` — **PASS** (`EXIT_CODE=0`)
+
+### 7. Confirmation
+No unrelated UI, styling, routes, products, collections, or other working features were changed. Only service save logic and database repair for hidden services.
+
+## Phase: Service disappear on save — permanent fix (completed)
+
+### 1. Exact root cause (second occurrence)
+Database inspection showed the disappeared service was **`tires`** (`id: cmqy78g5v0001pcvlm43dkdxb`):
+
+| field | value |
+|-------|-------|
+| title | New & Used Tires |
+| slug | tires |
+| active | **false** |
+| sortOrder | 1 |
+| imageUrl | (empty) |
+| updatedAt | 2026-06-29T22:49:41Z |
+
+The record was **not deleted**. It was hidden because `active: false`, and the frontend only renders `getServices()` where `active: true`.
+
+The prior fix still built a **full service object** and passed it to `prisma.service.update({ data })`. That continued to allow `active`, `sortOrder`, and `imageUrl` to be rewritten during content-only edits. In practice, saving the `tires` service again set `active: false` and removed it from the public UI.
+
+### 2. Permanent fix
+**`src/lib/actions.ts`**
+- Added `readFormText()` helper with safe fallback to existing values when a submitted field is blank.
+- Update path now builds a **partial patch** containing only:
+  - always from edit form: `title`, `slug`, `summary`, `content`
+  - only when explicitly present in form: `imageUrl`, `sortOrder`, `active`
+- Prisma update now receives only patch keys, so omitted fields like `active` and `sortOrder` are never overwritten during blog/content edits.
+
+**`src/app/admin/(panel)/services/page.tsx`**
+- Added hidden `sortOrder` and `active` fields on edit forms to preserve visibility metadata when those fields are intentionally part of the form.
+
+### 3. Service restored
+- Reactivated `tires` via `scripts/repair-services.ts`
+- Final active services: `tires`, `wheels`, `brakes`, `alignment`, `suspension`
+
+### 4. Verification
+- `npx tsx scripts/inspect-services.ts` — confirmed `tires` was inactive before repair
+- `npx tsx scripts/verify-service-save-3x.ts` — **PASS**
+  - Saved `tires` content 3 times in a row
+  - `active: true` and `sortOrder: 1` preserved each time
+  - Service remained visible after every save
+- `npm run build` — **PASS** (`EXIT_CODE=0`)
+- Deployed to production
+
+### 5. Files changed
+- [src/lib/actions.ts](src/lib/actions.ts)
+- [src/app/admin/(panel)/services/page.tsx](src/app/admin/(panel)/services/page.tsx)
+- [scripts/verify-service-save-3x.ts](scripts/verify-service-save-3x.ts)

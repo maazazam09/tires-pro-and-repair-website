@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Collections /tires - hero banner removed",
+    "passed": true,
+    "detail": "no hero/CTA component in page"
+  },
+  {
+    "name": "Collections /tires - no product prices shown",
+    "passed": false,
+    "detail": "price pattern in product grid"
+  },
+  {
+    "name": "Collections /tires - only Call to Inquire per card",
+    "passed": true,
+    "detail": "3 call buttons, 0 quote buttons in grid"
+  },
+  {
+    "name": "Collections /wheels - hero banner removed",
+    "passed": true,
+    "detail": "no hero/CTA component in page"
+  },
+  {
+    "name": "Collections /wheels - no product prices shown",
+    "passed": false,
+    "detail": "price pattern in product grid"
+  },
+  {
+    "name": "Collections /wheels - only Call to Inquire per card",
+    "passed": true,
+    "detail": "1 call buttons, 0 quote buttons in grid"
+  },
+  {
+    "name": "Admin /admin/collections loads",
+    "passed": true,
+    "detail": "collections editor visible"
+  },
+  {
+    "name": "Admin collections - image upload",
+    "passed": true,
+    "detail": "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=1200&q=80"
+  },
+  {
+    "name": "Admin collections - image save",
+    "passed": true,
+    "detail": "TIRES collection saved."
+  },
+  {
+    "name": "Admin collections - image persists after refresh",
+    "passed": true,
+    "detail": "before=https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=1200&q=80 after=https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=1200&q=80"
+  },
+  {
+    "name": "Admin collections - image replacement persists",
+    "passed": true,
+    "detail": "https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=1200&q=80"
+  }
+]
