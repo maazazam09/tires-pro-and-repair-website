@@ -400,3 +400,67 @@ Official brand CDN images were not used (not in `next.config.ts` remote patterns
 ### 6. Files added
 - [scripts/assign-tire-images.ts](scripts/assign-tire-images.ts)
 - [scripts/verify-tire-products.ts](scripts/verify-tire-products.ts)
+
+## Phase: Brand-specific tire product images (completed)
+
+### 1. Git checkpoint
+- Backup commit before download: `Backup before brand-specific tire image download` (`2b524b2`)
+
+### 2. Scope
+- Downloaded official (or closest-match) product images for all **23** `TIRE` products
+- Saved images locally to `public/uploads/tires/{slug}.webp`
+- Updated **only** the `imageUrl` field in Turso to `/uploads/tires/{slug}.webp`
+- Skipped re-download when a product already had a correct local image and file on disk
+- No changes to names, slugs, brands, descriptions, category, `active`, price, or any other fields
+
+### 3. Image sourcing strategy
+1. **Exact model match** — official manufacturer CDN where accessible (Michelin, Goodyear Scene7, Continental, Pirelli, Yokohama, Toyo, Kumho, Nexen, Nitto, Maxxis, BFGoodrich via Michelin CDN)
+2. **Same-brand / class fallback** — when official CDN blocked (Bridgestone, Falken, General Tire → Continental TerrainContact A/T; Firestone → Goodyear Wrangler DuraTrac; Hankook → Continental CrossContact LX25)
+3. **Generic fallback** — high-quality Unsplash tire photo (Federal, GT Radial, Sailun, Used Tire)
+
+### 4. Product image assignments
+
+| Product | Matched model | Image source | Local file | Fallback |
+|---------|---------------|--------------|------------|----------|
+| BF Goodrich All-Terrain 265/70R17 | BFGoodrich All-Terrain T/A KO2 | BFGoodrich official (Michelin CDN) | `public/uploads/tires/bfg-at-265-70r17.webp` | — |
+| BFGoodrich | BFGoodrich All-Terrain T/A KO2 | BFGoodrich official brand flagship | `public/uploads/tires/BFGoodrich.webp` | — |
+| Bridgestone | Bridgestone Dueler (AT class) | Continental TerrainContact A/T (Bridgestone CDN blocked) | `public/uploads/tires/bridgestone.webp` | yes |
+| Continental | Continental CrossContact LX25 | Continental official (continentaltire.com) | `public/uploads/tires/Continental.webp` | — |
+| Cooper | Cooper Discoverer AT3 XLT | Cooper official (Goodyear Scene7 CDN) | `public/uploads/tires/Cooper.webp` | — |
+| Falken | Falken Wildpeak A/T3W (AT class) | Continental TerrainContact A/T (Falken CDN blocked) | `public/uploads/tires/Falken.webp` | yes |
+| Federal | Federal tire (generic) | Generic tire (Unsplash) | `public/uploads/tires/Federal.webp` | yes |
+| Firestone | Firestone Destination (AT class) | Goodyear Wrangler DuraTrac (Firestone CDN blocked) | `public/uploads/tires/Firestone.webp` | yes |
+| GOODYEAR | Goodyear Wrangler DuraTrac | Goodyear official (Scene7 CDN) | `public/uploads/tires/GOODYEAR.webp` | — |
+| GT Radial | GT Radial tire (generic) | Generic tire (Unsplash) | `public/uploads/tires/GT-Radial.webp` | yes |
+| General Tires | General Grabber (AT class) | Continental TerrainContact A/T (General Tire CDN blocked) | `public/uploads/tires/General-Tires.webp` | yes |
+| Hnakook | Hankook Dynapro (AT class) | Continental CrossContact LX25 (Hankook CDN blocked) | `public/uploads/tires/Hnakook.webp` | yes |
+| Kumho | Kumho Road Venture AT52 | Kumho official (kumhotireusa.com) | `public/uploads/tires/Kumho.webp` | — |
+| Michelin | Michelin Primacy LTX | Michelin official brand flagship | `public/uploads/tires/michelin.webp` | — |
+| Michelin Defender 225/65R17 | Michelin Defender2 225/65R17 | Michelin official (michelinman.com) | `public/uploads/tires/michelin-defender-225-65r17.webp` | — |
+| Nexen | Nexen Roadian GTX | Nexen official (nexentire.com) | `public/uploads/tires/Nexen.webp` | — |
+| Nitto | Nitto Ridge Grappler | Nitto official (nittotire.com) | `public/uploads/tires/Nitto.webp` | — |
+| Pirelli | Pirelli Scorpion Verde All Season | Pirelli official (pirelli.com) | `public/uploads/tires/Pirelli.webp` | — |
+| Sailun | Sailun tire (generic) | Generic tire (Unsplash) | `public/uploads/tires/Sailun.webp` | yes |
+| Toyo | Toyo Open Country A/T III | Toyo official (toyotires.com) | `public/uploads/tires/Toyo.webp` | — |
+| Used Tire 215/55R17 | Used tire (generic) | Generic used tire (Unsplash) | `public/uploads/tires/used-215-55r17.webp` | yes |
+| Yokohama | Yokohama Geolandar A/T G015 | Yokohama official (yokohamatire.com) | `public/uploads/tires/Yokohama.webp` | — |
+| maxxis | Maxxis Razr AT | Maxxis official (maxxis.com) | `public/uploads/tires/maxxis.webp` | — |
+
+### 5. Files created/updated
+- **Created:** 23 WebP images in [public/uploads/tires/](public/uploads/tires/)
+- **Created:** [scripts/download-tire-product-images.ts](scripts/download-tire-product-images.ts)
+- **Created:** [scripts/verify-tire-image-files.ts](scripts/verify-tire-image-files.ts)
+- **Created:** [scripts/tire-image-assignments.json](scripts/tire-image-assignments.json) (run output)
+- **Updated:** Turso `Product.imageUrl` for 19 products (4 skipped — already correct from partial run)
+
+### 6. Verification completed
+- `npx tsx scripts/download-tire-product-images.ts` — **PASS** (19 updated, 4 skipped, 0 failures)
+- `npx tsx scripts/verify-tire-products.ts` — **PASS**
+  - Total tire products: **23**
+  - Missing images: **0**
+  - All `imageUrl` values point to `/uploads/tires/*.webp`
+- `npx tsx scripts/verify-tire-image-files.ts` — **PASS**
+  - All **23** local WebP files exist on disk
+  - All files readable with valid dimensions (no broken images)
+  - Non-image product fields unchanged
+- Frontend: images served from `public/uploads/` via plain `<img src={product.imageUrl}>` — no remote CDN dependency for tire product cards

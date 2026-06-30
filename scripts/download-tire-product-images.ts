@@ -32,7 +32,7 @@ const IMG = {
   nittoRidgeGrappler:
     "https://www.nittotire.com/media/tk3dzdz1/ridge-grappler.png",
   cooperDiscovererAt3:
-    "https://www.coopertire.com/dw/image/v2/BJQJ_PRD/on/demandware.static/-/Sites-goodyear-master-catalog/default/dwab6e94f0/images/large/Discoverer_AT3_XLT_24486.png",
+    "https://s7d1.scene7.com/is/image/GoodyearSitesProd/Discoverer_AT3_XLT_24486?wid=800",
   maxxisRazrAt:
     "https://www.maxxis.com/int/wp-content/uploads/sites/17/2021/06/category-LT-razr_at-1920x1080.jpg",
   genericUsed:
@@ -111,7 +111,7 @@ const slugAssignments: Record<string, ImageAssignment> = {
   },
   Cooper: {
     productMatch: "Cooper Discoverer AT3 XLT",
-    sourceLabel: "Cooper official (coopertire.com)",
+    sourceLabel: "Cooper official (Goodyear Scene7 CDN)",
     url: IMG.cooperDiscovererAt3,
   },
   maxxis: {

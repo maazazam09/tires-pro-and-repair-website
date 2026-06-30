@@ -1,0 +1,235 @@
+{
+  "success": true,
+  "assignments": [
+    {
+      "name": "BF Goodrich All-Terrain 265/70R17",
+      "slug": "bfg-at-265-70r17",
+      "productMatch": "BFGoodrich All-Terrain T/A KO2",
+      "sourceLabel": "BFGoodrich official (bfgoodrichtires.com)",
+      "imageUrl": "/uploads/tires/bfg-at-265-70r17.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\bfg-at-265-70r17.webp",
+      "skipped": true,
+      "fallback": false
+    },
+    {
+      "name": "BFGoodrich",
+      "slug": "BFGoodrich",
+      "productMatch": "BFGoodrich All-Terrain T/A KO2",
+      "sourceLabel": "BFGoodrich official brand flagship",
+      "imageUrl": "/uploads/tires/BFGoodrich.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\BFGoodrich.webp",
+      "skipped": true,
+      "fallback": false
+    },
+    {
+      "name": "Bridgestone",
+      "slug": "bridgestone",
+      "productMatch": "Bridgestone Dueler (all-terrain class)",
+      "sourceLabel": "Continental TerrainContact A/T official fallback — Bridgestone product CDN blocked",
+      "imageUrl": "/uploads/tires/bridgestone.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\bridgestone.webp",
+      "skipped": true,
+      "fallback": true
+    },
+    {
+      "name": "Continental",
+      "slug": "Continental",
+      "productMatch": "Continental CrossContact LX25",
+      "sourceLabel": "Continental official (continentaltire.com)",
+      "imageUrl": "/uploads/tires/Continental.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Continental.webp",
+      "skipped": true,
+      "fallback": false
+    },
+    {
+      "name": "Cooper",
+      "slug": "Cooper",
+      "productMatch": "Cooper Discoverer AT3 XLT",
+      "sourceLabel": "Cooper official (Goodyear Scene7 CDN)",
+      "imageUrl": "/uploads/tires/Cooper.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Cooper.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "Falken",
+      "slug": "Falken",
+      "productMatch": "Falken Wildpeak A/T3W (all-terrain class)",
+      "sourceLabel": "Continental TerrainContact A/T official fallback — Falken product CDN blocked",
+      "imageUrl": "/uploads/tires/Falken.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Falken.webp",
+      "skipped": false,
+      "fallback": true
+    },
+    {
+      "name": "Federal",
+      "slug": "Federal",
+      "productMatch": "Federal tire (generic)",
+      "sourceLabel": "Generic tire fallback (Unsplash)",
+      "imageUrl": "/uploads/tires/Federal.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Federal.webp",
+      "skipped": false,
+      "fallback": true
+    },
+    {
+      "name": "Firestone",
+      "slug": "Firestone",
+      "productMatch": "Firestone Destination (all-terrain class)",
+      "sourceLabel": "Goodyear Wrangler DuraTrac official fallback — Firestone product CDN blocked",
+      "imageUrl": "/uploads/tires/Firestone.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Firestone.webp",
+      "skipped": false,
+      "fallback": true
+    },
+    {
+      "name": "GOODYEAR",
+      "slug": "GOODYEAR",
+      "productMatch": "Goodyear Wrangler DuraTrac",
+      "sourceLabel": "Goodyear official (goodyear.com)",
+      "imageUrl": "/uploads/tires/GOODYEAR.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\GOODYEAR.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "GT Radial",
+      "slug": "GT Radial",
+      "productMatch": "GT Radial tire (generic)",
+      "sourceLabel": "Generic tire fallback (Unsplash)",
+      "imageUrl": "/uploads/tires/GT-Radial.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\GT-Radial.webp",
+      "skipped": false,
+      "fallback": true
+    },
+    {
+      "name": "General Tires ",
+      "slug": "General Tires ",
+      "productMatch": "General Grabber (all-terrain class)",
+      "sourceLabel": "Continental TerrainContact A/T official fallback — General Tire product CDN blocked",
+      "imageUrl": "/uploads/tires/General-Tires.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\General-Tires.webp",
+      "skipped": false,
+      "fallback": true
+    },
+    {
+      "name": "Hnakook",
+      "slug": "Hnakook",
+      "productMatch": "Hankook Dynapro (all-terrain class)",
+      "sourceLabel": "Continental CrossContact LX25 official fallback — Hankook product CDN blocked",
+      "imageUrl": "/uploads/tires/Hnakook.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Hnakook.webp",
+      "skipped": false,
+      "fallback": true
+    },
+    {
+      "name": "Kumho ",
+      "slug": "Kumho ",
+      "productMatch": "Kumho Road Venture AT52",
+      "sourceLabel": "Kumho official (kumhotireusa.com)",
+      "imageUrl": "/uploads/tires/Kumho.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Kumho.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "Michelin",
+      "slug": "michelin",
+      "productMatch": "Michelin Primacy LTX",
+      "sourceLabel": "Michelin official brand flagship",
+      "imageUrl": "/uploads/tires/michelin.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\michelin.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "Michelin Defender 225/65R17",
+      "slug": "michelin-defender-225-65r17",
+      "productMatch": "Michelin Defender2 225/65R17",
+      "sourceLabel": "Michelin official (michelinman.com)",
+      "imageUrl": "/uploads/tires/michelin-defender-225-65r17.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\michelin-defender-225-65r17.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "Nexen",
+      "slug": "Nexen",
+      "productMatch": "Nexen Roadian GTX",
+      "sourceLabel": "Nexen official (nexentire.com)",
+      "imageUrl": "/uploads/tires/Nexen.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Nexen.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "Nitto",
+      "slug": "Nitto",
+      "productMatch": "Nitto Ridge Grappler",
+      "sourceLabel": "Nitto official (nittotire.com)",
+      "imageUrl": "/uploads/tires/Nitto.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Nitto.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "Pirelli",
+      "slug": "Pirelli",
+      "productMatch": "Pirelli Scorpion Verde All Season",
+      "sourceLabel": "Pirelli official (pirelli.com)",
+      "imageUrl": "/uploads/tires/Pirelli.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Pirelli.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "Sailun",
+      "slug": "Sailun",
+      "productMatch": "Sailun tire (generic)",
+      "sourceLabel": "Generic tire fallback (Unsplash)",
+      "imageUrl": "/uploads/tires/Sailun.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Sailun.webp",
+      "skipped": false,
+      "fallback": true
+    },
+    {
+      "name": "Toyo",
+      "slug": "Toyo",
+      "productMatch": "Toyo Open Country A/T III",
+      "sourceLabel": "Toyo official (toyotires.com)",
+      "imageUrl": "/uploads/tires/Toyo.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Toyo.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "Used Tire 215/55R17",
+      "slug": "used-215-55r17",
+      "productMatch": "Used tire (generic)",
+      "sourceLabel": "Generic used tire fallback (Unsplash)",
+      "imageUrl": "/uploads/tires/used-215-55r17.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\used-215-55r17.webp",
+      "skipped": false,
+      "fallback": true
+    },
+    {
+      "name": "Yokohama",
+      "slug": "Yokohama",
+      "productMatch": "Yokohama Geolandar A/T G015",
+      "sourceLabel": "Yokohama official (yokohamatire.com)",
+      "imageUrl": "/uploads/tires/Yokohama.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\Yokohama.webp",
+      "skipped": false,
+      "fallback": false
+    },
+    {
+      "name": "maxxis",
+      "slug": "maxxis",
+      "productMatch": "Maxxis Razr AT",
+      "sourceLabel": "Maxxis official (maxxis.com)",
+      "imageUrl": "/uploads/tires/maxxis.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\maxxis.webp",
+      "skipped": false,
+      "fallback": false
+    }
+  ]
+}
