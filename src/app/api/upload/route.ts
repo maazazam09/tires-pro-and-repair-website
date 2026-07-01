@@ -4,6 +4,7 @@ import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import sharp from "sharp";
 import { put } from "@vercel/blob";
+import { shouldUseBlobUploads } from "@/lib/uploads";
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -20,8 +21,8 @@ export async function POST(request: Request) {
 
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
-  // If Vercel Blob is configured, upload to blob storage and return a proxy URL.
-  const useBlob = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  // Use blob only on Vercel production. Local dev writes to public/uploads so /uploads URLs work.
+  const useBlob = shouldUseBlobUploads();
 
   const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
 
@@ -33,16 +34,16 @@ export async function POST(request: Request) {
           .resize(1920, 1920, { fit: "inside", withoutEnlargement: true })
           .webp({ quality: 85 })
           .toBuffer();
-        const blobPath = `uploads/${filename.replace(/\.[^.]+$/, ".webp")}`;
+        const webpName = filename.replace(/\.[^.]+$/, ".webp");
+        const blobPath = `uploads/${webpName}`;
         await put(blobPath, webpBuffer, { access: "public", contentType: "image/webp" });
-        // Proxy through our API so we have a stable URL format
-        return NextResponse.json({ url: `/api/blob/${encodeURIComponent(blobPath)}` });
+        return NextResponse.json({ url: `/uploads/${webpName}` });
       }
 
       // Non-image files: upload as-is
       const blobPath = `uploads/${filename}`;
       await put(blobPath, buffer, { access: "public", contentType: file.type || "application/octet-stream" });
-      return NextResponse.json({ url: `/api/blob/${encodeURIComponent(blobPath)}` });
+      return NextResponse.json({ url: `/uploads/${filename}` });
     }
 
     // Fallback to local filesystem (development)

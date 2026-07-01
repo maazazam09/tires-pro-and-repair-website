@@ -520,3 +520,57 @@ Official brand CDN images were not used (not in `next.config.ts` remote patterns
 
 ### 5. Files added
 - [scripts/fix-tire-image-paths.ts](scripts/fix-tire-image-paths.ts)
+
+## Phase: Fix image upload/render pipeline (completed)
+
+### 1. Pipeline investigation (10-point audit)
+
+| Check | Finding |
+|-------|---------|
+| 1. Admin upload → DB path | Upload API returned `/api/blob/...` on production and skipped local `public/uploads` whenever `BLOB_READ_WRITE_TOKEN` was set — even in local dev |
+| 2. Frontend field | `ProductCard` reads `product.imageUrl` — correct single field |
+| 3. Frontend `src` | Plain `<img src={product.imageUrl}>` — correct; not `next/image` |
+| 4. Next.js config blocking | No blocking — `remotePatterns` only affects `next/image`; product cards use native `<img>` |
+| 5. Path format | DB stores `/uploads/...` public paths — correct format |
+| 6. Valid image files | All 26 files in `public/uploads` are valid images (audit + sharp metadata) |
+| 7. DB URLs | All 23 tire products use local `/uploads/...` paths — no stale Unsplash URLs |
+| 8. Multiple image fields | Prisma `Product` model has only `imageUrl` — no `coverImage`, `thumbnail`, or `mediaId` |
+| 9. `public/uploads` in project | 26 files on disk, 27 tracked in git, included in Vercel deployment |
+| 10. Network responses | **Before fix:** production `/uploads/tires/BFGoodrich.webp` → **404**. **After fix:** → **200 image/webp** |
+
+### 2. Root cause
+
+**Split storage with no unified serving layer.**
+
+- `BLOB_READ_WRITE_TOKEN` in `.env.local` forced the upload API to write to Vercel Blob and return `/api/blob/...` URLs — even during local development.
+- Tire product `imageUrl` values pointed to `/uploads/...` paths backed by `public/uploads/` files.
+- On Vercel production, `/uploads/*` requests returned **404** because there was no route to serve committed repo files from the serverless runtime (static CDN was not resolving them).
+- Result: correct DB paths and valid files on disk, but broken images in the browser on production (and inconsistent admin upload behavior locally).
+
+### 3. Fix applied
+
+1. **`src/lib/uploads.ts`** — shared helpers for safe path resolution, MIME types, and blob-vs-local detection
+2. **`src/app/api/uploads/[...path]/route.ts`** — serves images from `public/uploads/` at runtime; falls back to Vercel Blob at `uploads/<path>` for admin uploads
+3. **`next.config.ts`** — `beforeFiles` rewrite: `/uploads/:path*` → `/api/uploads/:path*` so all `/uploads/...` URLs are reliably served
+4. **`src/app/api/upload/route.ts`** — blob storage only when `VERCEL=1`; local dev writes to `public/uploads/`; all uploads return unified `/uploads/<filename>` URLs
+
+No UI, layout, routing, product names, slugs, descriptions, or collections were changed.
+
+### 4. Files changed
+- [src/lib/uploads.ts](src/lib/uploads.ts) *(new)*
+- [src/app/api/uploads/[...path]/route.ts](src/app/api/uploads/[...path]/route.ts) *(new)*
+- [next.config.ts](next.config.ts)
+- [src/app/api/upload/route.ts](src/app/api/upload/route.ts)
+- [scripts/audit-image-pipeline.ts](scripts/audit-image-pipeline.ts) *(new)*
+- [scripts/verify-upload-pipeline.ts](scripts/verify-upload-pipeline.ts) *(new)*
+
+### 5. Verification completed
+- `npm run build` — **PASS**
+- `npx vercel deploy --prod` — **PASS** → https://grok-rho-lyart.vercel.app
+- Production network:
+  - `/uploads/tires/BFGoodrich.webp` → **200** `image/webp`
+  - `/uploads/general%20tyre.jpeg` → **200** `image/jpeg`
+- `npx tsx scripts/verify-upload-pipeline.ts https://grok-rho-lyart.vercel.app` — **PASS**
+  - 14/14 active public tire products return HTTP 200 with `image/*` content-type
+  - **General Tires** → `/uploads/general tyre.jpeg` loads correctly
+- Admin upload: returns `/uploads/<filename>` on both local and production; path persists in DB after save/refresh
