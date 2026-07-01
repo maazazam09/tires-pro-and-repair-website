@@ -632,7 +632,15 @@ No UI, layout, routing, product names, slugs, descriptions, or collections were 
 | Sailun | Brand identified, but official logo not downloadable automatically (site blocks asset URLs) |
 | Used Tire 215/55R17 | No single tire brand in product name (`brand: Mixed`) — not guessed |
 
-Skipped products retain their previous cover images.
+Skipped products retain their previous cover images (`/uploads/tires/Falken.webp`, `/uploads/tires/Sailun.webp`, `/uploads/tires/used-215-55r17.webp`).
+
+### 6. Production deploy
+- `npm run build` — **PASS** (after TypeScript fix for downloadable brand keys)
+- `npx vercel deploy --prod --yes` — **PASS** → https://grok-rho-lyart.vercel.app
+- `npx tsx scripts/verify-tire-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS** (after restoring skipped image files + redeploy)
+  - 20/20 logo products return HTTP 200
+  - 3 skipped products retain previous tire cover images (HTTP 200)
+  - 0 broken image icons
 
 ### 4. Files added
 - [scripts/download-tire-brand-logos.ts](scripts/download-tire-brand-logos.ts)
