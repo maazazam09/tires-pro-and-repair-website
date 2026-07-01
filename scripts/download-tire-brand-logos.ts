@@ -33,8 +33,10 @@ type BrandResolution =
   | { status: "ambiguous"; candidates: string[]; reason: string }
   | { status: "unclear"; reason: string };
 
+type DownloadableBrandKey = Exclude<BrandKey, "falken" | "sailun">;
+
 const BRAND_LOGOS: Record<
-  BrandKey,
+  DownloadableBrandKey,
   { sourceLabel: string; url: string }
 > = {
   bfgoodrich: {
@@ -258,7 +260,10 @@ async function main() {
     }
 
     const brand = resolution.brand;
-    const assignment = BRAND_LOGOS[brand as keyof typeof BRAND_LOGOS];
+    const assignment =
+      brand === "falken" || brand === "sailun"
+        ? undefined
+        : BRAND_LOGOS[brand as DownloadableBrandKey];
     if (!assignment) {
       skipped.push({
         name: product.name,
