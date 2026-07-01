@@ -1021,6 +1021,7 @@ The final copy is original wording tailored to Tire Pro and Repair.
 ## Phase: Production redeploy — legal pages (completed)
 
 ### 1. Deployed
+- Commit: `29e8f72` — Add privacy policy and terms pages with footer links
 - Production URL: https://grok-rho-lyart.vercel.app
 - `npm run build` — **PASS**
 - Vercel production deploy — **PASS**
