@@ -844,7 +844,7 @@ Note: a broader Tire image audit still reports unrelated missing local files for
 ## Phase: Production redeploy — manual tire logo replacements (completed)
 
 ### 1. Deployed
-- Commit: manual tire logo JPEG replacements + apply script
+- Commit: `62e4bd8` — Apply manual tire logo JPEG replacements for four brands
 - Production URL: https://grok-rho-lyart.vercel.app
 - `npm run build` — **PASS**
 - Vercel production deploy — **PASS**
