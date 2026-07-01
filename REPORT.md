@@ -1004,6 +1004,7 @@ Note: a Wheels verification script currently reports an unrelated missing `visio
 ## Phase: Production redeploy — Cooper/Falken tires, Vision Wheel, collection filters (completed)
 
 ### 1. Deployed
+- Commit: `df72652` — Cooper/Falken tire covers, Vision Wheel JPEG, remove collection filters
 - Production URL: https://grok-rho-lyart.vercel.app
 - `npm run build` — **PASS**
 - Vercel production deploy — **PASS**
