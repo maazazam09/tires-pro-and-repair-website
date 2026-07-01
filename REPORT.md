@@ -1381,6 +1381,7 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 ## Phase: Production redeploy — hero image verification (completed)
 
 ### 1. Deployed
+- Commit: `8039603` — Document hero image verification and redeploy
 - Production URL: https://grok-rho-lyart.vercel.app
 - Hero asset unchanged at `/uploads/hero.png` (1823×863)
 - `npm run build` — **PASS**
