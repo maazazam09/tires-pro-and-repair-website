@@ -841,6 +841,44 @@ Some Tire logo assets were white/light on a white background and were not visibl
 
 Note: a broader Tire image audit still reports unrelated missing local files for products outside this requested scope. Those were not changed because this task was limited to the four manually uploaded replacement images.
 
+## Phase: Tire replacement image frontend reflection fix (completed)
+
+### 1. Investigation results
+- **Database field:** The four target Tire products were updated in `Product.imageUrl`.
+- **Frontend field:** Product cards read `product.imageUrl`; no alternate product image field (`image`, `coverImage`, `thumbnail`, `logoUrl`, or `mediaUrl`) is used for product cards.
+- **Fallback logic:** `ProductCard` only shows a fallback when `product.imageUrl` is empty. It was not overriding these products.
+- **Admin save action:** `saveProduct()` writes `imageUrl` on the matching product `id` and revalidates `/shop`, `/collections/tires`, and `/collections/wheels`.
+- **Duplicate products:** The target query found one active matching Tire record for each requested product: General Tires, Hnakook/Hankook, Nexen, and Kumho.
+- **Production/Vercel:** Production HTML already contained the new `imageUrl` paths, but the image URLs returned 404 because the manually added local files had not been deployed to Vercel yet.
+
+### 2. Root cause
+The database update was correct, and the frontend was reading the correct field. The broken/old frontend behavior came from deployment state: the new manually uploaded files existed locally under `public/uploads/tires/logos/`, but were not present in the active Vercel deployment, so production `/uploads/...` requests returned 404.
+
+### 3. Image paths confirmed
+
+| Product | Confirmed product image path |
+|---------|------------------------------|
+| General Tires | `/uploads/tires/logos/general tyre.jpeg` |
+| Hnakook / Hankook | `/uploads/tires/logos/hankook tyre.jpeg` |
+| Nexen | `/uploads/tires/logos/nexen tyre.jpeg` |
+| Kumho | `/uploads/tires/logos/kumho tyre.jpeg` |
+
+### 4. Fix applied
+- Rebuilt the project successfully with `npm.cmd run build`.
+- Deployed the current workspace to Vercel production with `npx.cmd vercel deploy --prod --yes`.
+- Production alias updated to `https://grok-rho-lyart.vercel.app`.
+
+### 5. Verification
+- Production page check: `https://grok-rho-lyart.vercel.app/collections/tires` contains all four replacement image paths.
+- Production image URL checks:
+  - `/uploads/tires/logos/general%20tyre.jpeg` -> HTTP 200 `image/jpeg`
+  - `/uploads/tires/logos/hankook%20tyre.jpeg` -> HTTP 200 `image/jpeg`
+  - `/uploads/tires/logos/nexen%20tyre.jpeg` -> HTTP 200 `image/jpeg`
+  - `/uploads/tires/logos/kumho%20tyre.jpeg` -> HTTP 200 `image/jpeg`
+- Local DB check confirmed the four matching records have the replacement `imageUrl` values.
+- No Tire product names, slugs, descriptions, collections, buttons, layout, or styling were changed.
+- No Wheels products or services were modified.
+
 ## Phase: Production redeploy — manual tire logo replacements (completed)
 
 ### 1. Deployed
@@ -877,3 +915,104 @@ Note: a broader Tire image audit still reports unrelated missing local files for
 - `npx tsx scripts/verify-tire-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS**
   - 23/23 tire products verified, 0 broken paths
   - Falken, Sailun, and Used Tire 215/55R17 still serve original cover images (HTTP 200)
+
+## Phase: Manual Cooper and Falken Tire cover replacement (completed)
+
+### 1. Scope
+- Updated only the `Product.imageUrl` field for the `Cooper` and `Falken` Tire products.
+- Used only the manually uploaded files already present under `public/uploads`.
+- Did not download images, search the internet, create duplicate images, create duplicate products, or modify Wheels products.
+- Did not change names, slugs, descriptions, collections, categories, buttons, layout, or styling.
+
+### 2. Products updated
+
+| Product | Previous image path | New image path | File used |
+|---------|---------------------|----------------|-----------|
+| Cooper | `/uploads/tires/logos/cooper.webp` | `/uploads/tires/logos/cooper tyre.jpeg` | `public/uploads/tires/logos/cooper tyre.jpeg` |
+| Falken | `/uploads/tires/Falken.webp` | `/uploads/tires/logos/falken tyre.jpeg` | `public/uploads/tires/logos/falken tyre.jpeg` |
+
+### 3. Verification
+- Local file scan found:
+  - `D:\grok\public\uploads\tires\logos\cooper tyre.jpeg`
+  - `D:\grok\public\uploads\tires\logos\falken tyre.jpeg`
+- Database update verified:
+  - `Cooper.imageUrl` -> `/uploads/tires/logos/cooper tyre.jpeg`
+  - `Falken.imageUrl` -> `/uploads/tires/logos/falken tyre.jpeg`
+- Local HTTP checks:
+  - `/uploads/tires/logos/cooper tyre.jpeg` -> HTTP 200 `image/jpeg`
+  - `/uploads/tires/logos/falken tyre.jpeg` -> HTTP 200 `image/jpeg`
+- Local `/collections/tires` refresh check:
+  - Cooper replacement path present before and after refresh
+  - Falken replacement path present before and after refresh
+  - Existing product card logo rendering still uses `object-contain`
+- Production checks:
+  - `/uploads/tires/logos/cooper%20tyre.jpeg` -> HTTP 200 `image/jpeg`
+  - `/uploads/tires/logos/falken%20tyre.jpeg` -> HTTP 200 `image/jpeg`
+  - Production `/collections/tires` contains both replacement paths
+
+Note: a Wheels verification script currently reports an unrelated missing `vision-wheel.webp` local file. No Wheels records or files were changed for this task.
+
+## Phase: Remove collection page filters (completed)
+
+### 1. Scope
+- Removed the filter section from `/collections/tires` and `/collections/wheels`.
+- Kept filters available on `/shop`.
+- Did not modify product cards, product data, collections, routes, layout structure, or styling beyond removing the collection-page filter rendering.
+
+### 2. Files modified
+- [src/components/shop/ShopClient.tsx](src/components/shop/ShopClient.tsx)
+- [src/app/(public)/collections/[slug]/page.tsx](src/app/(public)/collections/[slug]/page.tsx)
+- [REPORT.md](REPORT.md)
+
+### 3. Changes made
+- Added a `showFilters` option to `ShopClient`, defaulting to `true`.
+- Collection pages now call `ShopClient` with `showFilters={false}`.
+- When filters are disabled, `ShopClient` renders the full product grid directly and does not render `ShopFilters`.
+
+### 4. Verification
+- `npx.cmd eslint src\components\shop\ShopClient.tsx "src\app\(public)\collections\[slug]\page.tsx"` - **PASS**
+- `npx.cmd tsc --noEmit` - **PASS**
+- Local `/collections/tires`:
+  - No `<select>` controls
+  - No `All Brands`, `All Sizes`, `New & Used`, Tire/Wheel option markup
+  - No `card mb-8 grid gap-4` filter container
+  - Product grid renders immediately with product cards
+- Local `/collections/wheels`:
+  - No `<select>` controls
+  - No `All Brands`, `All Sizes`, `New & Used`, Tire/Wheel option markup
+  - No `card mb-8 grid gap-4` filter container
+  - Product grid renders immediately with product cards
+- Local `/shop` still renders the filter controls, confirming the removal is scoped to collection pages only.
+
+## Phase: Manual Vision Wheel logo replacement (completed)
+
+### 1. Scope
+- Updated only the `Vision Wheel` product `imageUrl` to use the manually uploaded JPEG.
+- Did not modify other Wheels or Tire products.
+
+### 2. Product updated
+
+| Product | Previous image path | New image path |
+|---------|---------------------|----------------|
+| Vision Wheel | `/uploads/wheels/logos/vision-wheel.webp` | `/uploads/wheels/logos/vision wheel.jpeg` |
+
+### 3. Files modified
+- [scripts/apply-vision-wheel-jpeg.ts](scripts/apply-vision-wheel-jpeg.ts)
+- [public/uploads/wheels/logos/vision wheel.jpeg](public/uploads/wheels/logos/vision%20wheel.jpeg)
+- [REPORT.md](REPORT.md)
+
+## Phase: Production redeploy — Cooper/Falken tires, Vision Wheel, collection filters (completed)
+
+### 1. Deployed
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Assets shipped
+- Cooper and Falken manual JPEG replacements in `public/uploads/tires/logos/`
+- Vision Wheel manual JPEG in `public/uploads/wheels/logos/`
+- Collection pages no longer render filter controls (`showFilters={false}`)
+
+### 3. Production verification
+- `npx tsx scripts/verify-tire-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS** (23/23)
+- `npx tsx scripts/verify-wheel-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS** (21/21)

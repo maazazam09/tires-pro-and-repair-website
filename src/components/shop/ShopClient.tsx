@@ -8,9 +8,10 @@ import type { Product } from "@/generated/prisma/browser";
 type ShopClientProps = {
   products: Product[];
   phoneRaw: string;
+  showFilters?: boolean;
 };
 
-export function ShopClient({ products, phoneRaw }: ShopClientProps) {
+export function ShopClient({ products, phoneRaw, showFilters = true }: ShopClientProps) {
   const [filters, setFilters] = useState<Filters>({
     brand: "",
     size: "",
@@ -19,6 +20,8 @@ export function ShopClient({ products, phoneRaw }: ShopClientProps) {
   });
 
   const filtered = useMemo(() => {
+    if (!showFilters) return products;
+
     return products.filter((p) => {
       if (filters.brand && p.brand !== filters.brand) return false;
       if (filters.size && p.size !== filters.size) return false;
@@ -26,11 +29,11 @@ export function ShopClient({ products, phoneRaw }: ShopClientProps) {
       if (filters.category && p.category !== filters.category) return false;
       return true;
     });
-  }, [products, filters]);
+  }, [products, filters, showFilters]);
 
   return (
     <>
-      <ShopFilters products={products} filters={filters} onChange={setFilters} />
+      {showFilters ? <ShopFilters products={products} filters={filters} onChange={setFilters} /> : null}
       {filtered.length === 0 ? (
         <p className="text-center text-metallic">No products match your filters. Call us for availability.</p>
       ) : (

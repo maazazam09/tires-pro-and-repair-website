@@ -41,7 +41,7 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
       <PageHeader title={section.title} subtitle={section.itemName} />
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-4">
-          <ShopClient products={products} phoneRaw={phoneRaw} />
+          <ShopClient products={products} phoneRaw={phoneRaw} showFilters={false} />
         </div>
       </section>
     </>
