@@ -799,6 +799,65 @@ The full Wheels logo assignment now covers all 21 Wheels products.
 
 No Tire products, services, product names, descriptions, slugs, collections, buttons, routing, or product-card design were changed.
 
+## Phase: Manual Tire logo replacement assignment (completed)
+
+### 1. Scope
+- Assigned manually uploaded replacement images to the matching Tire products.
+- Used only files already present in `public/uploads`.
+- Did not download images or search the internet.
+- Updated only the `Product.imageUrl` field for the four requested Tire products.
+- Did not modify Wheels products, services, names, slugs, descriptions, collections, buttons, layout, or styling.
+
+### 2. Root cause
+Some Tire logo assets were white/light on a white background and were not visible clearly in product cards. The replacement files were manually added under `public/uploads/tires/logos/`.
+
+### 3. Products updated
+
+| Product | Previous image path | New image path |
+|---------|---------------------|----------------|
+| General Tires | `/uploads/tires/logos/general-tire.webp` | `/uploads/tires/logos/general tyre.jpeg` |
+| Hnakook | `/uploads/tires/logos/hankook.webp` | `/uploads/tires/logos/hankook tyre.jpeg` |
+| Nexen | `/uploads/tires/logos/nexen.webp` | `/uploads/tires/logos/nexen tyre.jpeg` |
+| Kumho | `/uploads/tires/logos/kumho.webp` | `/uploads/tires/logos/kumho tyre.jpeg` |
+
+### 4. Files modified
+- [scripts/apply-manual-tire-logo-replacements.ts](scripts/apply-manual-tire-logo-replacements.ts)
+- [REPORT.md](REPORT.md)
+
+### 5. Verification
+- `npx tsx scripts\apply-manual-tire-logo-replacements.ts` - **PASS**
+  - 4 products updated
+  - Local image files existed and were readable
+  - No non-image product fields changed
+- Local HTTP checks at `http://localhost:3000` - **PASS**
+  - `/uploads/tires/logos/general tyre.jpeg` -> HTTP 200 `image/jpeg`
+  - `/uploads/tires/logos/hankook tyre.jpeg` -> HTTP 200 `image/jpeg`
+  - `/uploads/tires/logos/nexen tyre.jpeg` -> HTTP 200 `image/jpeg`
+  - `/uploads/tires/logos/kumho tyre.jpeg` -> HTTP 200 `image/jpeg`
+- `/collections/tires` page markup contains all four replacement image paths.
+- Product card logo rendering remains centered with `object-contain`, padding, and the fixed image area.
+- `npx.cmd eslint scripts\apply-manual-tire-logo-replacements.ts` - **PASS**
+- `npx.cmd tsc --noEmit` - **PASS**
+
+Note: a broader Tire image audit still reports unrelated missing local files for products outside this requested scope. Those were not changed because this task was limited to the four manually uploaded replacement images.
+
+## Phase: Production redeploy — manual tire logo replacements (completed)
+
+### 1. Deployed
+- Commit: manual tire logo JPEG replacements + apply script
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Assets shipped
+- 4 replacement JPEG logos in `public/uploads/tires/logos/` (General Tires, Hankook, Nexen, Kumho)
+- Skipped tire covers retained: `Falken.webp`, `Sailun.webp`, `used-215-55r17.webp`
+- Cooper logo WebP retained at `public/uploads/tires/logos/cooper.webp`
+
+### 3. Production verification
+- `npx tsx scripts/verify-tire-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS** (23/23)
+- `npx tsx scripts/verify-wheel-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS** (21/21)
+
 ## Phase: Production redeploy — wheel logos (completed)
 
 ### 1. Deployed
