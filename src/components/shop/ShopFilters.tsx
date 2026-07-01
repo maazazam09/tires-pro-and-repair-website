@@ -26,7 +26,7 @@ export function ShopFilters({ products, filters, onChange }: ShopFiltersProps) {
         <select
           value={filters.brand}
           onChange={(e) => onChange({ ...filters, brand: e.target.value })}
-          className="w-full rounded border border-border bg-white px-3 py-2 text-sm text-foreground"
+          className="w-full min-h-11 rounded border border-border bg-white px-3 py-3 text-base text-foreground sm:py-2 sm:text-sm"
         >
           <option value="">All Brands</option>
           {brands.map((b) => (
@@ -39,7 +39,7 @@ export function ShopFilters({ products, filters, onChange }: ShopFiltersProps) {
         <select
           value={filters.size}
           onChange={(e) => onChange({ ...filters, size: e.target.value })}
-          className="w-full rounded border border-border bg-white px-3 py-2 text-sm text-foreground"
+          className="w-full min-h-11 rounded border border-border bg-white px-3 py-3 text-base text-foreground sm:py-2 sm:text-sm"
         >
           <option value="">All Sizes</option>
           {sizes.map((s) => (
@@ -52,7 +52,7 @@ export function ShopFilters({ products, filters, onChange }: ShopFiltersProps) {
         <select
           value={filters.type}
           onChange={(e) => onChange({ ...filters, type: e.target.value })}
-          className="w-full rounded border border-border bg-white px-3 py-2 text-sm text-foreground"
+          className="w-full min-h-11 rounded border border-border bg-white px-3 py-3 text-base text-foreground sm:py-2 sm:text-sm"
         >
           <option value="">New & Used</option>
           <option value="NEW">New</option>
@@ -64,7 +64,7 @@ export function ShopFilters({ products, filters, onChange }: ShopFiltersProps) {
         <select
           value={filters.category}
           onChange={(e) => onChange({ ...filters, category: e.target.value })}
-          className="w-full rounded border border-border bg-white px-3 py-2 text-sm text-foreground"
+          className="w-full min-h-11 rounded border border-border bg-white px-3 py-3 text-base text-foreground sm:py-2 sm:text-sm"
         >
           <option value="">All</option>
           <option value="TIRE">Tires</option>

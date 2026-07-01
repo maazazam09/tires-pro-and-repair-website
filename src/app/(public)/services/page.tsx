@@ -20,13 +20,13 @@ export default async function ServicesPage() {
   return (
     <>
       <PageHeader title="Our Services" subtitle="Expert tire and auto service with competitive Chico pricing." />
-      <section className="py-16">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="py-10 sm:py-16">
+        <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {services.map((service) => (
             <Link key={service.id} href={`/services/${service.slug}`} className="card group hover:border-accent/50">
               <Wrench className="mb-4 h-8 w-8 text-accent" />
-              <h2 className="font-display text-xl font-bold uppercase text-foreground">{service.title}</h2>
-              <p className="mt-2 text-sm text-metallic">{service.summary}</p>
+              <h2 className="font-display break-words text-lg font-bold uppercase text-foreground sm:text-xl">{service.title}</h2>
+              <p className="mt-2 break-words text-sm text-metallic">{service.summary}</p>
               <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent">
                 Details <ArrowRight className="h-4 w-4" />
               </span>

@@ -32,12 +32,12 @@ export default async function ServiceDetailPage({ params }: Props) {
   return (
     <>
       <PageHeader title={service.title} subtitle={service.summary} />
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="mx-auto max-w-3xl px-4">
-          <p className="text-lg leading-relaxed text-metallic whitespace-pre-line">{serviceContent}</p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a href={`tel:${phoneRaw}`} className="btn-primary">Call for Pricing</a>
-            <Link href={BOOKING_PATH} className="btn-secondary">Booking</Link>
+          <p className="break-words text-base leading-relaxed text-metallic whitespace-pre-line sm:text-lg">{serviceContent}</p>
+          <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:gap-4">
+            <a href={`tel:${phoneRaw}`} className="btn-primary w-full sm:w-auto">Call for Pricing</a>
+            <Link href={BOOKING_PATH} className="btn-secondary w-full sm:w-auto">Booking</Link>
           </div>
         </div>
       </section>

@@ -19,7 +19,7 @@ export default async function GalleryPage() {
   return (
     <>
       <PageHeader title="Install Gallery" subtitle="Custom wheels, tire installs, and builds from our Chico shop." />
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="mx-auto max-w-7xl px-4">
           {items.length === 0 ? (
             <p className="text-center text-metallic">
@@ -30,7 +30,7 @@ export default async function GalleryPage() {
               on Instagram.
             </p>
           ) : (
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
               {items.map((item) => (
                 <div key={item.id} className="group relative aspect-square overflow-hidden rounded-lg bg-card">
                   <Image src={item.mediaUrl} alt={item.caption || "Install"} fill className="object-cover transition group-hover:scale-105" />

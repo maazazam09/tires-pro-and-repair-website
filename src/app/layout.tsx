@@ -21,6 +21,11 @@ export const metadata: Metadata = {
   description: "Best prices on new & used tires, custom wheels, and auto repair in Chico, CA.",
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSiteSettings();
 

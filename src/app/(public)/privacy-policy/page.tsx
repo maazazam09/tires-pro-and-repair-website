@@ -19,12 +19,12 @@ export default async function PrivacyPolicyPage() {
         title="Privacy Policy"
         subtitle="How Tire Pro and Repair collects, uses, and protects customer information."
       />
-      <section className="py-16">
-        <div className="mx-auto max-w-3xl px-4 text-metallic">
+      <section className="py-10 sm:py-16">
+        <div className="mx-auto max-w-3xl break-words px-4 text-metallic">
           <p className="text-sm uppercase tracking-wide text-accent">Last updated: July 2, 2026</p>
-          <div className="mt-6 space-y-8 text-base leading-relaxed">
+          <div className="mt-6 space-y-8 text-sm leading-relaxed sm:text-base">
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Overview</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Overview</h2>
               <p>
                 Tire Pro and Repair respects your privacy. This Privacy Policy explains how we collect, use, share,
                 and protect information when you visit our website, contact us, request an appointment, ask about tires
@@ -38,7 +38,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Information We Collect</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Information We Collect</h2>
               <p>We may collect information you provide directly, including:</p>
               <ul className="list-disc space-y-2 pl-6">
                 <li>Name, phone number, email address, and preferred contact method.</li>
@@ -54,7 +54,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">How We Use Information</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">How We Use Information</h2>
               <p>We use information to operate our local business and provide better service, including to:</p>
               <ul className="list-disc space-y-2 pl-6">
                 <li>Respond to calls, messages, appointment requests, quotes, and service inquiries.</li>
@@ -67,7 +67,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Customer Communications</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Customer Communications</h2>
               <p>
                 If you provide a phone number or email address, we may contact you about your inquiry, appointment,
                 estimate, vehicle, parts availability, service authorization, financing request, or completed work. We
@@ -82,7 +82,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Cookies and Analytics</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Cookies and Analytics</h2>
               <p>
                 Our website may use cookies, pixels, analytics tools, and similar technologies to understand website
                 traffic, improve performance, measure advertising, prevent misuse, and remember basic preferences. If
@@ -96,7 +96,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Sharing Information</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Sharing Information</h2>
               <p>We do not sell customer information. We may share information when needed with:</p>
               <ul className="list-disc space-y-2 pl-6">
                 <li>Service providers that help operate our website, forms, hosting, analytics, communications, or CRM.</li>
@@ -107,7 +107,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Photos, Videos, and Media</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Photos, Videos, and Media</h2>
               <p>
                 If you send photos or videos of your vehicle, tires, wheels, damage, warning lights, or service concerns,
                 we may use that media to evaluate your request, communicate with you, document work, or coordinate with
@@ -117,7 +117,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Third-Party Links</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Third-Party Links</h2>
               <p>
                 Our website may link to financing providers, map services, social media platforms, review sites, tire or
                 wheel manufacturers, and other third-party websites. We are not responsible for the privacy practices or
@@ -126,7 +126,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Data Security and Retention</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Data Security and Retention</h2>
               <p>
                 We use reasonable administrative, technical, and physical safeguards to protect information. No website,
                 email, text message, or storage system can be guaranteed completely secure. We keep information for as
@@ -135,7 +135,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Your Choices</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Your Choices</h2>
               <p>
                 You may contact us to request access, correction, or deletion of personal information, subject to
                 identity verification and legal or business recordkeeping requirements. You may also ask us to stop
@@ -144,7 +144,7 @@ export default async function PrivacyPolicyPage() {
             </section>
 
             <section className="space-y-3">
-              <h2 className="font-display text-2xl font-bold uppercase text-foreground">Contact Us</h2>
+              <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Contact Us</h2>
               <p>
                 Questions about this Privacy Policy may be sent to {contactEmail} or directed to Tire Pro and Repair at{" "}
                 {settings.address}, {settings.city}, {settings.state} {settings.zip}. You may also call us at{" "}

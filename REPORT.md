@@ -1391,3 +1391,70 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - `/uploads/hero.png` — HTTP 200 `image/png`
 - Production SHA-256 matches local `hero.png`
 - Homepage hero background references `/uploads/hero.png`
+
+## Phase: Mobile responsiveness improvements (completed)
+
+### 1. Scope
+- Improved mobile usability and responsiveness across the public site.
+- Did not redesign desktop layout, change branding/colors/fonts, modify products/services content, routes, admin panel, or functionality.
+
+### 2. Files modified
+- [src/app/globals.css](src/app/globals.css) — overflow guard, touch-friendly buttons, responsive cards/section titles
+- [src/app/layout.tsx](src/app/layout.tsx) — explicit mobile viewport
+- [src/app/(public)/layout.tsx](src/app/(public)/layout.tsx) — mobile bottom padding for sticky CTA + safe area
+- [src/components/layout/Header.tsx](src/components/layout/Header.tsx) — truncated logo/title, larger mobile menu tap targets
+- [src/components/layout/Footer.tsx](src/components/layout/Footer.tsx) — wrapped hours/address text
+- [src/components/layout/TrustBar.tsx](src/components/layout/TrustBar.tsx) — stacked mobile layout
+- [src/components/layout/StickyCTA.tsx](src/components/layout/StickyCTA.tsx) — larger tap targets + safe-area padding
+- [src/components/home/HeroSection.tsx](src/components/home/HeroSection.tsx) — mobile hero sizing, gradient overlay, full-width CTAs
+- [src/components/home/CTABanner.tsx](src/components/home/CTABanner.tsx) — responsive headings/buttons
+- [src/components/home/CollectionsShowcase.tsx](src/components/home/CollectionsShowcase.tsx) — mobile image/text sizing
+- [src/components/home/ServicesGrid.tsx](src/components/home/ServicesGrid.tsx) — stacked section header on mobile
+- [src/components/home/GalleryTeaser.tsx](src/components/home/GalleryTeaser.tsx) — stacked section header on mobile
+- [src/components/home/Testimonials.tsx](src/components/home/Testimonials.tsx) — mobile spacing + text wrap
+- [src/components/shop/ProductCard.tsx](src/components/shop/ProductCard.tsx) — wrapped badges/text, tappable CTA
+- [src/components/shop/ShopClient.tsx](src/components/shop/ShopClient.tsx) — single-column mobile grid spacing
+- [src/components/shop/ShopFilters.tsx](src/components/shop/ShopFilters.tsx) — 44px+ filter controls, 16px input text
+- [src/components/forms/ContactForm.tsx](src/components/forms/ContactForm.tsx) — mobile-friendly inputs/forms
+- [src/components/shared/PageHeader.tsx](src/components/shared/PageHeader.tsx) — responsive page header spacing/text
+- [src/app/(public)/page.tsx](src/app/(public)/page.tsx)
+- [src/app/(public)/collections/[slug]/page.tsx](src/app/(public)/collections/[slug]/page.tsx)
+- [src/app/(public)/shop/page.tsx](src/app/(public)/shop/page.tsx)
+- [src/app/(public)/services/page.tsx](src/app/(public)/services/page.tsx)
+- [src/app/(public)/services/[slug]/page.tsx](src/app/(public)/services/[slug]/page.tsx)
+- [src/app/(public)/gallery/page.tsx](src/app/(public)/gallery/page.tsx)
+- [src/app/(public)/contact/page.tsx](src/app/(public)/contact/page.tsx)
+- [src/app/(public)/about/page.tsx](src/app/(public)/about/page.tsx)
+- [src/app/(public)/reviews/page.tsx](src/app/(public)/reviews/page.tsx)
+- [src/app/(public)/offers/page.tsx](src/app/(public)/offers/page.tsx)
+- [src/app/(public)/privacy-policy/page.tsx](src/app/(public)/privacy-policy/page.tsx)
+- [src/app/(public)/terms-and-conditions/page.tsx](src/app/(public)/terms-and-conditions/page.tsx)
+- [scripts/verify-mobile-layout.ts](scripts/verify-mobile-layout.ts) *(new)*
+- [REPORT.md](REPORT.md)
+
+### 3. Mobile fixes applied
+- Prevented horizontal scrolling (`overflow-x: hidden` on `html`/`body`).
+- Increased button/form tap targets to at least 44px (`min-h-11` / `min-h-12`).
+- Used `text-base` on mobile form controls to avoid iOS input zoom.
+- Added `break-words` / wrapping on long headings, addresses, product names, and review text.
+- Hero: separate image + responsive gradient overlay; smaller mobile typography; full-width CTAs below `sm`.
+- Header: truncated business name, hamburger menu links with 44px tap height; header Call Now hidden below `md` (sticky CTA handles mobile calls).
+- Product grids: single column on phones with tighter gaps.
+- Section spacing reduced on mobile (`py-10` / `py-12`) while preserving desktop spacing.
+- Sticky bottom CTA respects iPhone safe-area inset.
+- Collection promo banner, legal pages, contact cards, and service CTAs adjusted for small screens.
+
+### 4. Verification
+- `npm run build` — **PASS**
+- Mobile layout script (Playwright headless, local dev server):
+  - `npx tsx scripts/verify-mobile-layout.ts http://localhost:3000` — **PASS**
+  - 12 public routes × 6 viewports (320, 375, 390, 414, 430, 768) = 72 checks
+  - 0 horizontal overflow issues
+  - All routes returned HTTP 200
+- Manual mobile checks (browser dev tools):
+  - Header/mobile menu opens and links are tappable
+  - Hero text/buttons fit without overflow
+  - Tires and Wheels collection grids stack cleanly
+  - Shop filters usable on phone widths
+  - Contact/booking forms fit screen width
+  - Footer links and legal pages readable on narrow screens

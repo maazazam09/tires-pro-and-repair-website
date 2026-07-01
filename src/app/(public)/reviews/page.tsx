@@ -22,12 +22,12 @@ export default async function ReviewsPage() {
         title="Customer Reviews"
         subtitle={`${settings.averageRating} stars from ${settings.reviewCount}+ reviews`}
       />
-      <section className="py-16">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 md:grid-cols-2 lg:grid-cols-3">
+      <section className="py-10 sm:py-16">
+        <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           {reviews.map((review) => (
             <div key={review.id} className="card">
               <StarRating rating={review.rating} />
-              <p className="mt-4 text-metallic">&ldquo;{review.text}&rdquo;</p>
+              <p className="mt-4 break-words text-metallic">&ldquo;{review.text}&rdquo;</p>
               <p className="mt-4 text-sm font-semibold text-foreground">
                 {review.author} <span className="font-normal text-metallic">· {review.source}</span>
               </p>

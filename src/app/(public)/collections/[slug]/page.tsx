@@ -39,13 +39,13 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
   return (
     <>
       <PageHeader title={section.title} subtitle={section.itemName} />
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="mx-auto max-w-7xl px-4">
-          <div className="mb-8 border-l-4 border-accent bg-white px-5 py-5 shadow-[0_12px_30px_rgba(0,0,0,0.06)] sm:px-6">
-            <h2 className="font-display text-xl font-bold uppercase text-foreground sm:text-2xl">
+          <div className="mb-6 border-l-4 border-accent bg-white px-4 py-4 shadow-[0_12px_30px_rgba(0,0,0,0.06)] sm:mb-8 sm:px-6 sm:py-5">
+            <h2 className="font-display break-words text-lg font-bold uppercase leading-snug text-foreground sm:text-xl md:text-2xl">
               Every Brand. Every Size. Professionally Installed.
             </h2>
-            <p className="mt-2 max-w-4xl text-sm leading-6 text-metallic sm:text-base">
+            <p className="mt-2 max-w-4xl break-words text-sm leading-6 text-metallic sm:text-base">
               Looking for a specific tire or wheel? We can source almost any brand, size, or style and have it ready for
               professional installation at Tire Pro and Repair. Call us today to check availability.
             </p>

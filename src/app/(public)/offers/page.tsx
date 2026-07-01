@@ -18,18 +18,18 @@ export default async function OffersPage() {
   return (
     <>
       <PageHeader title="Special Offers" subtitle="Save on tires, wheels, and services — updated regularly." />
-      <section className="py-16">
-        <div className="mx-auto grid max-w-7xl gap-6 px-4 md:grid-cols-2">
+      <section className="py-10 sm:py-16">
+        <div className="mx-auto grid max-w-7xl gap-4 px-4 sm:gap-6 md:grid-cols-2">
           {coupons.length === 0 ? (
             <p className="text-metallic col-span-2 text-center">No active offers right now. Call for current deals!</p>
           ) : (
             coupons.map((coupon) => (
               <div key={coupon.id} className="card border-accent/30 border-dashed">
-                <h2 className="font-display text-2xl font-bold uppercase text-accent">{coupon.title}</h2>
+                <h2 className="font-display break-words text-xl font-bold uppercase text-accent sm:text-2xl">{coupon.title}</h2>
                 {coupon.code && (
-                  <p className="mt-2 font-mono text-lg text-foreground">Code: {coupon.code}</p>
+                  <p className="mt-2 break-words font-mono text-base text-foreground sm:text-lg">Code: {coupon.code}</p>
                 )}
-                <p className="mt-3 text-metallic">{coupon.description}</p>
+                <p className="mt-3 break-words text-sm text-metallic sm:text-base">{coupon.description}</p>
                 {coupon.expiresAt && (
                   <p className="mt-4 text-xs text-metallic">
                     Expires: {coupon.expiresAt.toLocaleDateString()}

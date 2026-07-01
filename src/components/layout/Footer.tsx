@@ -32,7 +32,7 @@ export function Footer({
 
   return (
     <footer className="mt-auto border-t border-[#2A2A2A] bg-[#1A1A1A]">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:py-12 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <h3 className="font-display text-lg font-bold uppercase text-white">{businessName}</h3>
           <p className="mt-3 text-sm text-white/75">
@@ -40,12 +40,12 @@ export function Footer({
           </p>
           <div className="mt-4 flex gap-3">
             {instagramUrl && (
-              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-white/75 hover:text-accent">
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-9 items-center text-sm text-white/75 hover:text-accent">
                 Instagram
               </a>
             )}
             {facebookUrl && (
-              <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-white/75 hover:text-accent">
+              <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-9 items-center text-sm text-white/75 hover:text-accent">
                 Facebook
               </a>
             )}
@@ -57,7 +57,7 @@ export function Footer({
           <ul className="mt-3 space-y-2">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="text-sm text-white/75 hover:text-white">
+                <Link href={link.href} className="inline-flex min-h-9 items-center text-sm text-white/75 hover:text-white">
                   {link.label}
                 </Link>
               </li>
@@ -70,14 +70,14 @@ export function Footer({
           <ShopHoursList
             hoursJson={hoursJson}
             className="mt-3 space-y-1"
-            itemClassName="flex justify-between gap-4 text-sm text-white/75"
+            itemClassName="flex flex-wrap justify-between gap-x-4 gap-y-1 text-sm text-white/75"
           />
         </div>
 
         <div>
           <h4 className="font-display text-sm font-bold uppercase text-white">Contact</h4>
           <div className="mt-3 space-y-3 text-sm text-white/75">
-            <a href={`tel:${phoneRaw}`} className="flex items-center gap-2 hover:text-white">
+            <a href={`tel:${phoneRaw}`} className="flex min-h-9 items-center gap-2 hover:text-white">
               <Phone className="h-4 w-4 text-accent" />
               {phone}
             </a>
@@ -87,7 +87,7 @@ export function Footer({
                 href={`https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white"
+                className="inline-flex min-h-9 items-center break-words hover:text-white"
               >
                 {fullAddress}
               </a>
@@ -98,10 +98,10 @@ export function Footer({
       <div className="border-t border-[#2A2A2A] px-4 py-4 text-center text-xs text-white/60">
         <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
           <span>&copy; {new Date().getFullYear()} {businessName}. All rights reserved.</span>
-          <Link href="/privacy-policy" className="hover:text-white">
+          <Link href="/privacy-policy" className="inline-flex min-h-9 items-center hover:text-white">
             Privacy Policy
           </Link>
-          <Link href="/terms-and-conditions" className="hover:text-white">
+          <Link href="/terms-and-conditions" className="inline-flex min-h-9 items-center hover:text-white">
             Terms and Conditions
           </Link>
         </div>

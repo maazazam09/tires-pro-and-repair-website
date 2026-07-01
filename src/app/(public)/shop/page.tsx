@@ -22,7 +22,7 @@ export default async function ShopPage() {
         title="Shop Tires & Wheels"
         subtitle="Filter by brand, size, and type. Call or book a call to purchase."
       />
-      <section className="py-16">
+      <section className="py-10 sm:py-16">
         <div className="mx-auto max-w-7xl px-4">
           <ShopClient products={products} phoneRaw={phoneRaw} />
         </div>

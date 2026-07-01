@@ -37,7 +37,7 @@ export function ShopClient({ products, phoneRaw, showFilters = true }: ShopClien
       {filtered.length === 0 ? (
         <p className="text-center text-metallic">No products match your filters. Call us for availability.</p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {filtered.map((product) => (
             <ProductCard key={product.id} product={product} phoneRaw={phoneRaw} />
           ))}

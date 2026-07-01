@@ -41,12 +41,12 @@ export function ContactForm({ type = "contact", compact = false, variant = "dark
   const isLight = variant === "light";
   const labelClass = isLight ? "mb-1 block text-sm text-[#1A1A1A]" : "mb-1 block text-sm text-metallic";
   const inputClass = isLight
-    ? "w-full rounded-md border border-[#d6d6d6] bg-white px-4 py-2 text-[#1A1A1A] outline-none focus:border-accent"
-    : "w-full rounded-md border border-border bg-white px-4 py-2 text-foreground outline-none focus:border-accent";
+    ? "w-full min-h-11 rounded-md border border-[#d6d6d6] bg-white px-4 py-3 text-base text-[#1A1A1A] outline-none focus:border-accent sm:text-sm sm:py-2"
+    : "w-full min-h-11 rounded-md border border-border bg-white px-4 py-3 text-base text-foreground outline-none focus:border-accent sm:text-sm sm:py-2";
   const formClass = compact
     ? "space-y-4"
     : isLight
-      ? "space-y-4 rounded-lg border border-[#d6d6d6] bg-white p-6 shadow-[0_16px_40px_rgba(0,0,0,0.12)]"
+      ? "space-y-4 rounded-lg border border-[#d6d6d6] bg-white p-4 shadow-[0_16px_40px_rgba(0,0,0,0.12)] sm:p-6"
       : "space-y-4 card";
   const {
     register,

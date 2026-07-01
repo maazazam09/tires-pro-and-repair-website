@@ -22,9 +22,9 @@ Whether you drive a daily commuter, a lifted truck, or a performance Mustang, ou
   return (
     <>
       <PageHeader title="About Tire Pro and Repair" subtitle={settings.tagline} />
-      <section className="py-16">
-        <div className="mx-auto max-w-3xl px-4 space-y-6 text-lg leading-relaxed text-metallic">
-          <p className="whitespace-pre-line">{settings.aboutContent || defaultAbout}</p>
+      <section className="py-10 sm:py-16">
+        <div className="mx-auto max-w-3xl space-y-6 px-4 text-base leading-relaxed text-metallic sm:text-lg">
+          <p className="break-words whitespace-pre-line">{settings.aboutContent || defaultAbout}</p>
           <div className="grid gap-4 sm:grid-cols-3 pt-6">
             <div className="card text-center">
               <p className="font-display text-3xl font-bold text-accent">{settings.averageRating}</p>
@@ -45,7 +45,7 @@ Whether you drive a daily commuter, a lifted truck, or a performance Mustang, ou
             <ShopHoursList
               hoursJson={settings.hoursJson}
               className="mt-4 space-y-2"
-              itemClassName="flex justify-between gap-4 text-sm text-metallic"
+              itemClassName="flex flex-wrap justify-between gap-x-4 gap-y-1 text-sm text-metallic"
             />
           </div>
         </div>

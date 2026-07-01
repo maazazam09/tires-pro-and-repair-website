@@ -46,11 +46,11 @@ export default async function HomePage() {
       <ServicesGrid services={services} />
       <GalleryTeaser items={gallery} />
       <Testimonials reviews={reviews} />
-      <section className="border-t border-[#e5e5e5] bg-white py-16">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 lg:grid-cols-2">
+      <section className="border-t border-[#e5e5e5] bg-white py-10 sm:py-16">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:gap-10 lg:grid-cols-2">
           <div>
-            <h2 className="font-display text-3xl font-bold uppercase tracking-tight text-[#1A1A1A] md:text-4xl">Booking</h2>
-            <p className="mt-3 text-[#444]">
+            <h2 className="font-display break-words text-2xl font-bold uppercase tracking-tight text-[#1A1A1A] sm:text-3xl md:text-4xl">Booking</h2>
+            <p className="mt-3 text-sm text-[#444] sm:text-base">
               Tell us what service you need and request a visit slot. We&apos;ll reply to confirm whether that time is available.
             </p>
             <div className="mt-6 overflow-hidden rounded-lg border border-[#d6d6d6]">
@@ -65,9 +65,9 @@ export default async function HomePage() {
           <ContactForm type="quote" variant="light" />
         </div>
       </section>
-      <section className="py-12">
+      <section className="py-10 sm:py-12">
         <div className="mx-auto max-w-7xl px-4 text-center">
-          <h2 className="font-display text-2xl font-bold uppercase text-foreground">Follow Our Latest Installs</h2>
+          <h2 className="font-display break-words text-xl font-bold uppercase text-foreground sm:text-2xl">Follow Our Latest Installs</h2>
           <p className="mt-2 text-metallic">@tireproandrepair on Instagram</p>
           <a
             href={settings.instagramUrl}

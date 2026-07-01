@@ -16,13 +16,16 @@ export function Header({ phone, phoneRaw, businessName, logoUrl }: HeaderProps) 
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#2A2A2A] bg-[#1A1A1A]/95 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
-        <Link href="/" className="flex items-center gap-3 font-display text-lg font-bold uppercase tracking-wide text-white md:text-xl">
+    <header className="sticky top-0 z-50 overflow-x-hidden border-b border-[#2A2A2A] bg-[#1A1A1A]/95 backdrop-blur">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3 sm:gap-4">
+        <Link
+          href="/"
+          className="flex min-h-11 min-w-0 max-w-[55%] items-center gap-2 font-display text-base font-bold uppercase tracking-wide text-white sm:max-w-none sm:gap-3 sm:text-lg md:text-xl"
+        >
           {logoUrl ? (
-            <img src={logoUrl} alt={businessName} className="h-10 w-10 rounded-full object-cover" />
+            <img src={logoUrl} alt={businessName} className="h-9 w-9 shrink-0 rounded-full object-cover sm:h-10 sm:w-10" />
           ) : null}
-          <span>{businessName}</span>
+          <span className="truncate">{businessName}</span>
         </Link>
 
         <nav className="hidden items-center gap-6 lg:flex">
@@ -38,12 +41,12 @@ export function Header({ phone, phoneRaw, businessName, logoUrl }: HeaderProps) 
             <Phone className="h-4 w-4 text-accent" />
             {phone}
           </a>
-          <a href={`tel:${phoneRaw}`} className="btn-primary hidden text-xs sm:inline-flex">
+          <a href={`tel:${phoneRaw}`} className="btn-primary hidden text-xs md:inline-flex">
             Call Now
           </a>
           <button
             type="button"
-            className="rounded p-2 text-white lg:hidden"
+            className="rounded p-2.5 text-white lg:hidden"
             onClick={() => setOpen(!open)}
             aria-label="Toggle menu"
           >
@@ -53,19 +56,19 @@ export function Header({ phone, phoneRaw, businessName, logoUrl }: HeaderProps) 
       </div>
 
       {open && (
-        <nav className="border-t border-[#2A2A2A] px-4 py-4 lg:hidden">
-          <div className="flex flex-col gap-3">
+        <nav className="border-t border-[#2A2A2A] px-4 py-3 lg:hidden">
+          <div className="flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-white/80"
+                className="flex min-h-11 items-center text-base text-white/80"
                 onClick={() => setOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <a href={`tel:${phoneRaw}`} className="btn-primary mt-2 w-full">
+            <a href={`tel:${phoneRaw}`} className="btn-primary mt-2 w-full text-sm">
               Call {phone}
             </a>
           </div>

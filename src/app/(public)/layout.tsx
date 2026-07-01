@@ -27,7 +27,7 @@ export default async function PublicLayout({ children }: PublicLayoutProps) {
         openSevenDays={settings.openSevenDays}
         financing={settings.financing}
       />
-      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+      <main className="flex-1 overflow-x-hidden pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
       <Footer
         businessName={settings.businessName}
         phone={settings.phone}
