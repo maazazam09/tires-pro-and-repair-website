@@ -1,0 +1,316 @@
+{
+  "success": true,
+  "total": 21,
+  "updatedCount": 21,
+  "skippedCount": 0,
+  "failedCount": 0,
+  "downloadedBrands": [
+    {
+      "brand": "american-racing",
+      "publicUrl": "/uploads/wheels/logos/american-racing.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "asanti",
+      "publicUrl": "/uploads/wheels/logos/asanti.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "bbs",
+      "publicUrl": "/uploads/wheels/logos/bbs.webp",
+      "width": 840,
+      "height": 286
+    },
+    {
+      "brand": "black-rhino",
+      "publicUrl": "/uploads/wheels/logos/black-rhino.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "enkei",
+      "publicUrl": "/uploads/wheels/logos/enkei.webp",
+      "width": 840,
+      "height": 293
+    },
+    {
+      "brand": "fifteen52",
+      "publicUrl": "/uploads/wheels/logos/fifteen52.webp",
+      "width": 840,
+      "height": 357
+    },
+    {
+      "brand": "forgiato",
+      "publicUrl": "/uploads/wheels/logos/forgiato.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "fuel-off-road",
+      "publicUrl": "/uploads/wheels/logos/fuel-off-road.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "hre",
+      "publicUrl": "/uploads/wheels/logos/hre.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "kmc",
+      "publicUrl": "/uploads/wheels/logos/kmc.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "konig",
+      "publicUrl": "/uploads/wheels/logos/konig.webp",
+      "width": 840,
+      "height": 343
+    },
+    {
+      "brand": "lexani",
+      "publicUrl": "/uploads/wheels/logos/lexani.webp",
+      "width": 840,
+      "height": 213
+    },
+    {
+      "brand": "method-race-wheels",
+      "publicUrl": "/uploads/wheels/logos/method-race-wheels.webp",
+      "width": 840,
+      "height": 265
+    },
+    {
+      "brand": "moto-metal",
+      "publicUrl": "/uploads/wheels/logos/moto-metal.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "rotiform",
+      "publicUrl": "/uploads/wheels/logos/rotiform.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "tsw",
+      "publicUrl": "/uploads/wheels/logos/tsw.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "vision-wheel",
+      "publicUrl": "/uploads/wheels/logos/vision-wheel.webp",
+      "width": 840,
+      "height": 378
+    },
+    {
+      "brand": "vossen",
+      "publicUrl": "/uploads/wheels/logos/vossen.webp",
+      "width": 400,
+      "height": 400
+    },
+    {
+      "brand": "xd-series",
+      "publicUrl": "/uploads/wheels/logos/xd-series.webp",
+      "width": 400,
+      "height": 400
+    }
+  ],
+  "updated": [
+    {
+      "name": "American Racing",
+      "slug": "American Racing",
+      "detectedBrand": "american-racing",
+      "sourceLabel": "American Racing logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/378330/american-racing",
+      "logoFile": "/uploads/wheels/logos/american-racing.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\american-racing.webp"
+    },
+    {
+      "name": "American Racing Torq Thrust",
+      "slug": "american-racing-torq",
+      "detectedBrand": "american-racing",
+      "sourceLabel": "American Racing logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/378330/american-racing",
+      "logoFile": "/uploads/wheels/logos/american-racing.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\american-racing.webp"
+    },
+    {
+      "name": "Asanti",
+      "slug": "Asanti",
+      "detectedBrand": "asanti",
+      "sourceLabel": "Asanti Wheels logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/345024/asanti-wheels",
+      "logoFile": "/uploads/wheels/logos/asanti.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\asanti.webp"
+    },
+    {
+      "name": "BBS",
+      "slug": "BBS",
+      "detectedBrand": "bbs",
+      "sourceLabel": "BBS USA official logo",
+      "sourcePage": "https://www.bbs-usa.com/",
+      "logoFile": "/uploads/wheels/logos/bbs.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\bbs.webp"
+    },
+    {
+      "name": "Black Rhino",
+      "slug": "Black Rhino",
+      "detectedBrand": "black-rhino",
+      "sourceLabel": "Black Rhino Wheels logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/300441/black-rhino-wheels",
+      "logoFile": "/uploads/wheels/logos/black-rhino.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\black-rhino.webp"
+    },
+    {
+      "name": "Enkie",
+      "slug": "Enkie",
+      "detectedBrand": "enkei",
+      "sourceLabel": "Enkei official logo",
+      "sourcePage": "https://enkei.com/enkei-logo/",
+      "logoFile": "/uploads/wheels/logos/enkei.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\enkei.webp"
+    },
+    {
+      "name": "Fifteen52",
+      "slug": "Fifteen52",
+      "detectedBrand": "fifteen52",
+      "sourceLabel": "Fifteen52 official logo",
+      "sourcePage": "https://fifteen52.com/",
+      "logoFile": "/uploads/wheels/logos/fifteen52.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\fifteen52.webp"
+    },
+    {
+      "name": "Forgiato",
+      "slug": "Forgiato",
+      "detectedBrand": "forgiato",
+      "sourceLabel": "Forgiato logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/536845/forgiato",
+      "logoFile": "/uploads/wheels/logos/forgiato.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\forgiato.webp"
+    },
+    {
+      "name": "Fuel Off-Road",
+      "slug": "Fuel Off-Road",
+      "detectedBrand": "fuel-off-road",
+      "sourceLabel": "Fuel Wheels logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/275055/fuel-wheels",
+      "logoFile": "/uploads/wheels/logos/fuel-off-road.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\fuel-off-road.webp"
+    },
+    {
+      "name": "Fuel Off-Road Wheel 20x10",
+      "slug": "fuel-offroad-20x10",
+      "detectedBrand": "fuel-off-road",
+      "sourceLabel": "Fuel Wheels logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/275055/fuel-wheels",
+      "logoFile": "/uploads/wheels/logos/fuel-off-road.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\fuel-off-road.webp"
+    },
+    {
+      "name": "HRE Wheels",
+      "slug": "HRE Wheels",
+      "detectedBrand": "hre",
+      "sourceLabel": "HRE Performance Wheels logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/405321/hre-performance-wheels",
+      "logoFile": "/uploads/wheels/logos/hre.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\hre.webp"
+    },
+    {
+      "name": "KMC Wheels",
+      "slug": "KMC Wheels",
+      "detectedBrand": "kmc",
+      "sourceLabel": "KMC Wheels logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/547368/kmc-wheels",
+      "logoFile": "/uploads/wheels/logos/kmc.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\kmc.webp"
+    },
+    {
+      "name": "Konig",
+      "slug": "Konig",
+      "detectedBrand": "konig",
+      "sourceLabel": "Konig official logo",
+      "sourcePage": "https://konigwheels.com/",
+      "logoFile": "/uploads/wheels/logos/konig.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\konig.webp"
+    },
+    {
+      "name": "Lexani",
+      "slug": "Lexani",
+      "detectedBrand": "lexani",
+      "sourceLabel": "Lexani official logo",
+      "sourcePage": "https://lexani.com/",
+      "logoFile": "/uploads/wheels/logos/lexani.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\lexani.webp"
+    },
+    {
+      "name": "Method Race Wheels",
+      "slug": "Method Race Wheels",
+      "detectedBrand": "method-race-wheels",
+      "sourceLabel": "Method Race Wheels official logo",
+      "sourcePage": "https://www.methodracewheels.com/",
+      "logoFile": "/uploads/wheels/logos/method-race-wheels.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\method-race-wheels.webp"
+    },
+    {
+      "name": "Moto Metal",
+      "slug": "Moto Metal",
+      "detectedBrand": "moto-metal",
+      "sourceLabel": "Moto Metal Wheels logo (seeklogo; parent site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/345022/moto-metal-wheels",
+      "logoFile": "/uploads/wheels/logos/moto-metal.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\moto-metal.webp"
+    },
+    {
+      "name": "Rotiform",
+      "slug": "Rotiform",
+      "detectedBrand": "rotiform",
+      "sourceLabel": "Rotiform Wheels logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/331895/rotiform-wheels",
+      "logoFile": "/uploads/wheels/logos/rotiform.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\rotiform.webp"
+    },
+    {
+      "name": "TSW",
+      "slug": "TSW",
+      "detectedBrand": "tsw",
+      "sourceLabel": "TSW Alloy Wheels logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/142831/tsw",
+      "logoFile": "/uploads/wheels/logos/tsw.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\tsw.webp"
+    },
+    {
+      "name": "Vision Wheel",
+      "slug": "Vision Wheel",
+      "detectedBrand": "vision-wheel",
+      "sourceLabel": "Vision Wheel official logo",
+      "sourcePage": "https://visionwheel.com/",
+      "logoFile": "/uploads/wheels/logos/vision-wheel.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\vision-wheel.webp"
+    },
+    {
+      "name": "Vossen",
+      "slug": "Vossen",
+      "detectedBrand": "vossen",
+      "sourceLabel": "Vossen Wheels logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/557032/vossen-wheels",
+      "logoFile": "/uploads/wheels/logos/vossen.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\vossen.webp"
+    },
+    {
+      "name": "XD Series",
+      "slug": "XD Series",
+      "detectedBrand": "xd-series",
+      "sourceLabel": "KMC Wheels XD Series logo (seeklogo; brand site confirmed)",
+      "sourcePage": "https://seeklogo.com/vector-logo/427582/kmc-wheels-xd-series",
+      "logoFile": "/uploads/wheels/logos/xd-series.webp",
+      "localFile": "D:\\grok\\public\\uploads\\wheels\\logos\\xd-series.webp"
+    }
+  ],
+  "skipped": [],
+  "failed": []
+}

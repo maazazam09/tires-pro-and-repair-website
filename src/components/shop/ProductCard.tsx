@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Phone } from "lucide-react";
 import type { Product } from "@/generated/prisma/browser";
 
@@ -8,12 +7,19 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product, phoneRaw }: ProductCardProps) {
+  const isBrandLogo =
+    (product.category === "TIRE" && product.imageUrl.includes("/uploads/tires/logos/")) ||
+    (product.category === "WHEEL" && product.imageUrl.includes("/uploads/wheels/logos/"));
+  const imageClassName = isBrandLogo
+    ? "h-full w-full rounded-md bg-white object-contain p-5"
+    : "h-full w-full rounded-md object-cover";
+
   return (
     <div className="card flex flex-col">
       <div className="mb-4 flex h-40 items-center justify-center rounded-md bg-[#F3F4F6]">
         {product.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={product.imageUrl} alt={product.name} className="h-full w-full rounded-md object-cover" />
+          <img src={product.imageUrl} alt={product.name} className={imageClassName} />
         ) : (
           <span className="text-4xl text-border">🛞</span>
         )}

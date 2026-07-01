@@ -652,3 +652,149 @@ Skipped products retain their previous cover images (`/uploads/tires/Falken.webp
 - `npx tsx scripts/download-tire-brand-logos.ts` — **PASS** (20 updated, 3 skipped, 0 failed)
 - All 18 logo files exist on disk and are valid WebP images
 - Only `imageUrl` changed; all 23 tire products remain in the Tires collection
+
+## Phase: Tire product logo image sizing fix (completed)
+
+### 1. Issue
+Tire brand logos were rendering with the same `object-cover` treatment used for product photos. That made wide or short logo artwork appear zoomed, cropped, or cut off inside the fixed product card image box.
+
+### 2. Fix applied
+- Updated `src/components/shop/ProductCard.tsx` so Tire products using `/uploads/tires/logos/` render with `object-contain`.
+- Added logo-friendly white background and padding inside the existing fixed `h-40` image area.
+- Kept non-logo product images on the existing `object-cover` behavior.
+- Removed an unused `Link` import from the same component.
+
+### 3. Verification
+- General Tires logo uses `/uploads/tires/logos/general-tire.webp` and now renders contained, centered, and uncropped.
+- Hankook logo uses `/uploads/tires/logos/hankook.webp` and now renders contained, centered, and uncropped.
+- Nitto logo uses `/uploads/tires/logos/nitto.webp` and now renders contained, centered, and uncropped.
+- Toyo logo uses `/uploads/tires/logos/toyo.webp` and now renders contained, centered, and uncropped.
+- Product card image height remains fixed at `h-40`, so cards stay aligned.
+- `npx.cmd eslint src\components\shop\ProductCard.tsx` - **PASS**
+- `npx.cmd tsc --noEmit` - **PASS**
+
+Full `npm.cmd run lint` still reports pre-existing unrelated errors in `ImageUpload.tsx`, `src/lib/prisma.ts`, and temporary/script files; no new lint errors were introduced in `ProductCard.tsx`.
+
+## Phase: Wheel brand logo covers (completed)
+
+### 1. Scope
+- Added brand logos for matched `WHEEL` category products.
+- Updated only `Product.imageUrl` for Wheels products.
+- Saved logos to `public/uploads/wheels/logos/{brand}.webp`.
+- Did not modify Tire products, services, product names, slugs, descriptions, buttons, layout, or routing.
+
+### 2. Products updated (20)
+
+| Product | Detected brand | Logo file | Source |
+|---------|----------------|-----------|--------|
+| American Racing | American Racing | `/uploads/wheels/logos/american-racing.webp` | seeklogo; brand site confirmed |
+| American Racing Torq Thrust | American Racing | `/uploads/wheels/logos/american-racing.webp` | seeklogo; brand site confirmed |
+| Asanti | Asanti | `/uploads/wheels/logos/asanti.webp` | seeklogo; brand site confirmed |
+| BBS | BBS | `/uploads/wheels/logos/bbs.webp` | BBS USA official |
+| Black Rhino | Black Rhino | `/uploads/wheels/logos/black-rhino.webp` | seeklogo; brand site confirmed |
+| Fifteen52 | Fifteen52 | `/uploads/wheels/logos/fifteen52.webp` | Fifteen52 official |
+| Forgiato | Forgiato | `/uploads/wheels/logos/forgiato.webp` | seeklogo; brand site confirmed |
+| Fuel Off-Road | Fuel Off-Road | `/uploads/wheels/logos/fuel-off-road.webp` | seeklogo; brand site confirmed |
+| Fuel Off-Road Wheel 20x10 | Fuel Off-Road | `/uploads/wheels/logos/fuel-off-road.webp` | seeklogo; brand site confirmed |
+| HRE Wheels | HRE | `/uploads/wheels/logos/hre.webp` | seeklogo; brand site confirmed |
+| KMC Wheels | KMC | `/uploads/wheels/logos/kmc.webp` | seeklogo; brand site confirmed |
+| Konig | Konig | `/uploads/wheels/logos/konig.webp` | Konig official |
+| Lexani | Lexani | `/uploads/wheels/logos/lexani.webp` | Lexani official |
+| Method Race Wheels | Method Race Wheels | `/uploads/wheels/logos/method-race-wheels.webp` | Method Race Wheels official |
+| Moto Metal | Moto Metal | `/uploads/wheels/logos/moto-metal.webp` | seeklogo; parent site confirmed |
+| Rotiform | Rotiform | `/uploads/wheels/logos/rotiform.webp` | seeklogo; brand site confirmed |
+| TSW | TSW | `/uploads/wheels/logos/tsw.webp` | seeklogo; brand site confirmed |
+| Vision Wheel | Vision Wheel | `/uploads/wheels/logos/vision-wheel.webp` | Vision Wheel official |
+| Vossen | Vossen | `/uploads/wheels/logos/vossen.webp` | seeklogo; brand site confirmed |
+| XD Series | XD Series | `/uploads/wheels/logos/xd-series.webp` | seeklogo; brand site confirmed |
+
+### 3. Products skipped (1)
+
+| Product | Reason |
+|---------|--------|
+| Enkie | Product/brand text does not clearly identify a single wheel brand; no logo was guessed |
+
+### 4. Rendering fix
+- Updated `src/components/shop/ProductCard.tsx` so both Tire logo paths (`/uploads/tires/logos/`) and Wheel logo paths (`/uploads/wheels/logos/`) use the same logo-friendly rendering:
+  - centered
+  - `object-contain`
+  - white background
+  - padding inside the existing fixed `h-40` image area
+- Non-logo product images still use the existing `object-cover` behavior.
+
+### 5. Files added/updated
+- [src/components/shop/ProductCard.tsx](src/components/shop/ProductCard.tsx)
+- [scripts/download-wheel-brand-logos.ts](scripts/download-wheel-brand-logos.ts)
+- [scripts/verify-wheel-brand-logos.ts](scripts/verify-wheel-brand-logos.ts)
+- [scripts/inspect-wheel-products.ts](scripts/inspect-wheel-products.ts)
+- [scripts/wheel-brand-logo-assignments.json](scripts/wheel-brand-logo-assignments.json)
+- 18 logo WebP files in [public/uploads/wheels/logos/](public/uploads/wheels/logos/)
+
+### 6. Verification
+- `npx.cmd eslint src\components\shop\ProductCard.tsx scripts\download-wheel-brand-logos.ts scripts\verify-wheel-brand-logos.ts scripts\inspect-wheel-products.ts` - **PASS**
+- `npx.cmd tsc --noEmit` - **PASS**
+- `npx tsx scripts\verify-wheel-brand-logos.ts` - **PASS**
+  - 21 Wheels products checked
+  - 20 matched Wheels products verified with local logo files
+  - 1 skipped (`Enkie`)
+  - 0 broken logo paths
+- Local app verification at `http://localhost:3000/collections/wheels`:
+  - 20 assigned wheel logo URLs returned HTTP 200 image responses
+  - Wheels page markup includes `object-contain` for logo rendering
+  - No broken wheel logo paths found
+- Tire audit:
+  - `npx tsx scripts\audit-image-pipeline.ts` - **PASS**
+  - 23 Tire products still use Tire image/logo paths only
+  - 0 Tire image issues
+  - `/collections/tires` contains 0 `/uploads/wheels/logos/` paths
+
+## Phase: Wheel logo broken image repair (completed)
+
+### 1. Root cause
+The Wheels image audit found one remaining unmatched Wheels product:
+
+| Product | Previous imageUrl | Issue |
+|---------|-------------------|-------|
+| Enkie | *(empty)* | No cover image was assigned, so the product did not display a wheel brand logo |
+
+All other Wheels products already pointed to `/uploads/wheels/logos/*.webp` files that existed on disk. The missing assignment was caused by the stored product/brand text using `Enkie`, while the identifiable official wheel brand is `Enkei`.
+
+### 2. Fix applied
+- Downloaded the official Enkei logo from Enkei's own logo page.
+- Saved it as `/uploads/wheels/logos/enkei.webp`.
+- Assigned `/uploads/wheels/logos/enkei.webp` only to the `Enkie` Wheels product.
+- Updated `scripts/download-wheel-brand-logos.ts` so the stored `Enkie` spelling maps to the official `Enkei` brand logo without changing the product name.
+- Kept the existing logo rendering in `ProductCard.tsx`: centered, `object-contain`, padded, white background, fixed `h-40` image area.
+
+### 3. Files modified
+- [scripts/download-wheel-brand-logos.ts](scripts/download-wheel-brand-logos.ts)
+- [scripts/wheel-brand-logo-assignments.json](scripts/wheel-brand-logo-assignments.json)
+- [REPORT.md](REPORT.md)
+- Added [public/uploads/wheels/logos/enkei.webp](public/uploads/wheels/logos/enkei.webp)
+
+### 4. Products updated
+
+| Product | Brand logo assigned | Logo file | Source |
+|---------|---------------------|-----------|--------|
+| Enkie | Enkei | `/uploads/wheels/logos/enkei.webp` | `https://enkei.com/enkei-logo/` |
+
+The full Wheels logo assignment now covers all 21 Wheels products.
+
+### 5. Verification
+- `npx tsx scripts\verify-wheel-brand-logos.ts` - **PASS**
+  - 21 Wheels products checked
+  - 21 logo paths verified against local files
+  - 0 skipped
+  - 0 broken paths
+- Local app verification at `http://localhost:3000/collections/wheels`:
+  - 21 assigned wheel logo URLs returned HTTP 200 image responses
+  - Refresh check kept 51 wheel logo path occurrences in page markup
+  - Page markup includes `object-contain` for logo rendering
+- Tire safety verification:
+  - `npx tsx scripts\audit-image-pipeline.ts` - **PASS**
+  - `/collections/tires` contains 0 `/uploads/wheels/logos/` paths
+- Code checks:
+  - `npx.cmd eslint src\components\shop\ProductCard.tsx scripts\download-wheel-brand-logos.ts scripts\verify-wheel-brand-logos.ts scripts\inspect-wheel-products.ts` - **PASS**
+  - `npx.cmd tsc --noEmit` - **PASS**
+
+No Tire products, services, product names, descriptions, slugs, collections, buttons, routing, or product-card design were changed.
