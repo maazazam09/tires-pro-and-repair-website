@@ -1275,6 +1275,10 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - `public/uploads/hero.png` served via `/uploads/hero.png`
 - Hero DB record `mediaUrl` set to `/uploads/hero.png` (Turso)
 
-### 3. Production verification
+### 3. Seed fix
+- `prisma/seed.ts` no longer overwrites `hero.mediaUrl` on deploy (was resetting to Unsplash each build).
+- New installs default to `/uploads/hero.png`.
+
+### 4. Production verification
 - `/uploads/hero.png` — HTTP 200 `image/png`
 - Homepage hero background references `/uploads/hero.png`

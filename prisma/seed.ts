@@ -119,13 +119,12 @@ async function main() {
   await prisma.hero.upsert({
     where: { id: 1 },
     update: {
-      mediaUrl: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80",
       ctaQuoteLabel: "Booking",
       ctaQuoteLink: "/contact#booking",
     },
     create: {
       id: 1,
-      mediaUrl: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80",
+      mediaUrl: "/uploads/hero.png",
       ctaQuoteLabel: "Booking",
       ctaQuoteLink: "/contact#booking",
     },
