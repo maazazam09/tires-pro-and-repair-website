@@ -798,3 +798,23 @@ The full Wheels logo assignment now covers all 21 Wheels products.
   - `npx.cmd tsc --noEmit` - **PASS**
 
 No Tire products, services, product names, descriptions, slugs, collections, buttons, routing, or product-card design were changed.
+
+## Phase: Production redeploy — wheel logos (completed)
+
+### 1. Deployed
+- Commit: `ff17878` — Add wheel brand logos, ProductCard logo rendering, and deploy assets
+- Production URL: https://grok-rho-lyart.vercel.app
+- Build: `npm run build` — **PASS** (local)
+- Vercel production deploy — **PASS** (Ready in 57s)
+
+### 2. Assets shipped
+- 19 wheel brand logo WebP files in `public/uploads/wheels/logos/`
+- Skipped tire cover images retained: `Falken.webp`, `Sailun.webp`, `used-215-55r17.webp`
+- Replaced legacy tire product photos removed from repo (logos now served from `public/uploads/tires/logos/`)
+
+### 3. Production verification
+- `npx tsx scripts/verify-wheel-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS**
+  - 21/21 wheel products verified, 0 skipped, 0 broken paths
+- `npx tsx scripts/verify-tire-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS**
+  - 23/23 tire products verified, 0 broken paths
+  - Falken, Sailun, and Used Tire 215/55R17 still serve original cover images (HTTP 200)
