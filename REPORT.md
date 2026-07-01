@@ -574,3 +574,19 @@ No UI, layout, routing, product names, slugs, descriptions, or collections were 
   - 14/14 active public tire products return HTTP 200 with `image/*` content-type
   - **General Tires** → `/uploads/general tyre.jpeg` loads correctly
 - Admin upload: returns `/uploads/<filename>` on both local and production; path persists in DB after save/refresh
+
+## Phase: Production redeploy (completed)
+
+### 1. Actions
+- Reverted unrelated local change to `collections/[slug]/page.tsx` (ShopClient/filters preserved)
+- `npm run build` — **PASS**
+- `npx vercel deploy --prod --yes` — **PASS**
+  - Deployment: `https://grok-183wcsqra-maniacs-digital.vercel.app`
+  - Production alias: https://grok-rho-lyart.vercel.app
+  - Commit deployed: `c55f689` (upload serve pipeline fix)
+
+### 2. Post-deploy verification
+- `npx tsx scripts/verify-upload-pipeline.ts https://grok-rho-lyart.vercel.app` — **PASS**
+  - 14/14 active public tire product images → HTTP 200
+  - General Tires → `/uploads/general tyre.jpeg` → HTTP 200 `image/jpeg`
+  - 0 broken image URLs
