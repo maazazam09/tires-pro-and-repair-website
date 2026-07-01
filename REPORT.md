@@ -952,6 +952,127 @@ The database update was correct, and the frontend was reading the correct field.
 
 Note: a Wheels verification script currently reports an unrelated missing `vision-wheel.webp` local file. No Wheels records or files were changed for this task.
 
+## Phase: Legal pages added (completed)
+
+### 1. Scope
+- Added two public legal pages:
+  - `/privacy-policy`
+  - `/terms-and-conditions`
+- Added footer-only links to both pages.
+- Did not add links to the main navigation.
+- Did not modify products, services, admin panel, database, routing outside the two new pages, or site styling.
+
+### 2. Research basis
+Reviewed current examples and common coverage patterns from auto repair, tire shop, scheduling, and automotive service legal pages, including:
+- Logan Square Auto Repair privacy policy
+- Colorado Tire & Service privacy policy
+- AutoOps privacy policy for auto shop scheduling
+- Tire Palace terms and conditions
+- RAC Auto Services terms examples
+- Tire Crew SMS/privacy language
+- Auto Tech Centers and Tire City privacy policy examples
+
+The final copy is original wording tailored to Tire Pro and Repair.
+
+### 3. Files created/modified
+- [src/app/(public)/privacy-policy/page.tsx](src/app/(public)/privacy-policy/page.tsx)
+- [src/app/(public)/terms-and-conditions/page.tsx](src/app/(public)/terms-and-conditions/page.tsx)
+- [src/components/layout/Footer.tsx](src/components/layout/Footer.tsx)
+- [REPORT.md](REPORT.md)
+
+### 4. Content added
+- Privacy Policy includes sections for:
+  - collected information
+  - appointment and service inquiries
+  - vehicle details
+  - customer media
+  - communications by phone, email, and text
+  - cookies and analytics
+  - third-party links
+  - payment and financing providers
+  - data security and retention
+  - customer choices and contact
+- Terms and Conditions includes sections for:
+  - website/service terms
+  - tire, wheel, alignment, suspension, brake, and related services
+  - appointments and scheduling
+  - estimates, pricing, and availability
+  - tire/wheel fitment responsibility
+  - used tires and customer-supplied parts
+  - service authorization
+  - payments and financing
+  - warranties and limitations
+  - customer communications
+  - third-party links and customer media
+
+### 5. Verification
+- `npx.cmd eslint src\components\layout\Footer.tsx "src\app\(public)\privacy-policy\page.tsx" "src\app\(public)\terms-and-conditions\page.tsx"` - **PASS**
+- `npx.cmd tsc --noEmit` - **PASS**
+- Local route checks:
+  - `/privacy-policy` -> HTTP 200
+  - `/terms-and-conditions` -> HTTP 200
+  - Footer links present on both legal pages
+  - Footer links present on the homepage
+- `rg "privacy-policy|terms-and-conditions" src\components\layout src\lib src\app -n` confirmed links are only in `Footer.tsx` plus the new page metadata.
+- `npm.cmd run build` - **PASS**
+  - Build route table includes `/privacy-policy`
+  - Build route table includes `/terms-and-conditions`
+
+## Phase: Production redeploy — legal pages (completed)
+
+### 1. Deployed
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- `/privacy-policy` and `/terms-and-conditions` public pages
+- Footer links to both legal pages (not added to main navigation)
+
+### 3. Production verification
+- `/privacy-policy` — HTTP 200
+- `/terms-and-conditions` — HTTP 200
+- Footer links present on production homepage
+
+## Phase: Vision Wheel cover image verification (completed)
+
+### 1. Requested fields vs actual schema
+The requested fields were `coverImage`, `image`, and `thumbnail`, but the `Product` model does not contain those columns. The only product cover/image field in this project is:
+
+| Model | Image field |
+|-------|-------------|
+| Product | `imageUrl` |
+
+Product cards render `product.imageUrl`, so `Vision Wheel` was verified and saved through that field.
+
+### 2. Product updated
+
+| Product | Category | Confirmed image path |
+|---------|----------|----------------------|
+| Vision Wheel | WHEEL | `/uploads/wheels/logos/vision wheel.jpeg` |
+
+### 3. Verification
+- Local uploaded file found:
+  - `D:\grok\public\uploads\wheels\logos\vision wheel.jpeg`
+- `scripts/apply-vision-wheel-jpeg.ts` re-saved the `Vision Wheel` product record:
+  - before: `/uploads/wheels/logos/vision wheel.jpeg`
+  - after: `/uploads/wheels/logos/vision wheel.jpeg`
+- `npx tsx scripts\verify-wheel-brand-logos.ts` - **PASS**
+  - 21/21 Wheels product images verified
+  - `Vision Wheel` image dimensions: 534x348
+  - 0 broken paths
+- Local image URL:
+  - `/uploads/wheels/logos/vision%20wheel.jpeg` -> HTTP 200 `image/jpeg`
+- Production image URL:
+  - `/uploads/wheels/logos/vision%20wheel.jpeg` -> HTTP 200 `image/jpeg`
+- Local `/collections/wheels`:
+  - `Vision Wheel` image path present on initial render
+  - `Vision Wheel` image path still present after refresh
+  - Existing logo rendering uses `object-contain`
+- Production `/collections/wheels` contains `/uploads/wheels/logos/vision wheel.jpeg`.
+
+Only the `Vision Wheel` product image field was re-saved. Product name, description, slug, category, price, and other product details were not changed.
+
 ## Phase: Remove collection page filters (completed)
 
 ### 1. Scope

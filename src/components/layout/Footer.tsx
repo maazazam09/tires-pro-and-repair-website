@@ -96,7 +96,15 @@ export function Footer({
         </div>
       </div>
       <div className="border-t border-[#2A2A2A] px-4 py-4 text-center text-xs text-white/60">
-        © {new Date().getFullYear()} {businessName}. All rights reserved.
+        <div className="flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
+          <span>&copy; {new Date().getFullYear()} {businessName}. All rights reserved.</span>
+          <Link href="/privacy-policy" className="hover:text-white">
+            Privacy Policy
+          </Link>
+          <Link href="/terms-and-conditions" className="hover:text-white">
+            Terms and Conditions
+          </Link>
+        </div>
       </div>
     </footer>
   );
