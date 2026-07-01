@@ -996,6 +996,7 @@ Description:
 ## Phase: Production redeploy — collection promotional banner (completed)
 
 ### 1. Deployed
+- Commit: `33b3a63` — Add promotional banner to collection pages
 - Production URL: https://grok-rho-lyart.vercel.app
 - `npm run build` — **PASS**
 - Vercel production deploy — **PASS**
