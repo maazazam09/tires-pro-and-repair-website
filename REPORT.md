@@ -1252,7 +1252,7 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 | Field | Value |
 |-------|-------|
 | Hero `mediaUrl` | `/uploads/hero.png` |
-| Local file | `public/uploads/hero.png` (1584×672) |
+| Local file | `public/uploads/hero.png` (1672×941) |
 
 ### 3. Files added
 - [public/uploads/hero.png](public/uploads/hero.png)
@@ -1281,5 +1281,34 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - New installs default to `/uploads/hero.png`.
 
 ### 4. Production verification
+- `/uploads/hero.png` — HTTP 200 `image/png`
+- Homepage hero background references `/uploads/hero.png`
+
+## Phase: Homepage hero image re-verification (completed)
+
+### 1. Image path
+- Exact uploaded file found: `public/uploads/hero.png`
+- Public hero path used: `/uploads/hero.png`
+
+### 2. Verification
+- Re-applied Hero `mediaUrl` to `/uploads/hero.png`; previous value was already correct.
+- Local `/uploads/hero.png` — HTTP 200 `image/png`
+- Local homepage contains `/uploads/hero.png`
+- Production `/uploads/hero.png` — HTTP 200 `image/png`
+- Production homepage contains `/uploads/hero.png`
+- Old Unsplash hero reference is absent from production homepage HTML.
+
+## Phase: Production redeploy — updated hero image asset (completed)
+
+### 1. Deployed
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- Replaced `public/uploads/hero.png` with updated 1672×941 asset
+- Hero `mediaUrl` remains `/uploads/hero.png` (unchanged path)
+
+### 3. Production verification
 - `/uploads/hero.png` — HTTP 200 `image/png`
 - Homepage hero background references `/uploads/hero.png`
