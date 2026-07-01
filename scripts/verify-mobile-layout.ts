@@ -1,3 +1,4 @@
+// @ts-nocheck — optional Playwright dependency for local mobile verification only
 const BASE = process.argv[2] || "http://localhost:3000";
 const VIEWPORTS = [320, 375, 390, 414, 430, 768] as const;
 
