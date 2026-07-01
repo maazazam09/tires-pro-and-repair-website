@@ -952,6 +952,49 @@ The database update was correct, and the frontend was reading the correct field.
 
 Note: a Wheels verification script currently reports an unrelated missing `vision-wheel.webp` local file. No Wheels records or files were changed for this task.
 
+## Phase: Homepage hero image replacement (completed)
+
+### 1. Scope
+- Replaced only the Hero banner image source.
+- Did not modify the hero layout, overlay, text positioning, buttons, animations, responsiveness, products, services, collections, or other pages.
+- Used the manually uploaded file already present under `public/uploads`.
+
+### 2. Image found
+- Local file: `D:\grok\public\uploads\hero.png`
+- Public path used: `/uploads/hero.png`
+- Image dimensions: 1584x672
+- File size served in production: 1,396,487 bytes
+
+### 3. Files modified
+- [scripts/apply-hero-image.ts](scripts/apply-hero-image.ts)
+- [REPORT.md](REPORT.md)
+
+### 4. Change made
+- Updated `Hero.mediaUrl` from the previous Unsplash image URL to `/uploads/hero.png`.
+- Confirmed non-image hero fields stayed unchanged:
+  - headline
+  - subheadline
+  - mediaType
+  - call-to-action labels
+  - call-to-action links
+
+### 5. Build and deployment
+- `npm.cmd run build` - **PASS**
+- `npx.cmd vercel deploy --prod --yes` - **PASS**
+- After deploy, the Vercel build seed step reset the Hero row to the previous image, so `scripts/apply-hero-image.ts` was run again to re-save `/uploads/hero.png`.
+
+### 6. Verification
+- Local image URL:
+  - `/uploads/hero.png` -> HTTP 200 `image/png`
+- Local homepage:
+  - `/uploads/hero.png` present before and after refresh
+- Production image URL:
+  - `https://grok-rho-lyart.vercel.app/uploads/hero.png` -> HTTP 200 `image/png`
+- Production homepage:
+  - `/uploads/hero.png` present before and after refresh
+  - old Unsplash hero URL no longer present
+- Hero section continues to use the existing background-image layout, overlay, text, buttons, and responsive behavior.
+
 ## Phase: Collection promotional info banner (completed)
 
 ### 1. Scope
@@ -1197,3 +1240,41 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 ### 3. Production verification
 - `npx tsx scripts/verify-tire-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS** (23/23)
 - `npx tsx scripts/verify-wheel-brand-logos.ts https://grok-rho-lyart.vercel.app` — **PASS** (21/21)
+
+## Phase: Homepage hero image update (completed)
+
+### 1. Scope
+- Updated only the homepage hero `mediaUrl` to use the manually uploaded image.
+- Did not modify hero headline, subheadline, CTAs, or other site sections.
+
+### 2. Change applied
+
+| Field | Value |
+|-------|-------|
+| Hero `mediaUrl` | `/uploads/hero.png` |
+| Local file | `public/uploads/hero.png` (1584×672) |
+
+### 3. Files added
+- [public/uploads/hero.png](public/uploads/hero.png)
+- [scripts/apply-hero-image.ts](scripts/apply-hero-image.ts)
+- [REPORT.md](REPORT.md)
+
+### 4. Verification
+- `npx tsx scripts/apply-hero-image.ts` — **PASS**
+- Local `/uploads/hero.png` — HTTP 200 `image/png`
+- Homepage hero background uses `/uploads/hero.png`
+
+## Phase: Production redeploy — homepage hero image (completed)
+
+### 1. Deployed
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Assets shipped
+- `public/uploads/hero.png` served via `/uploads/hero.png`
+- Hero DB record `mediaUrl` set to `/uploads/hero.png` (Turso)
+
+### 3. Production verification
+- `/uploads/hero.png` — HTTP 200 `image/png`
+- Homepage hero background references `/uploads/hero.png`
