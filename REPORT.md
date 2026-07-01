@@ -952,6 +952,63 @@ The database update was correct, and the frontend was reading the correct field.
 
 Note: a Wheels verification script currently reports an unrelated missing `vision-wheel.webp` local file. No Wheels records or files were changed for this task.
 
+## Phase: Collection promotional info banner (completed)
+
+### 1. Scope
+- Added a short promotional banner above the product grid on:
+  - `/collections/tires`
+  - `/collections/wheels`
+- Did not modify product cards, routes, admin panel, product data, or unrelated sections.
+
+### 2. File modified
+- [src/app/(public)/collections/[slug]/page.tsx](src/app/(public)/collections/[slug]/page.tsx)
+- [REPORT.md](REPORT.md)
+
+### 3. Banner content
+Heading:
+`Every Brand. Every Size. Professionally Installed.`
+
+Description:
+`Looking for a specific tire or wheel? We can source almost any brand, size, or style and have it ready for professional installation at Tire Pro and Repair. Call us today to check availability.`
+
+### 4. Design
+- Placed directly above the product grid.
+- Used existing page width, typography, and brand colors.
+- Added a compact white panel with subtle shadow and red left accent border.
+- Responsive text sizing for mobile and desktop.
+
+### 5. Verification
+- `npx.cmd eslint "src\app\(public)\collections\[slug]\page.tsx"` - **PASS**
+- `npx.cmd tsc --noEmit` - **PASS**
+- Local `/collections/tires`:
+  - Banner heading present
+  - Banner description present
+  - Red accent border class present
+  - Product grid still renders
+- Local `/collections/wheels`:
+  - Banner heading present
+  - Banner description present
+  - Red accent border class present
+  - Product grid still renders
+- Local `/shop` does not include the banner.
+- `npm.cmd run build` - **PASS**
+
+## Phase: Production redeploy — collection promotional banner (completed)
+
+### 1. Deployed
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- Promotional info banner on `/collections/tires` and `/collections/wheels`
+- Banner not shown on `/shop`
+
+### 3. Production verification
+- `/collections/tires` — banner heading and description present
+- `/collections/wheels` — banner heading and description present
+- Product grids still render on both collection pages
+
 ## Phase: Legal pages added (completed)
 
 ### 1. Scope
