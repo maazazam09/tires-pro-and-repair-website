@@ -1301,6 +1301,7 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 ## Phase: Production redeploy — updated hero image asset (completed)
 
 ### 1. Deployed
+- Commit: `113e576` — Update homepage hero image asset (1672x941)
 - Production URL: https://grok-rho-lyart.vercel.app
 - `npm run build` — **PASS**
 - Vercel production deploy — **PASS**
