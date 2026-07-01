@@ -590,3 +590,57 @@ No UI, layout, routing, product names, slugs, descriptions, or collections were 
   - 14/14 active public tire product images → HTTP 200
   - General Tires → `/uploads/general tyre.jpeg` → HTTP 200 `image/jpeg`
   - 0 broken image URLs
+
+## Phase: Tire brand logo covers (completed)
+
+### 1. Scope
+- Replaced tire **product photos** with **official brand logos** for the Tires collection
+- Updated **only** `imageUrl` on `TIRE` category products
+- Logos saved to `public/uploads/tires/logos/{brand}.webp`
+- No changes to names, slugs, descriptions, categories, collections, layout, or services
+
+### 2. Products updated (20)
+
+| Product | Detected brand | Logo file | Source |
+|---------|----------------|-----------|--------|
+| BF Goodrich All-Terrain 265/70R17 | BFGoodrich | `/uploads/tires/logos/bfgoodrich.webp` | bfgoodrichtires.com logo-brand.svg |
+| BFGoodrich | BFGoodrich | `/uploads/tires/logos/bfgoodrich.webp` | bfgoodrichtires.com logo-brand.svg |
+| Bridgestone | Bridgestone | `/uploads/tires/logos/bridgestone.webp` | bridgestone.com official favicon mark |
+| Continental | Continental | `/uploads/tires/logos/continental.webp` | continentaltire.com logo-dark.svg |
+| Cooper | Cooper | `/uploads/tires/logos/cooper.webp` | coopertire.com footer-logo.svg |
+| Federal | Federal | `/uploads/tires/logos/federal.webp` | federaltire.com share_logo.jpg |
+| Firestone | Firestone | `/uploads/tires/logos/firestone.webp` | firestonetire.com firestone-shield.svg |
+| GOODYEAR | Goodyear | `/uploads/tires/logos/goodyear.webp` | goodyear.com primary-dark-brand-logo.svg |
+| GT Radial | GT Radial | `/uploads/tires/logos/gt-radial.webp` | gtradial.com logo.svg |
+| General Tires | General Tire | `/uploads/tires/logos/general-tire.webp` | generaltire.com logo.svg |
+| Hnakook | Hankook | `/uploads/tires/logos/hankook.webp` | hankooktire.com logo.svg |
+| Kumho | Kumho | `/uploads/tires/logos/kumho.webp` | kumhotireusa.com kumho-logo.png |
+| Michelin | Michelin | `/uploads/tires/logos/michelin.webp` | michelinman.com logo-brand.svg |
+| Michelin Defender 225/65R17 | Michelin | `/uploads/tires/logos/michelin.webp` | michelinman.com logo-brand.svg |
+| Nexen | Nexen | `/uploads/tires/logos/nexen.webp` | nexentire.com logo.png |
+| Nitto | Nitto | `/uploads/tires/logos/nitto.webp` | nittotire.com header-nitto-logo.svg |
+| Pirelli | Pirelli | `/uploads/tires/logos/pirelli.webp` | pirelli.com pirelli-logo.png |
+| Toyo | Toyo | `/uploads/tires/logos/toyo.webp` | toyotires.com toyo_ig_logo.jpg |
+| Yokohama | Yokohama | `/uploads/tires/logos/yokohama.webp` | Yokohama official CDN logo |
+| maxxis | Maxxis | `/uploads/tires/logos/maxxis.webp` | maxxis.com logo.svg |
+
+### 3. Products skipped (3)
+
+| Product | Reason |
+|---------|--------|
+| Falken | Brand identified, but official logo not downloadable automatically (site blocks asset URLs) |
+| Sailun | Brand identified, but official logo not downloadable automatically (site blocks asset URLs) |
+| Used Tire 215/55R17 | No single tire brand in product name (`brand: Mixed`) — not guessed |
+
+Skipped products retain their previous cover images.
+
+### 4. Files added
+- [scripts/download-tire-brand-logos.ts](scripts/download-tire-brand-logos.ts)
+- [scripts/verify-tire-brand-logos.ts](scripts/verify-tire-brand-logos.ts)
+- [scripts/tire-brand-logo-assignments.json](scripts/tire-brand-logo-assignments.json)
+- 18 logo WebP files in [public/uploads/tires/logos/](public/uploads/tires/logos/)
+
+### 5. Verification
+- `npx tsx scripts/download-tire-brand-logos.ts` — **PASS** (20 updated, 3 skipped, 0 failed)
+- All 18 logo files exist on disk and are valid WebP images
+- Only `imageUrl` changed; all 23 tire products remain in the Tires collection

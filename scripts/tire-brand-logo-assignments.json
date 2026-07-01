@@ -1,0 +1,212 @@
+{
+  "success": true,
+  "total": 23,
+  "updatedCount": 20,
+  "skippedCount": 3,
+  "failedCount": 0,
+  "downloadedBrands": [
+    "bfgoodrich",
+    "bridgestone",
+    "continental",
+    "cooper",
+    "federal",
+    "firestone",
+    "goodyear",
+    "gt-radial",
+    "general-tire",
+    "hankook",
+    "kumho",
+    "michelin",
+    "nexen",
+    "nitto",
+    "pirelli",
+    "toyo",
+    "yokohama",
+    "maxxis"
+  ],
+  "updated": [
+    {
+      "name": "BF Goodrich All-Terrain 265/70R17",
+      "slug": "bfg-at-265-70r17",
+      "detectedBrand": "bfgoodrich",
+      "sourceLabel": "BFGoodrich official (bfgoodrichtires.com)",
+      "logoFile": "/uploads/tires/logos/bfgoodrich.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\bfgoodrich.webp"
+    },
+    {
+      "name": "BFGoodrich",
+      "slug": "BFGoodrich",
+      "detectedBrand": "bfgoodrich",
+      "sourceLabel": "BFGoodrich official (bfgoodrichtires.com)",
+      "logoFile": "/uploads/tires/logos/bfgoodrich.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\bfgoodrich.webp"
+    },
+    {
+      "name": "Bridgestone",
+      "slug": "bridgestone",
+      "detectedBrand": "bridgestone",
+      "sourceLabel": "Bridgestone official (bridgestone.com favicon mark)",
+      "logoFile": "/uploads/tires/logos/bridgestone.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\bridgestone.webp"
+    },
+    {
+      "name": "Continental",
+      "slug": "Continental",
+      "detectedBrand": "continental",
+      "sourceLabel": "Continental official (continentaltire.com)",
+      "logoFile": "/uploads/tires/logos/continental.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\continental.webp"
+    },
+    {
+      "name": "Cooper",
+      "slug": "Cooper",
+      "detectedBrand": "cooper",
+      "sourceLabel": "Cooper official (coopertire.com)",
+      "logoFile": "/uploads/tires/logos/cooper.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\cooper.webp"
+    },
+    {
+      "name": "Federal",
+      "slug": "Federal",
+      "detectedBrand": "federal",
+      "sourceLabel": "Federal official (federaltire.com)",
+      "logoFile": "/uploads/tires/logos/federal.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\federal.webp"
+    },
+    {
+      "name": "Firestone",
+      "slug": "Firestone",
+      "detectedBrand": "firestone",
+      "sourceLabel": "Firestone official (firestonetire.com)",
+      "logoFile": "/uploads/tires/logos/firestone.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\firestone.webp"
+    },
+    {
+      "name": "GOODYEAR",
+      "slug": "GOODYEAR",
+      "detectedBrand": "goodyear",
+      "sourceLabel": "Goodyear official (goodyear.com)",
+      "logoFile": "/uploads/tires/logos/goodyear.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\goodyear.webp"
+    },
+    {
+      "name": "GT Radial",
+      "slug": "GT Radial",
+      "detectedBrand": "gt-radial",
+      "sourceLabel": "GT Radial official (gtradial.com)",
+      "logoFile": "/uploads/tires/logos/gt-radial.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\gt-radial.webp"
+    },
+    {
+      "name": "General Tires ",
+      "slug": "General Tires ",
+      "detectedBrand": "general-tire",
+      "sourceLabel": "General Tire official (generaltire.com)",
+      "logoFile": "/uploads/tires/logos/general-tire.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\general-tire.webp"
+    },
+    {
+      "name": "Hnakook",
+      "slug": "Hnakook",
+      "detectedBrand": "hankook",
+      "sourceLabel": "Hankook official (hankooktire.com)",
+      "logoFile": "/uploads/tires/logos/hankook.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\hankook.webp"
+    },
+    {
+      "name": "Kumho ",
+      "slug": "Kumho ",
+      "detectedBrand": "kumho",
+      "sourceLabel": "Kumho official (kumhotireusa.com)",
+      "logoFile": "/uploads/tires/logos/kumho.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\kumho.webp"
+    },
+    {
+      "name": "Michelin",
+      "slug": "michelin",
+      "detectedBrand": "michelin",
+      "sourceLabel": "Michelin official (michelinman.com)",
+      "logoFile": "/uploads/tires/logos/michelin.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\michelin.webp"
+    },
+    {
+      "name": "Michelin Defender 225/65R17",
+      "slug": "michelin-defender-225-65r17",
+      "detectedBrand": "michelin",
+      "sourceLabel": "Michelin official (michelinman.com)",
+      "logoFile": "/uploads/tires/logos/michelin.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\michelin.webp"
+    },
+    {
+      "name": "Nexen",
+      "slug": "Nexen",
+      "detectedBrand": "nexen",
+      "sourceLabel": "Nexen official (nexentire.com)",
+      "logoFile": "/uploads/tires/logos/nexen.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\nexen.webp"
+    },
+    {
+      "name": "Nitto",
+      "slug": "Nitto",
+      "detectedBrand": "nitto",
+      "sourceLabel": "Nitto official (nittotire.com)",
+      "logoFile": "/uploads/tires/logos/nitto.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\nitto.webp"
+    },
+    {
+      "name": "Pirelli",
+      "slug": "Pirelli",
+      "detectedBrand": "pirelli",
+      "sourceLabel": "Pirelli official (pirelli.com)",
+      "logoFile": "/uploads/tires/logos/pirelli.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\pirelli.webp"
+    },
+    {
+      "name": "Toyo",
+      "slug": "Toyo",
+      "detectedBrand": "toyo",
+      "sourceLabel": "Toyo official (toyotires.com)",
+      "logoFile": "/uploads/tires/logos/toyo.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\toyo.webp"
+    },
+    {
+      "name": "Yokohama",
+      "slug": "Yokohama",
+      "detectedBrand": "yokohama",
+      "sourceLabel": "Yokohama official (yokohama CDN)",
+      "logoFile": "/uploads/tires/logos/yokohama.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\yokohama.webp"
+    },
+    {
+      "name": "maxxis",
+      "slug": "maxxis",
+      "detectedBrand": "maxxis",
+      "sourceLabel": "Maxxis official (maxxis.com)",
+      "logoFile": "/uploads/tires/logos/maxxis.webp",
+      "localFile": "D:\\grok\\public\\uploads\\tires\\logos\\maxxis.webp"
+    }
+  ],
+  "skipped": [
+    {
+      "name": "Falken",
+      "slug": "Falken",
+      "detectedBrand": "falken",
+      "status": "skipped",
+      "reason": "falken official logo not downloadable automatically"
+    },
+    {
+      "name": "Sailun",
+      "slug": "Sailun",
+      "detectedBrand": "sailun",
+      "status": "skipped",
+      "reason": "sailun official logo not downloadable automatically"
+    },
+    {
+      "name": "Used Tire 215/55R17",
+      "slug": "used-215-55r17",
+      "status": "unclear",
+      "reason": "No single tire brand in product name"
+    }
+  ],
+  "failed": []
+}

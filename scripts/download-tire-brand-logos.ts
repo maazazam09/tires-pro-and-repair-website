@@ -79,7 +79,7 @@ const BRAND_LOGOS: Record<
   },
   cooper: {
     sourceLabel: "Cooper official (coopertire.com)",
-    url: "https://www.coopertire.com/on/demandware.static/Sites-CooperTire-Site/-/default/dwc8ba6c80/images/logo.svg",
+    url: "https://www.coopertire.com/on/demandware.static/-/Sites-CooperTire-Library/default/dw3039af03/footer/footer-logo.svg",
   },
   maxxis: {
     sourceLabel: "Maxxis official (maxxis.com)",
@@ -176,11 +176,23 @@ async function fileExists(filePath: string): Promise<boolean> {
   }
 }
 
+function refererForLogoUrl(url: string): string | undefined {
+  try {
+    const host = new URL(url).hostname;
+    if (host.includes("coopertire.com")) return "https://www.coopertire.com/";
+    if (host.includes("firestonetire.com")) return "https://www.firestonetire.com/";
+    if (host.includes("goodyear.com") || host.includes("scene7.com")) return "https://www.goodyear.com/";
+  } catch {}
+  return undefined;
+}
+
 async function downloadLogo(url: string): Promise<Buffer> {
+  const referer = refererForLogoUrl(url);
   const response = await fetch(url, {
     headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; TireProLogoBot/1.0)",
-      Accept: "image/*,*/*",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+      ...(referer ? { Referer: referer } : {}),
     },
   });
   if (!response.ok) {
@@ -194,8 +206,17 @@ async function downloadLogo(url: string): Promise<Buffer> {
 }
 
 async function saveLogoWebp(buffer: Buffer, outputPath: string): Promise<void> {
-  await sharp(buffer, { density: 300 })
-    .resize(800, 800, { fit: "inside", withoutEnlargement: true, background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  const prepared = sharp(buffer, { density: 300 })
+    .resize(720, 280, { fit: "inside", withoutEnlargement: false, background: { r: 0, g: 0, b: 0, alpha: 0 } })
+    .extend({
+      top: 60,
+      bottom: 60,
+      left: 60,
+      right: 60,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    });
+
+  await prepared
     .webp({ quality: 90, alphaQuality: 100 })
     .toFile(outputPath);
 }
