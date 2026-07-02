@@ -1569,6 +1569,7 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 ## Phase: Production redeploy — hero tagline removal (completed)
 
 ### 1. Deployed
+- Commit: `f06adb8` — Remove hero tagline above homepage headline
 - Production URL: https://grok-rho-lyart.vercel.app
 - `npm run build` — **PASS**
 - Vercel production deploy — **PASS**
