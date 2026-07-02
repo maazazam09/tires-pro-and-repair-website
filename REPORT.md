@@ -1546,9 +1546,30 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - `npm.cmd run build` - **PASS**
   - Existing build warnings remained: deprecated `middleware` convention and a Turbopack NFT trace warning from `next.config.ts` / `src/lib/prisma.ts` / `src/app/api/setup/route.ts`.
 
+## Phase: Hero banner tagline removal (completed)
+
+### 1. Scope
+- Removed only the small red Hero tagline: `CHICO'S TIRE & WHEEL EXPERTS`.
+- Did not change the Hero background image, overlay, main heading, subheading, CTA buttons, height, animations, responsive behavior, header, navigation, or other sections.
+
+### 2. Files modified
+- [src/components/home/HeroSection.tsx](src/components/home/HeroSection.tsx)
+- [REPORT.md](REPORT.md)
+
+### 3. Changes made
+- Removed the tagline paragraph above the main Hero heading.
+- Removed its margin along with the element, so no empty gap is left and the main heading moves upward naturally within the existing Hero layout.
+
+### 4. Verification
+- Source search confirms `CHICO'S TIRE & WHEEL EXPERTS` / `Chico's Tire & Wheel Experts` is no longer present in the Hero/app source.
+- `npx.cmd eslint src\components\home\HeroSection.tsx` - **PASS**
+- `npm.cmd run build` - **PASS**
+  - Existing build warnings remained: deprecated `middleware` convention and a Turbopack NFT trace warning from `next.config.ts` / `src/lib/prisma.ts` / `src/app/api/setup/route.ts`.
+
 ## Phase: Production redeploy — shop category/brand filters (completed)
 
 ### 1. Deployed
+- Commit: `f33a5bb` — Fix shop brand filter to depend on selected category
 - Production URL: https://grok-rho-lyart.vercel.app
 - `npm run build` — **PASS**
 - Vercel production deploy — **PASS**
