@@ -16,8 +16,21 @@ type ShopFiltersProps = {
 };
 
 export function ShopFilters({ products, filters, onChange }: ShopFiltersProps) {
-  const brands = [...new Set(products.map((p) => p.brand))].sort();
+  const brandProducts = filters.category
+    ? products.filter((p) => p.category === filters.category)
+    : products;
+  const brands = [...new Set(brandProducts.map((p) => p.brand))].sort();
   const sizes = [...new Set(products.map((p) => p.size))].sort();
+
+  function handleCategoryChange(category: string) {
+    const categoryProducts = category ? products.filter((p) => p.category === category) : products;
+    const categoryBrands = new Set(categoryProducts.map((p) => p.brand));
+    onChange({
+      ...filters,
+      category,
+      brand: filters.brand && !categoryBrands.has(filters.brand) ? "" : filters.brand,
+    });
+  }
 
   return (
     <div className="card mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -63,7 +76,7 @@ export function ShopFilters({ products, filters, onChange }: ShopFiltersProps) {
         <label className="mb-1 block text-xs text-metallic">Category</label>
         <select
           value={filters.category}
-          onChange={(e) => onChange({ ...filters, category: e.target.value })}
+          onChange={(e) => handleCategoryChange(e.target.value)}
           className="w-full min-h-11 rounded border border-border bg-white px-3 py-3 text-base text-foreground sm:py-2 sm:text-sm"
         >
           <option value="">All</option>

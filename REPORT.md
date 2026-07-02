@@ -1516,3 +1516,45 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 ### 2. Production verification
 - Homepage HTTP 200
 - Mobile responsive utility classes present in production markup
+
+## Phase: Shop page category/brand filter dependency (completed)
+
+### 1. Scope
+- Fixed only the Shop page filter dependency between Category and Brand.
+- Did not change product cards, product data, collections, layout, styling, mobile design, admin panel, or filter set.
+
+### 2. Files modified
+- [src/components/shop/ShopFilters.tsx](src/components/shop/ShopFilters.tsx)
+- [REPORT.md](REPORT.md)
+
+### 3. Changes made
+- Brand dropdown options are now derived from products matching the selected category.
+- Category = Tires shows only tire brands.
+- Category = Wheels shows only wheel brands.
+- Category = All shows all brands.
+- When changing category, an already selected brand is preserved only if it exists in the new category; otherwise Brand resets to `All Brands`.
+
+### 4. Verification
+- Focused data check:
+  - Tire brands: 16
+  - Wheel brands: 18
+  - All brands: 35
+  - Tire brand list contains no sampled wheel brands.
+  - Wheel brand list contains no sampled tire brands.
+  - Switching from `Vision Wheel` to Tires would reset Brand to `All Brands`.
+- `npx.cmd eslint src\components\shop\ShopFilters.tsx` - **PASS**
+- `npm.cmd run build` - **PASS**
+  - Existing build warnings remained: deprecated `middleware` convention and a Turbopack NFT trace warning from `next.config.ts` / `src/lib/prisma.ts` / `src/app/api/setup/route.ts`.
+
+## Phase: Production redeploy — shop category/brand filters (completed)
+
+### 1. Deployed
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- Shop page Brand filter now depends on selected Category (Tires / Wheels / All)
+
+### 3. Production verification
+- `/shop` — HTTP 200
