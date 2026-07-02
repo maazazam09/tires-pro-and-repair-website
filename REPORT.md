@@ -1305,6 +1305,52 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - Production homepage contains `/uploads/hero.png`
 - Old Unsplash hero reference is absent from production homepage HTML.
 
+## Phase: Mobile responsiveness improvements (completed)
+
+### 1. Files modified
+- `src/app/globals.css`
+- `src/app/(public)/layout.tsx`
+- `src/app/(public)/page.tsx`
+- `src/app/(public)/about/page.tsx`
+- `src/app/(public)/collections/[slug]/page.tsx`
+- `src/app/(public)/contact/page.tsx`
+- `src/app/(public)/gallery/page.tsx`
+- `src/app/(public)/offers/page.tsx`
+- `src/app/(public)/privacy-policy/page.tsx`
+- `src/app/(public)/reviews/page.tsx`
+- `src/app/(public)/services/page.tsx`
+- `src/app/(public)/services/[slug]/page.tsx`
+- `src/app/(public)/terms-and-conditions/page.tsx`
+- `src/components/forms/ContactForm.tsx`
+- `src/components/home/CollectionsShowcase.tsx`
+- `src/components/home/CTABanner.tsx`
+- `src/components/home/GalleryTeaser.tsx`
+- `src/components/home/HeroSection.tsx`
+- `src/components/home/ServicesGrid.tsx`
+- `src/components/home/Testimonials.tsx`
+- `src/components/layout/Footer.tsx`
+- `src/components/layout/Header.tsx`
+- `src/components/layout/StickyCTA.tsx`
+- `src/components/layout/TrustBar.tsx`
+- `src/components/shared/PageHeader.tsx`
+- `src/components/shop/ProductCard.tsx`
+- `src/components/shop/ShopClient.tsx`
+- `src/components/shop/ShopFilters.tsx`
+
+### 2. Changes made
+- Improved mobile spacing and text sizing for hero, page headers, section headings, cards, forms, banners, and public page sections.
+- Added safer word wrapping for long names, addresses, reviews, legal text, coupon codes, product metadata, and service copy.
+- Improved mobile tap targets for header navigation, footer links, sticky CTA buttons, forms, and primary/secondary buttons.
+- Kept product grids, service grids, gallery grids, and collection pages stacked cleanly on narrow screens.
+- Added/kept horizontal overflow protection on public layout and global page surfaces.
+
+### 3. Mobile verification
+- Browser viewport audit passed with no horizontal scrolling at: 320px, 375px, 390px, 414px, 430px, and 768px.
+- Pages checked: `/`, `/collections/tires`, `/collections/wheels`, `/services`, `/services/wheels`, `/gallery`, `/contact`, `/privacy-policy`, `/terms-and-conditions`.
+- Mobile menu interaction checked at 320px; menu opens, header tap targets are usable, and no horizontal overflow occurs.
+- Homepage hero remains visible and responsive at 320px.
+- `npm run build` - **PASS**.
+
 ## Phase: Homepage hero image re-verification (completed)
 
 ### 1. Image path
@@ -1458,3 +1504,15 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
   - Shop filters usable on phone widths
   - Contact/booking forms fit screen width
   - Footer links and legal pages readable on narrow screens
+
+## Phase: Production redeploy — mobile responsiveness (completed)
+
+### 1. Deployed
+- Commits: `ee3b1b5` (mobile fixes), `aa92efe` (TypeScript build scope fix)
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Production verification
+- Homepage HTTP 200
+- Mobile responsive utility classes present in production markup
