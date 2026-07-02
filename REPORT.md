@@ -1566,6 +1566,20 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - `npm.cmd run build` - **PASS**
   - Existing build warnings remained: deprecated `middleware` convention and a Turbopack NFT trace warning from `next.config.ts` / `src/lib/prisma.ts` / `src/app/api/setup/route.ts`.
 
+## Phase: Production redeploy — hero tagline removal (completed)
+
+### 1. Deployed
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- Removed `Chico's Tire & Wheel Experts` tagline above the homepage hero headline
+
+### 3. Production verification
+- Homepage HTTP 200
+- Tagline text absent from production homepage markup
+
 ## Phase: Production redeploy — shop category/brand filters (completed)
 
 ### 1. Deployed
