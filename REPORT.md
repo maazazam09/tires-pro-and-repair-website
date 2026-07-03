@@ -1628,3 +1628,22 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 
 ### 3. Production verification
 - `/shop` — HTTP 200
+
+## Phase: Production redeploy — admin persistence fixes (completed)
+
+### 1. Deployed
+- Commit: `99141af` — Fix admin persistence across deployments
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- Vercel builds no longer run `prisma/seed.ts` on every deploy
+- Admin saves preserve omitted product fields on edit
+- New services/reviews/coupons default to active when form omits `active`
+- Service detail pages revalidate on save/delete
+
+### 3. Production verification
+- Homepage — HTTP 200
+- `/shop` — HTTP 200
+- `/admin` — HTTP 200
