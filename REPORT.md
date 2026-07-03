@@ -1682,6 +1682,7 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 ## Phase: Production redeploy — hero content positioning (completed)
 
 ### 1. Deployed
+- Commit: `f33a24c` — Refine hero content positioning on tablet and desktop
 - Production URL: https://grok-rho-lyart.vercel.app
 - `npm run build` — **PASS**
 - Vercel production deploy — **PASS**
