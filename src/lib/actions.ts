@@ -106,23 +106,42 @@ export async function saveProduct(formData: FormData): Promise<ActionResult> {
   try {
     await guard();
     const id = formData.get("id") as string | null;
-    const data = productSchema.parse({
-      name: formData.get("name"),
-      slug: formData.get("slug"),
-      brand: formData.get("brand"),
-      size: formData.get("size"),
-      type: formData.get("type"),
-      category: formData.get("category"),
-      price: formData.get("price"),
-      imageUrl: formData.get("imageUrl") || "",
-      description: formData.get("description") || "",
-      active: formData.get("active") === "on",
-    });
+
     if (id) {
+      const existing = await prisma.product.findUnique({ where: { id } });
+      if (!existing) {
+        throw new Error("Product not found.");
+      }
+
+      const data = productSchema.parse({
+        name: readFormText(formData, "name", existing.name),
+        slug: readFormText(formData, "slug", existing.slug),
+        brand: readFormText(formData, "brand", existing.brand),
+        size: readFormText(formData, "size", existing.size),
+        type: readFormText(formData, "type", existing.type),
+        category: readFormText(formData, "category", existing.category),
+        price: formData.has("price") ? formData.get("price") : existing.price,
+        imageUrl: formData.has("imageUrl") ? formData.get("imageUrl") || "" : existing.imageUrl,
+        description: formData.has("description") ? formData.get("description") || "" : existing.description,
+        active: formData.has("active") ? formData.get("active") === "on" : existing.active,
+      });
       await prisma.product.update({ where: { id }, data });
     } else {
+      const data = productSchema.parse({
+        name: formData.get("name"),
+        slug: formData.get("slug"),
+        brand: formData.get("brand"),
+        size: formData.get("size"),
+        type: formData.get("type"),
+        category: formData.get("category"),
+        price: formData.get("price"),
+        imageUrl: formData.get("imageUrl") || "",
+        description: formData.get("description") || "",
+        active: formData.has("active") ? formData.get("active") === "on" : true,
+      });
       await prisma.product.create({ data });
     }
+
     revalidatePath("/shop");
     revalidatePath("/collections/tires");
     revalidatePath("/collections/wheels");
@@ -155,12 +174,15 @@ export async function saveService(formData: FormData): Promise<ActionResult> {
   try {
     await guard();
     const id = formData.get("id") as string | null;
+    let previousSlug = "";
+    let nextSlug = "";
 
     if (id) {
       const existing = await prisma.service.findUnique({ where: { id } });
       if (!existing) {
         throw new Error("Service not found.");
       }
+      previousSlug = existing.slug;
 
       const patch = {
         title: readFormText(formData, "title", existing.title),
@@ -168,6 +190,7 @@ export async function saveService(formData: FormData): Promise<ActionResult> {
         summary: readFormText(formData, "summary", existing.summary),
         content: readFormText(formData, "content", existing.content),
       };
+      nextSlug = patch.slug;
 
       serviceSchema.parse({
         ...patch,
@@ -197,12 +220,15 @@ export async function saveService(formData: FormData): Promise<ActionResult> {
         content: formData.get("content"),
         imageUrl: formData.get("imageUrl") || "",
         sortOrder: formData.get("sortOrder"),
-        active: formData.get("active") === "on",
+        active: formData.has("active") ? formData.get("active") === "on" : true,
       });
+      nextSlug = data.slug;
       await prisma.service.create({ data });
     }
 
     revalidatePath("/services");
+    if (previousSlug) revalidatePath(`/services/${previousSlug}`);
+    if (nextSlug) revalidatePath(`/services/${nextSlug}`);
     revalidatePath("/");
     return { success: true, message: "Service saved." };
   } catch (error) {
@@ -213,8 +239,10 @@ export async function saveService(formData: FormData): Promise<ActionResult> {
 export async function deleteService(id: string): Promise<ActionResult> {
   try {
     await guard();
-    await prisma.service.delete({ where: { id } });
+    const service = await prisma.service.delete({ where: { id } });
     revalidatePath("/services");
+    revalidatePath(`/services/${service.slug}`);
+    revalidatePath("/");
     return { success: true, message: "Service deleted." };
   } catch (error) {
     return actionError(error, "Failed to delete service.");
@@ -294,12 +322,13 @@ export async function saveReview(formData: FormData): Promise<ActionResult> {
   try {
     await guard();
     const id = formData.get("id") as string | null;
+    const existing = id ? await prisma.review.findUnique({ where: { id } }) : null;
     const data = reviewSchema.parse({
       author: formData.get("author"),
       rating: formData.get("rating"),
       text: formData.get("text"),
       source: formData.get("source"),
-      active: formData.get("active") === "on",
+      active: formData.has("active") ? formData.get("active") === "on" : existing?.active ?? true,
     });
     if (id) {
       await prisma.review.update({ where: { id }, data });
@@ -328,12 +357,13 @@ export async function saveCoupon(formData: FormData): Promise<ActionResult> {
   try {
     await guard();
     const id = formData.get("id") as string | null;
+    const existing = id ? await prisma.coupon.findUnique({ where: { id } }) : null;
     const expiresRaw = formData.get("expiresAt") as string;
     const data = couponSchema.parse({
       title: formData.get("title"),
       code: formData.get("code"),
       description: formData.get("description"),
-      active: formData.get("active") === "on",
+      active: formData.has("active") ? formData.get("active") === "on" : existing?.active ?? true,
     });
     const payload = {
       ...data,

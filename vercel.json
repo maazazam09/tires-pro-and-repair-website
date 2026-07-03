@@ -1,5 +1,5 @@
 {
-  "buildCommand": "prisma generate && tsx prisma/seed.ts && next build",
+  "buildCommand": "prisma generate && next build",
   "framework": "nextjs",
   "regions": ["sfo1"]
 }

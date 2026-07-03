@@ -118,10 +118,7 @@ async function main() {
 
   await prisma.hero.upsert({
     where: { id: 1 },
-    update: {
-      ctaQuoteLabel: "Booking",
-      ctaQuoteLink: "/contact#booking",
-    },
+    update: {},
     create: {
       id: 1,
       mediaUrl: "/uploads/hero.png",
@@ -130,12 +127,10 @@ async function main() {
     },
   });
 
-  await prisma.service.deleteMany({ where: { slug: "wheel-repair" } });
-
   for (const service of services) {
     await prisma.service.upsert({
       where: { slug: service.slug },
-      update: service,
+      update: {},
       create: service,
     });
   }
@@ -178,7 +173,7 @@ async function main() {
   for (const seo of seoPages) {
     await prisma.pageSEO.upsert({
       where: { path: seo.path },
-      update: seo,
+      update: {},
       create: seo,
     });
   }

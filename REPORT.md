@@ -1546,6 +1546,40 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - `npm.cmd run build` - **PASS**
   - Existing build warnings remained: deprecated `middleware` convention and a Turbopack NFT trace warning from `next.config.ts` / `src/lib/prisma.ts` / `src/app/api/setup/route.ts`.
 
+## Phase: Admin save persistence audit and fixes (completed)
+
+### 1. Audit findings
+- Admin changes were saving to the database, but several paths could later appear reverted or disappear.
+- Production/Vercel builds were running `tsx prisma/seed.ts`; the seed updated default service and SEO records, so edited service copy could be overwritten on each deployment.
+- Existing product edit forms omitted `active` and `description`, while `saveProduct()` treated missing `active` as `false` and missing `description` as empty text.
+- New service, review, and coupon forms omitted `active`, while their save actions treated missing `active` as `false`, causing new items to be hidden from public pages.
+- Service saves revalidated `/services` and `/`, but not the individual `/services/[slug]` page.
+
+### 2. Files modified
+- [src/lib/actions.ts](src/lib/actions.ts)
+- [prisma/seed.ts](prisma/seed.ts)
+- [package.json](package.json)
+- [vercel.json](vercel.json)
+- [REPORT.md](REPORT.md)
+
+### 3. Fixes applied
+- Stopped Vercel builds from running the seed by changing build commands to `prisma generate && next build`.
+- Made `prisma/seed.ts` create missing default services, hero, and SEO records without overwriting existing admin-edited records.
+- Updated product saves to preserve existing `active`, `description`, `imageUrl`, and other omitted fields on edit.
+- Updated new service/review/coupon saves to default to public/active when the admin form does not submit an `active` field.
+- Added service detail revalidation for both old and new slugs when services are saved or deleted.
+
+### 4. Verification
+- `npx.cmd eslint src\lib\actions.ts prisma\seed.ts` - **PASS**
+- `npx.cmd tsc --noEmit` - **PASS**
+- `npm.cmd run build` - **PASS**
+  - Build output confirms `/services`, `/services/[slug]`, `/shop`, collections, admin pages, and public routes compile.
+  - Existing build warnings remained: deprecated `middleware` convention and a Turbopack NFT trace warning from `next.config.ts` / `src/lib/prisma.ts` / `src/app/api/setup/route.ts`.
+
+### 5. Result
+- Admin edits should now persist across refreshes and future Vercel deployments, provided production Vercel uses the same persistent database environment variables as the admin panel.
+- Manual `npm run db:seed` is still available for first-time setup, but normal production builds no longer reseed over admin content.
+
 ## Phase: Hero banner tagline removal (completed)
 
 ### 1. Scope
