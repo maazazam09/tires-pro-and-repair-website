@@ -1647,3 +1647,48 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - Homepage — HTTP 200
 - `/shop` — HTTP 200
 - `/admin` — HTTP 200
+
+## Phase: Hero content positioning refinement (completed)
+
+### 1. Scope
+- Adjusted only the Hero content container positioning.
+- Did not change the Hero background image, overlay, height, fonts, colors, buttons, animations, header, navigation, or other sections.
+
+### 2. Files modified
+- [src/components/home/HeroSection.tsx](src/components/home/HeroSection.tsx)
+- [REPORT.md](REPORT.md)
+
+### 3. Changes made
+- Moved the Hero content block lower on tablet and desktop using the existing flex container.
+- Kept the headline, subheading, and CTA buttons grouped together with their existing internal spacing.
+- Shifted the desktop frame slightly left while preserving comfortable page margins.
+- Kept mobile centered/readable so the content and buttons are not pushed too low.
+
+### 4. Verification
+- Local Playwright viewport checks at:
+  - Desktop: 1440x900
+  - Tablet: 768x1024
+  - Mobile: 390x844
+- Results:
+  - Desktop content group sits lower-left with 64px left margin and 128px bottom clearance.
+  - Tablet content group fits inside the Hero with 112px bottom clearance.
+  - Mobile content group fits inside the Hero with 100px bottom clearance.
+  - No horizontal overflow on desktop, tablet, or mobile.
+- Visual screenshots checked locally for desktop, tablet, and mobile.
+- `npx.cmd eslint src\components\home\HeroSection.tsx` - **PASS**
+- `npm.cmd run build` - **PASS**
+  - Existing build warnings remained: deprecated `middleware` convention and a Turbopack NFT trace warning from `next.config.ts` / `src/lib/prisma.ts` / `src/app/api/setup/route.ts`.
+
+## Phase: Production redeploy — hero content positioning (completed)
+
+### 1. Deployed
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- Hero headline/subheading/CTAs positioned lower-left on tablet/desktop
+- Mobile hero content remains centered and readable
+
+### 3. Production verification
+- Homepage — HTTP 200

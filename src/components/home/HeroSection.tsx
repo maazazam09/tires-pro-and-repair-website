@@ -18,7 +18,7 @@ export function HeroSection({ hero, phoneRaw }: HeroSectionProps) {
         style={{ backgroundImage: `url('${hero.mediaUrl}')` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-[#1A1A1A]/92 to-[#1A1A1A]/78 sm:bg-gradient-to-r sm:from-[#1A1A1A]/94 sm:to-[#1A1A1A]/62" />
-      <div className="relative mx-auto flex max-w-7xl flex-col justify-center px-4 py-12 sm:min-h-[70vh] sm:py-20 md:min-h-[75vh] md:py-28">
+      <div className="relative mx-auto flex min-h-[60vh] w-full max-w-[86rem] flex-col justify-center px-4 py-12 sm:min-h-[70vh] sm:justify-end sm:px-6 sm:pb-24 sm:pt-20 md:min-h-[75vh] md:px-8 md:pb-28 md:pt-28 lg:pb-32">
         <h1 className="font-display max-w-4xl break-words text-3xl font-bold uppercase leading-tight text-white sm:text-4xl md:text-6xl">
           {hero.headline}
         </h1>
