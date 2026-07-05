@@ -1782,3 +1782,44 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - Homepage — HTTP 200
 - Wheels showroom image — HTTP 200 `image/png`
 - Sunday hours and trust bar messaging unchanged from prior deploy
+
+## Phase: Branded homepage hero image and layout (completed)
+
+### 1. Scope
+- Replaced the homepage hero background with `/assets/tire-pro-repair-hero-branded.png`.
+- Refined hero overlay, mobile positioning, typography, and booking button styling.
+- Maps legacy hero URLs (`/uploads/hero.png`, `/images/hero-wheel.jpg`, `/assets/tire-pro-repair-hero.png`) to the branded asset automatically.
+- Did not change hero headline/subheadline content, products, services, collections, or other pages.
+
+### 2. Files modified
+- [src/components/home/HeroSection.tsx](src/components/home/HeroSection.tsx) — branded hero image, lighter overlay, bottom-anchored content, sr-only h1
+- [public/assets/tire-pro-repair-hero-branded.png](public/assets/tire-pro-repair-hero-branded.png) — new branded hero asset
+- [public/assets/tire-pro-repair-hero.png](public/assets/tire-pro-repair-hero.png) — legacy hero asset (remapped to branded)
+- [prisma/seed.ts](prisma/seed.ts) — new-install hero default → branded image path
+- [REPORT.md](REPORT.md)
+
+### 3. Verification
+- `npm.cmd run build` — **PASS**
+- `npx.cmd vercel deploy --prod --yes` — **PASS** → https://grok-rho-lyart.vercel.app
+- Production homepage:
+  - `/assets/tire-pro-repair-hero-branded.png` in markup — **PASS**
+  - `/assets/tire-pro-repair-hero-branded.png` — HTTP 200 `image/png`
+- Homepage — HTTP 200
+
+## Phase: Production redeploy — branded hero image (completed)
+
+### 1. Deployed
+- Commit: `3782225` — Update homepage hero to branded image and refined layout
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- Branded hero background at `/assets/tire-pro-repair-hero-branded.png`
+- Hero overlay/positioning refinements for mobile and desktop
+- Seed default hero image updated for new installs
+
+### 3. Production verification
+- Homepage — HTTP 200
+- Branded hero image — HTTP 200 `image/png`
+- Branded hero path present in homepage markup
