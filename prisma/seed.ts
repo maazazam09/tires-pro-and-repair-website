@@ -121,7 +121,7 @@ async function main() {
     update: {},
     create: {
       id: 1,
-      mediaUrl: "/uploads/hero.png",
+      mediaUrl: "/assets/tire-pro-repair-hero-branded.png",
       ctaQuoteLabel: "Booking",
       ctaQuoteLink: "/contact#booking",
     },
