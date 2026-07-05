@@ -1693,3 +1693,50 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 
 ### 3. Production verification
 - Homepage — HTTP 200
+
+## Phase: Sunday hours and Open 7 Days messaging update (completed)
+
+### 1. Scope
+- Set Sunday shop hours to `9AM to 4PM` (Mon–Sat remain `9AM to 6PM`).
+- Removed `Open 7 Days` / `Open 7 Days a Week` messaging from the public trust bar and admin settings checkbox label.
+- Did not change hero, products, services, collections, admin persistence, or other site sections.
+
+### 2. Files modified
+- [src/lib/constants.ts](src/lib/constants.ts) — `DEFAULT_HOURS.sun` set to `9AM to 4PM`
+- [src/components/layout/TrustBar.tsx](src/components/layout/TrustBar.tsx) — shows only `{SHOP_HOURS_TIME}` when hours badge is enabled
+- [src/app/admin/(panel)/settings/AdminSettingsForm.tsx](src/app/admin/(panel)/settings/AdminSettingsForm.tsx) — removed `Open 7 Days a Week` checkbox label text
+- [prisma/fix-sunday-hours.ts](prisma/fix-sunday-hours.ts) — one-off script to patch `SiteSettings.hoursJson.sun` in Turso
+- [package.json](package.json) — added `fix:sunday-hours` npm script
+- [REPORT.md](REPORT.md)
+
+### 3. Database update
+- Ran `npm run fix:sunday-hours` against production Turso (via `.env.production.local` credentials).
+- Production `SiteSettings.hoursJson.sun` updated from `9AM to 6PM` to `9AM to 4PM`.
+
+### 4. Verification
+- `npm.cmd run build` — **PASS**
+- `npx.cmd vercel deploy --prod --yes` — **PASS** → https://grok-rho-lyart.vercel.app
+- Production homepage:
+  - `Open 7 Days` text — **absent**
+  - Trust bar shows `9AM to 6PM` — **PASS**
+  - Footer Sunday hours show `9AM to 4PM` — **PASS**
+- Production `/contact` — HTTP 200
+
+## Phase: Production redeploy — Sunday hours and trust bar (completed)
+
+### 1. Deployed
+- Commit: `9413c55` — Update Sunday hours and remove Open 7 Days messaging
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- Sunday hours `9AM to 4PM` in site settings (footer/contact/about hours lists)
+- Removed `Open 7 Days` prefix from trust bar
+- Removed `Open 7 Days a Week` label from admin settings checkbox
+
+### 3. Production verification
+- Homepage — HTTP 200
+- `Open 7 Days` absent from homepage markup
+- Footer Sunday: `9AM to 4PM`
+- Trust bar weekday hours: `9AM to 6PM`
