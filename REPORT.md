@@ -1740,3 +1740,45 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - `Open 7 Days` absent from homepage markup
 - Footer Sunday: `9AM to 4PM`
 - Trust bar weekday hours: `9AM to 6PM`
+
+## Phase: Wheels homepage image and hours defaults (completed)
+
+### 1. Scope
+- Replaced the homepage Wheels collection section image with `public/assets/custom-wheels-showroom.png`.
+- Aligned Prisma schema and seed defaults so Sunday closes at `4PM` while Mon–Sat remain `9AM to 6PM`.
+- Removed an erroneous `next/dist/build` import from the homepage.
+- Did not change collection pages, product data, hero, trust bar, or other sections.
+
+### 2. Files modified
+- [src/app/(public)/page.tsx](src/app/(public)/page.tsx) — Wheels section image → `/assets/custom-wheels-showroom.png`
+- [public/assets/custom-wheels-showroom.png](public/assets/custom-wheels-showroom.png) — new homepage wheels asset
+- [prisma/schema.prisma](prisma/schema.prisma) — `hoursJson` default Sunday set to `9AM to 4PM`
+- [prisma/seed.ts](prisma/seed.ts) — seed create path uses `DEFAULT_HOURS` (weekdays `6PM`, Sunday `4PM`)
+- [REPORT.md](REPORT.md)
+
+### 3. Verification
+- `npm.cmd run build` — **PASS**
+- `npx.cmd vercel deploy --prod --yes` — **PASS** → https://grok-rho-lyart.vercel.app
+- Production homepage:
+  - `/assets/custom-wheels-showroom.png` present in markup — **PASS**
+  - Old `/uploads/Rims Store.jfif` reference absent — **PASS**
+  - `/assets/custom-wheels-showroom.png` — HTTP 200 `image/png`
+  - Footer Sunday: `9AM to 4PM` — **PASS**
+  - `Open 7 Days` absent — **PASS**
+
+## Phase: Production redeploy — wheels homepage image (completed)
+
+### 1. Deployed
+- Commit: `27b333c` — Update wheels homepage image and Sunday hours defaults
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS** (Ready in 1m)
+
+### 2. Changes shipped
+- Homepage Wheels section uses `/assets/custom-wheels-showroom.png`
+- Schema/seed defaults reflect Sunday `9AM to 4PM` hours
+
+### 3. Production verification
+- Homepage — HTTP 200
+- Wheels showroom image — HTTP 200 `image/png`
+- Sunday hours and trust bar messaging unchanged from prior deploy
