@@ -24,7 +24,7 @@ model SiteSettings {
   city            String  @default("Chico")
   state           String  @default("CA")
   zip             String  @default("95928")
-  hoursJson       String  @default("{\"mon\":\"9AM to 6PM\",\"tue\":\"9AM to 6PM\",\"wed\":\"9AM to 6PM\",\"thu\":\"9AM to 6PM\",\"fri\":\"9AM to 6PM\",\"sat\":\"9AM to 6PM\",\"sun\":\"9AM to 6PM\"}")
+  hoursJson       String  @default("{\"mon\":\"9AM to 6PM\",\"tue\":\"9AM to 6PM\",\"wed\":\"9AM to 6PM\",\"thu\":\"9AM to 6PM\",\"fri\":\"9AM to 6PM\",\"sat\":\"9AM to 6PM\",\"sun\":\"9AM to 4PM\"}")
   instagramUrl    String  @default("https://instagram.com/tireproandrepair")
   facebookUrl     String  @default("")
   whatsappNumber  String  @default("")

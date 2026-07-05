@@ -1,6 +1,6 @@
 import "dotenv/config";
 import bcrypt from "bcryptjs";
-import { buildHoursJson } from "../src/lib/constants";
+import { DEFAULT_HOURS } from "../src/lib/constants";
 import { prisma } from "../src/lib/prisma";
 
 const services = [
@@ -108,7 +108,7 @@ async function main() {
     create: { email: adminEmail, passwordHash, name: "Admin" },
   });
 
-  const hoursJson = buildHoursJson("9AM", "6PM");
+  const hoursJson = JSON.stringify(DEFAULT_HOURS);
 
   await prisma.siteSettings.upsert({
     where: { id: 1 },

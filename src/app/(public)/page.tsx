@@ -8,7 +8,6 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { getCollectionSections, getGalleryItems, getHero, getReviews, getServices, getSiteSettings } from "@/lib/data";
 import { getLocalBusinessJsonLd, buildMetadata } from "@/lib/seo";
 import { phoneToRaw } from "@/lib/phone";
-import build from "next/dist/build";
 
 export async function generateMetadata() {
   return buildMetadata("/", {
@@ -34,7 +33,7 @@ export default async function HomePage() {
       section.key === "tires"
         ? "/uploads/mk9.jfif"
         : section.key === "wheels"
-        ? "/uploads/Rims Store.jfif"
+        ? "/assets/custom-wheels-showroom.png"
         : section.imageUrl,
   }));
 
