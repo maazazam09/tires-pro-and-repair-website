@@ -44,7 +44,7 @@ export const DEFAULT_HOURS: Record<string, string> = {
   thu: SHOP_HOURS_TIME,
   fri: SHOP_HOURS_TIME,
   sat: SHOP_HOURS_TIME,
-  sun: SHOP_HOURS_TIME,
+  sun: "9AM to 4PM",
 };
 
 export function buildHoursJson(openingTime = "9AM", closingTime = "6PM") {

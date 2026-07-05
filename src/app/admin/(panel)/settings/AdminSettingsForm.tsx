@@ -61,7 +61,6 @@ export function AdminSettingsForm({ settings, hero, openingTime, closingTime }: 
             name="openSevenDays"
             defaultChecked={settings.openSevenDays}
           />
-          Open 7 Days a Week
         </label>
         <p className="mt-2 text-sm text-metallic">
           These hours apply to every day of the week and are shown individually on the site (Monday through Sunday).

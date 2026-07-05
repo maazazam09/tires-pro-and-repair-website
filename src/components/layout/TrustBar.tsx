@@ -20,7 +20,7 @@ export function TrustBar({ averageRating, reviewCount, openSevenDays, financing 
         {openSevenDays && (
           <div className="flex flex-wrap items-center justify-center gap-2 text-metallic">
             <Clock className="h-4 w-4 text-accent" />
-            Open 7 Days · {SHOP_HOURS_TIME}
+            {SHOP_HOURS_TIME}
           </div>
         )}
         {financing && (

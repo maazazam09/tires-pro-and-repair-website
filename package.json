@@ -9,6 +9,7 @@
     "lint": "eslint",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
+    "fix:sunday-hours": "tsx prisma/fix-sunday-hours.ts",
     "db:setup": "prisma migrate dev && tsx prisma/seed.ts",
     "db:push": "prisma db push",
     "postinstall": "prisma generate",
