@@ -1823,3 +1823,36 @@ Only the `Vision Wheel` product image field was re-saved. Product name, descript
 - Homepage — HTTP 200
 - Branded hero image — HTTP 200 `image/png`
 - Branded hero path present in homepage markup
+
+## Phase: Updated branded hero image asset (completed)
+
+### 1. Scope
+- Replaced `public/assets/tire-pro-repair-hero-branded.png` with an updated version.
+- No code, layout, hero text, or other site changes.
+
+### 2. Files modified
+- [public/assets/tire-pro-repair-hero-branded.png](public/assets/tire-pro-repair-hero-branded.png)
+- [REPORT.md](REPORT.md)
+
+### 3. Verification
+- `npm.cmd run build` — **PASS**
+- `npx.cmd vercel deploy --prod --yes` — **PASS** → https://grok-rho-lyart.vercel.app
+- Production `/assets/tire-pro-repair-hero-branded.png` — HTTP 200 `image/png`
+- Production hero SHA-256 matches local updated asset — **PASS**
+- Homepage — HTTP 200
+
+## Phase: Production redeploy — updated branded hero asset (completed)
+
+### 1. Deployed
+- Commit: `e9efed1` — Update branded homepage hero image asset
+- Production URL: https://grok-rho-lyart.vercel.app
+- `npm run build` — **PASS**
+- Vercel production deploy — **PASS**
+
+### 2. Changes shipped
+- Updated `/assets/tire-pro-repair-hero-branded.png` on homepage hero
+
+### 3. Production verification
+- Homepage — HTTP 200
+- Branded hero image — HTTP 200 `image/png`
+- Production asset hash matches local file
