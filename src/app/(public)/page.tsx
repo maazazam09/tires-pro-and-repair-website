@@ -1,10 +1,12 @@
 import { HeroSection } from "@/components/home/HeroSection";
+import { Suspense } from "react";
 import { CollectionsShowcase } from "@/components/home/CollectionsShowcase";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { GalleryTeaser } from "@/components/home/GalleryTeaser";
 import { Testimonials } from "@/components/home/Testimonials";
 import { CTABanner } from "@/components/home/CTABanner";
 import { ContactForm } from "@/components/forms/ContactForm";
+import { TireFinder } from "@/components/tires/TireFinder";
 import { getCollectionSections, getGalleryItems, getHero, getReviews, getServices, getSiteSettings } from "@/lib/data";
 import { getLocalBusinessJsonLd, buildMetadata } from "@/lib/seo";
 import { phoneToRaw } from "@/lib/phone";
@@ -41,6 +43,13 @@ export default async function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <HeroSection hero={hero} phoneRaw={phoneRaw} />
+      <section className="py-10 sm:py-16">
+        <div className="mx-auto max-w-7xl px-4">
+          <Suspense fallback={null}>
+            <TireFinder />
+          </Suspense>
+        </div>
+      </section>
       <CollectionsShowcase sections={homepageSections} />
       <ServicesGrid services={services} />
       <GalleryTeaser items={gallery} />

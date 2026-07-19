@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,6 +33,16 @@ const timeSlots = [
   "4:00 PM - 6:00 PM",
 ];
 
+function formatTireSizeToken(value: string | null) {
+  if (!value) return "";
+  return value
+    .replace(/^front-/i, "Front ")
+    .replace(/_rear-/i, " / Rear ")
+    .replace(/-/g, "/")
+    .replace(/\/R\//g, "R")
+    .replace(/\/ZR\//g, "ZR");
+}
+
 export function ContactForm({ type = "contact", compact = false, variant = "dark" }: ContactFormProps) {
   const router = useRouter();
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
@@ -51,11 +61,32 @@ export function ContactForm({ type = "contact", compact = false, variant = "dark
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: { type },
   });
+
+  useEffect(() => {
+    if (!isBooking || typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("quote") !== "tires") return;
+
+    const lines = [
+      "Tire quote request",
+      params.get("year") || params.get("make") || params.get("model") || params.get("option")
+        ? `Vehicle: ${[params.get("year"), params.get("make"), params.get("model"), params.get("option")].filter(Boolean).join(" ")}`
+        : "",
+      params.get("size") ? `Selected tire size: ${formatTireSizeToken(params.get("size"))}` : "",
+      params.get("tireBrand") ? `Tire brand: ${params.get("tireBrand")}` : "",
+      params.get("tireModel") ? `Tire model: ${params.get("tireModel")}` : "",
+      params.get("tireSku") ? `Tire SKU: ${params.get("tireSku")}` : "",
+    ].filter(Boolean);
+
+    setValue("service", "New Tires", { shouldValidate: false });
+    setValue("message", lines.join("\n"), { shouldValidate: false });
+  }, [isBooking, setValue]);
 
   async function onSubmit(data: FormData) {
     setStatus("loading");

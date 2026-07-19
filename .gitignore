@@ -42,5 +42,16 @@ next-env.d.ts
 
 /src/generated/prisma
 
+# local verification artifacts
+.next-*.log
+temp_*.py
+temp_*.js
+empty.md
+vPIClist/
+scripts/probe-*.mjs
+scripts/probe-*.ts
+scripts/scrape-*.mjs
+scripts/list-tire-brands.ts
+
 .vercel
 .env*

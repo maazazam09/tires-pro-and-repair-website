@@ -40,43 +40,159 @@ model SiteSettings {
 }
 
 model Hero {
-  id              Int     @id @default(1)
-  headline        String  @default("New Tires • Used Tires • Custom Wheels – Get Back on the Road Today!")
-  subheadline     String  @default("Best Prices in Chico | Financing Available | Same-Day Service")
-  mediaUrl        String  @default("/images/hero-wheel.jpg")
-  mediaType       String  @default("image")
-  ctaCallLabel    String  @default("Call Now (530) 717-1765")
-  ctaQuoteLabel   String  @default("Booking")
-  ctaQuoteLink    String  @default("/contact#booking")
+  id            Int    @id @default(1)
+  headline      String @default("New Tires • Used Tires • Custom Wheels – Get Back on the Road Today!")
+  subheadline   String @default("Best Prices in Chico | Financing Available | Same-Day Service")
+  mediaUrl      String @default("/images/hero-wheel.jpg")
+  mediaType     String @default("image")
+  ctaCallLabel  String @default("Call Now (530) 717-1765")
+  ctaQuoteLabel String @default("Booking")
+  ctaQuoteLink  String @default("/contact#booking")
 }
 
 model Product {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique
-  brand     String
-  size      String
-  type      String
-  category  String
-  price     Float
-  imageUrl  String   @default("")
-  description String @default("")
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String             @id @default(cuid())
+  name        String
+  slug        String             @unique
+  brand       String
+  size        String
+  type        String
+  category    String
+  price       Float
+  imageUrl    String             @default("")
+  description String             @default("")
+  active      Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  tireDetail  TireProductDetail?
+  tireSizes   TireProductSize[]
+}
+
+model TireProductDetail {
+  id                  String   @id @default(cuid())
+  productId           String   @unique
+  product             Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  model               String   @default("")
+  secondaryImage      String   @default("")
+  sku                 String   @default("")
+  width               Int?
+  aspectRatio         Int?
+  construction        String   @default("R")
+  rimDiameter         Int?
+  tireSize            String   @default("")
+  loadIndex           String   @default("")
+  speedRating         String   @default("")
+  serviceDescription  String   @default("")
+  season              String   @default("")
+  warrantyMiles       Int?
+  warrantyText        String   @default("")
+  videoUrl            String   @default("")
+  promotionAvailable  Boolean  @default(false)
+  promotionText       String   @default("")
+  requestQuoteEnabled Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model TireSize {
+  id             String                   @id @default(cuid())
+  width          Int
+  aspectRatio    Int
+  construction   String                   @default("R")
+  rimDiameter    Int
+  displaySize    String
+  normalizedSize String                   @unique
+  productLinks   TireProductSize[]
+  fitmentLinks   VehicleFitmentTireSize[]
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+}
+
+model VehicleYear {
+  id       String           @id @default(cuid())
+  year     Int              @unique
+  fitments VehicleFitment[]
+}
+
+model VehicleMake {
+  id       String           @id @default(cuid())
+  name     String           @unique
+  models   VehicleModel[]
+  fitments VehicleFitment[]
+}
+
+model VehicleModel {
+  id       String           @id @default(cuid())
+  makeId   String
+  make     VehicleMake      @relation(fields: [makeId], references: [id], onDelete: Cascade)
+  name     String
+  options  VehicleOption[]
+  fitments VehicleFitment[]
+
+  @@unique([makeId, name])
+}
+
+model VehicleOption {
+  id       String           @id @default(cuid())
+  modelId  String
+  model    VehicleModel     @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  name     String
+  fitments VehicleFitment[]
+
+  @@unique([modelId, name])
+}
+
+model VehicleFitment {
+  id        String                   @id @default(cuid())
+  yearId    String
+  year      VehicleYear              @relation(fields: [yearId], references: [id], onDelete: Restrict)
+  makeId    String
+  make      VehicleMake              @relation(fields: [makeId], references: [id], onDelete: Restrict)
+  modelId   String
+  model     VehicleModel             @relation(fields: [modelId], references: [id], onDelete: Restrict)
+  optionId  String
+  option    VehicleOption            @relation(fields: [optionId], references: [id], onDelete: Restrict)
+  active    Boolean                  @default(true)
+  tireSizes VehicleFitmentTireSize[]
+  createdAt DateTime                 @default(now())
+  updatedAt DateTime                 @updatedAt
+
+  @@unique([yearId, makeId, modelId, optionId])
+}
+
+model VehicleFitmentTireSize {
+  id         String         @id @default(cuid())
+  fitmentId  String
+  fitment    VehicleFitment @relation(fields: [fitmentId], references: [id], onDelete: Cascade)
+  tireSizeId String
+  tireSize   TireSize       @relation(fields: [tireSizeId], references: [id], onDelete: Restrict)
+  position   String         @default("GENERAL")
+
+  @@unique([fitmentId, tireSizeId, position])
+}
+
+model TireProductSize {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  tireSizeId String
+  tireSize   TireSize @relation(fields: [tireSizeId], references: [id], onDelete: Restrict)
+  createdAt  DateTime @default(now())
+
+  @@unique([productId, tireSizeId])
 }
 
 model Service {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  summary     String
-  content     String
-  imageUrl    String   @default("")
-  sortOrder   Int      @default(0)
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  summary   String
+  content   String
+  imageUrl  String   @default("")
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CollectionSection {
@@ -103,13 +219,13 @@ model GalleryItem {
 }
 
 model Review {
-  id        String   @id @default(cuid())
-  author    String
-  rating    Int
-  text      String
-  source    String   @default("Google")
-  date      DateTime @default(now())
-  active    Boolean  @default(true)
+  id     String   @id @default(cuid())
+  author String
+  rating Int
+  text   String
+  source String   @default("Google")
+  date   DateTime @default(now())
+  active Boolean  @default(true)
 }
 
 model Coupon {

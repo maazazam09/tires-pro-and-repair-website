@@ -32,6 +32,22 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={`${inter.variable} ${barlow.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full flex flex-col bg-background text-foreground" suppressHydrationWarning>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (() => {
+                const clean = () => document.querySelectorAll('[bis_skin_checked]').forEach((node) => node.removeAttribute('bis_skin_checked'));
+                clean();
+                const observer = new MutationObserver(clean);
+                observer.observe(document.documentElement, { attributes: true, childList: true, subtree: true, attributeFilter: ['bis_skin_checked'] });
+                window.addEventListener('load', () => {
+                  clean();
+                  window.setTimeout(() => observer.disconnect(), 1500);
+                }, { once: true });
+              })();
+            `,
+          }}
+        />
         <GoogleAnalytics gaId={settings.googleAnalytics} />
         {children}
       </body>

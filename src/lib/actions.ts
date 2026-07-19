@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { upsertTireProductDetail } from "@/lib/tires";
 import {
   heroSchema, settingsSchema, productSchema, serviceSchema, collectionSectionSchema, reviewSchema, couponSchema, pageSeoSchema,
 } from "@/lib/validators";
@@ -106,6 +107,8 @@ export async function saveProduct(formData: FormData): Promise<ActionResult> {
   try {
     await guard();
     const id = formData.get("id") as string | null;
+    let savedProductId = "";
+    let savedCategory = "";
 
     if (id) {
       const existing = await prisma.product.findUnique({ where: { id } });
@@ -125,7 +128,9 @@ export async function saveProduct(formData: FormData): Promise<ActionResult> {
         description: formData.has("description") ? formData.get("description") || "" : existing.description,
         active: formData.has("active") ? formData.get("active") === "on" : existing.active,
       });
-      await prisma.product.update({ where: { id }, data });
+      const product = await prisma.product.update({ where: { id }, data });
+      savedProductId = product.id;
+      savedCategory = product.category;
     } else {
       const data = productSchema.parse({
         name: formData.get("name"),
@@ -139,7 +144,32 @@ export async function saveProduct(formData: FormData): Promise<ActionResult> {
         description: formData.get("description") || "",
         active: formData.has("active") ? formData.get("active") === "on" : true,
       });
-      await prisma.product.create({ data });
+      const product = await prisma.product.create({ data });
+      savedProductId = product.id;
+      savedCategory = product.category;
+    }
+
+    if (savedCategory === "TIRE" && formData.has("tireDetail")) {
+      await upsertTireProductDetail(savedProductId, {
+        model: formData.get("tireModel"),
+        secondaryImage: formData.get("secondaryImage"),
+        sku: formData.get("sku"),
+        width: formData.get("width") || "",
+        aspectRatio: formData.get("aspectRatio") || "",
+        construction: formData.get("construction") || "R",
+        rimDiameter: formData.get("rimDiameter") || "",
+        tireSize: formData.get("tireSize") || "",
+        loadIndex: formData.get("loadIndex"),
+        speedRating: formData.get("speedRating"),
+        serviceDescription: formData.get("serviceDescription"),
+        season: formData.get("season"),
+        warrantyMiles: formData.get("warrantyMiles") || "",
+        warrantyText: formData.get("warrantyText"),
+        videoUrl: formData.get("videoUrl"),
+        promotionAvailable: formData.get("promotionAvailable") === "on",
+        promotionText: formData.get("promotionText"),
+        requestQuoteEnabled: formData.get("requestQuoteEnabled") === "on",
+      });
     }
 
     revalidatePath("/shop");

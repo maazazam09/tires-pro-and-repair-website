@@ -1,6 +1,6 @@
 import "dotenv/config";
 import bcrypt from "bcryptjs";
-import { DEFAULT_HOURS } from "../src/lib/constants";
+import { buildHoursJson } from "../src/lib/constants";
 import { prisma } from "../src/lib/prisma";
 
 const services = [
@@ -108,7 +108,7 @@ async function main() {
     create: { email: adminEmail, passwordHash, name: "Admin" },
   });
 
-  const hoursJson = JSON.stringify(DEFAULT_HOURS);
+  const hoursJson = buildHoursJson("9AM", "4PM");
 
   await prisma.siteSettings.upsert({
     where: { id: 1 },
@@ -121,7 +121,7 @@ async function main() {
     update: {},
     create: {
       id: 1,
-      mediaUrl: "/assets/tire-pro-repair-hero-branded.png",
+      mediaUrl: "/uploads/hero.png",
       ctaQuoteLabel: "Booking",
       ctaQuoteLink: "/contact#booking",
     },

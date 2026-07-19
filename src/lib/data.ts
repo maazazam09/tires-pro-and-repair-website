@@ -72,6 +72,16 @@ export async function getProducts(activeOnly = true) {
   });
 }
 
+export async function getProductsForAdmin() {
+  return prisma.product.findMany({
+    include: {
+      tireDetail: true,
+      tireSizes: { include: { tireSize: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export async function getGalleryItems(limit?: number) {
   return prisma.galleryItem.findMany({
     orderBy: [{ featured: "desc" }, { sortOrder: "asc" }, { createdAt: "desc" }],

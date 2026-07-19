@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { ShopClient } from "@/components/shop/ShopClient";
+import { TireFinder } from "@/components/tires/TireFinder";
 import { getCollectionByKey, getProductsByCategory, getSiteSettings } from "@/lib/data";
 import { buildMetadata } from "@/lib/seo";
 import { phoneToRaw } from "@/lib/phone";
@@ -50,6 +52,11 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
               professional installation at Tire Pro and Repair. Call us today to check availability.
             </p>
           </div>
+          {slug === "tires" ? (
+            <Suspense fallback={null}>
+              <TireFinder />
+            </Suspense>
+          ) : null}
           <ShopClient products={products} phoneRaw={phoneRaw} showFilters={false} />
         </div>
       </section>

@@ -1,0 +1,1 @@
+ALTER TABLE "VehicleFitment" ADD COLUMN "active" BOOLEAN NOT NULL DEFAULT true;

@@ -1,16 +1,21 @@
-import { getProducts } from "@/lib/data";
+import Link from "next/link";
+import { getProductsForAdmin } from "@/lib/data";
 import { saveProduct, deleteProduct } from "@/lib/actions";
 import { AdminField } from "@/components/admin/AdminField";
 import { AdminForm } from "@/components/admin/AdminForm";
 import { AdminDeleteButton } from "@/components/admin/AdminDeleteButton";
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { TireProductFields } from "./TireProductFields";
 
 export default async function AdminProductsPage() {
-  const products = await getProducts(false);
+  const products = await getProductsForAdmin();
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold uppercase text-white">Products</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-display text-3xl font-bold uppercase text-white">Products</h1>
+        <Link href="/admin/tire-fitments" className="btn-primary text-xs">Tire Fitment Manager</Link>
+      </div>
       <AdminForm action={saveProduct} className="card mt-8 max-w-2xl space-y-4">
         <h2 className="font-semibold text-white">Add Product</h2>
         <AdminField label="Name" name="name" required />
@@ -35,8 +40,10 @@ export default async function AdminProductsPage() {
         <AdminField label="Price" name="price" type="number" required />
         <ImageUpload name="imageUrl" />
         <AdminField label="Description" name="description" rows={3} />
+        <TireProductFields />
         <label className="flex items-center gap-2 text-sm text-metallic">
           <input type="checkbox" name="active" defaultChecked /> Active
+          <input type="hidden" name="active" value="off" />
         </label>
         <button type="submit" className="btn-primary">Add Product</button>
       </AdminForm>
@@ -54,6 +61,11 @@ export default async function AdminProductsPage() {
               <AdminField label="Price" name="price" type="number" defaultValue={p.price} />
             </div>
             <ImageUpload name="imageUrl" defaultValue={p.imageUrl} />
+            {p.category === "TIRE" ? <TireProductFields tireDetail={p.tireDetail} /> : null}
+            <label className="flex items-center gap-2 text-sm text-metallic">
+              <input type="checkbox" name="active" defaultChecked={p.active} /> Active
+              <input type="hidden" name="active" value="off" />
+            </label>
             <div className="flex gap-3">
               <button type="submit" className="btn-primary text-xs">Save</button>
               <AdminDeleteButton action={deleteProduct} id={p.id} className="btn-secondary text-xs" />
