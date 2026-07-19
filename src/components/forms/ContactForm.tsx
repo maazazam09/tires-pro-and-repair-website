@@ -17,7 +17,6 @@ type ContactFormProps = {
 
 const serviceOptions = [
   "New Tires",
-  "Used Tires",
   "Custom Wheels",
   "Brake Service",
   "Wheel Alignment",

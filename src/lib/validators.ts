@@ -12,6 +12,14 @@ export const contactFormSchema = z.object({
 }).superRefine((data, ctx) => {
   if (data.type !== "quote") return;
 
+  if (data.service?.trim().toLowerCase() === "used tires") {
+    ctx.addIssue({
+      code: "custom",
+      path: ["service"],
+      message: "Please choose another service.",
+    });
+  }
+
   if (!data.service) {
     ctx.addIssue({
       code: "custom",
